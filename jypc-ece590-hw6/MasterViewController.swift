@@ -42,18 +42,19 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     
     // MARK: - View Lifecycle functions
     
-    var detailViewController: DetailViewController? = nil
+    var detailViewController: DisplayPageViewController? = nil
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         //let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(insertNewTeam(_:)))
         //self.navigationItem.rightBarButtonItem = addButton
         if let split = self.splitViewController {
             let controllers = split.viewControllers
-            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DisplayPageViewController
         }
         
         // Set up Search Bar & Load initial Data
@@ -107,9 +108,9 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
                 // Just print the persons name for now
                 // We will need to change this later
                 
-                let object = array[teamix!].members[memIdx!].getName() as String!
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object
+                let object = array[teamix!].members[memIdx!]
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DisplayPageViewController
+                controller.member = object
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -211,9 +212,9 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         
         return footerView
     }
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    /*override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 116
-    }
+    }*/
     
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 2.0
