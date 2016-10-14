@@ -12,8 +12,10 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var descriptionText: UITextView!
 
+    @IBOutlet weak var uIImage: UIImageView!
 
-    var detailItem: AnyObject? {
+//    var detailItem: AnyObject? {
+    var studentsItem: Students? {
         didSet {
             // Update the view.
             self.configureView()
@@ -22,11 +24,16 @@ class DetailViewController: UIViewController {
 
     func configureView() {
         // Update the user interface for the detail item.
-        if let detail = self.detailItem {
+        if let detail = self.studentsItem {
             if let descField = self.descriptionText {
-                descField.text = detail.description
+                descField.text = detail.describeMe()
+                self.uIImage.image = studentsItem?.getImage()
             }
+            
         }
+        // Update Picture
+        
+        
     }
 
     override func viewDidLoad() {
