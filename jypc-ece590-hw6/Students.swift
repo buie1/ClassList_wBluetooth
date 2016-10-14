@@ -32,7 +32,7 @@ class Students: Human {
     override init(){
         super.init()
     }
-    
+    // Clean up initializers :'(
     init(_ fName: String, _ lName: String, _ mName: String?, _ hTown: String, mycourses courses:[Double:String],_ major:String, _ program: String, _ sex:Bool = false, _ live: Bool=true) {
         self.courses = courses
         self.major = major
@@ -233,6 +233,9 @@ enum Program :String {
     case Alum = "Alumni"
     case honorary = "Honorary graduate"
 }//Without using switch/case statement provide the strings corresponding to the Enum case
+
+
+// MARK: HUMAN class
 
 class Human: NSObject {
     

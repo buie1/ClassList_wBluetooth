@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C2ED4571DB0BE1F00F3B32D /* AnimateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2ED4561DB0BE1F00F3B32D /* AnimateViewController.swift */; };
 		2C3B8F801DAB602C00F6421E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B8F7F1DAB602C00F6421E /* AppDelegate.swift */; };
 		2C3B8F821DAB602C00F6421E /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B8F811DAB602C00F6421E /* MasterViewController.swift */; };
 		2C3B8F841DAB602C00F6421E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B8F831DAB602C00F6421E /* DetailViewController.swift */; };
@@ -18,9 +19,11 @@
 		2C3B8F9A1DAB63B300F6421E /* TeamTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B8F991DAB63B300F6421E /* TeamTableCell.swift */; };
 		2C3B8F9D1DAB6B2000F6421E /* AddTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B8F9C1DAB6B2000F6421E /* AddTeamViewController.swift */; };
 		2C3B8F9F1DAC99E200F6421E /* DisplayPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B8F9E1DAC99E200F6421E /* DisplayPageViewController.swift */; };
+		2C97CDF81DAD99F7005F4ADE /* AddMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97CDF71DAD99F7005F4ADE /* AddMemberViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C2ED4561DB0BE1F00F3B32D /* AnimateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimateViewController.swift; sourceTree = "<group>"; };
 		2C3B8F7C1DAB602C00F6421E /* jypc-ece590-hw6.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "jypc-ece590-hw6.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C3B8F7F1DAB602C00F6421E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C3B8F811DAB602C00F6421E /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -34,6 +37,7 @@
 		2C3B8F991DAB63B300F6421E /* TeamTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamTableCell.swift; sourceTree = "<group>"; };
 		2C3B8F9C1DAB6B2000F6421E /* AddTeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTeamViewController.swift; sourceTree = "<group>"; };
 		2C3B8F9E1DAC99E200F6421E /* DisplayPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayPageViewController.swift; sourceTree = "<group>"; };
+		2C97CDF71DAD99F7005F4ADE /* AddMemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMemberViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				2C3B8F9C1DAB6B2000F6421E /* AddTeamViewController.swift */,
+				2C97CDF71DAD99F7005F4ADE /* AddMemberViewController.swift */,
+				2C2ED4561DB0BE1F00F3B32D /* AnimateViewController.swift */,
 				2C3B8F811DAB602C00F6421E /* MasterViewController.swift */,
 				2C3B8F831DAB602C00F6421E /* DetailViewController.swift */,
 				2C3B8F9E1DAC99E200F6421E /* DisplayPageViewController.swift */,
@@ -177,9 +183,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C2ED4571DB0BE1F00F3B32D /* AnimateViewController.swift in Sources */,
 				2C3B8F841DAB602C00F6421E /* DetailViewController.swift in Sources */,
 				2C3B8F9A1DAB63B300F6421E /* TeamTableCell.swift in Sources */,
 				2C3B8F9D1DAB6B2000F6421E /* AddTeamViewController.swift in Sources */,
+				2C97CDF81DAD99F7005F4ADE /* AddMemberViewController.swift in Sources */,
 				2C3B8F821DAB602C00F6421E /* MasterViewController.swift in Sources */,
 				2C3B8F9F1DAC99E200F6421E /* DisplayPageViewController.swift in Sources */,
 				2C3B8F971DAB609500F6421E /* Students.swift in Sources */,
@@ -336,6 +344,7 @@
 				2C3B8F921DAB602C00F6421E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

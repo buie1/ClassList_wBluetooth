@@ -8,22 +8,37 @@
 
 import UIKit
 
-class DisplayPageViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate{
+class DisplayPageViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, AddMemberViewControllerDelegate{
     
     
     // MARK: Variables
     
     var pageViewController: UIPageViewController!
     var member: Students!
-    let pages = ["DisplayDetailController","TestViewController"]
+    let pages = ["DisplayDetailController","AnimationView"]
     
     var currentIndex: Int!
     private var pendingIndex: Int!
     
     
     
+    // MARK: Delegate Functions
+    func addMember(mem: Students){
+        // Do nothing we aren't adding members in this view controller 
+    }
+    
+    func editMember(mem:Students, _ ix:(Int,Int)){
+        
+    }
+    
     //MARK: IBOutlets
     @IBOutlet weak var pageControl: UIPageControl!
+    
+    //MARK: IBActions
+    @IBAction func editButtonPressed(sender: AnyObject) {
+    }
+    
+    
     
     
     
@@ -64,13 +79,14 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
         if vc?.restorationIdentifier == "DisplayDetailController"{
             //(vc as! DisplayTextViewController).descriptionString = member.describeMe()
             if self.member != nil {
-                (vc as! DetailViewController).detailItem = self.member.getName() as String!
+                (vc as! DetailViewController).detailItem = self.member.describeMe() as String!
             }else{
                 vc as! DetailViewController
             }
-        }else if vc?.restorationIdentifier == "TestViewController"{
+        }else if vc?.restorationIdentifier == "AnimationView"{
             //(vc as! AnimateViewController).animateImage = member.getAnimate()
-            vc as UIViewController!
+            (vc as! AnimateViewController).animateImage = self.member.getAnimate()
+            
         }
         return vc
         
@@ -88,6 +104,21 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
             }
         }
     }
+    
+    
+    //MARK: Segue functions
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "EditMemberSegue"{
+            //let ix = sender?.tag
+            let destVC = segue.destinationViewController as! AddMemberViewController
+            //self.currTeam = array[ix!]
+            destVC.memDelegate = self
+            destVC.currMember = self.member
+            destVC.toEdit = true
+        }
+    }
+    
     
     // MARK: View Lifecycle Funcitons
     

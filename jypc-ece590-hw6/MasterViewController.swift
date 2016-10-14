@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate {
+class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate {
 
     
     // MARK:  Variables
@@ -37,6 +37,18 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         self.tableView.reloadData()
     }
     
+    func addMember(mem: Students) {
+        currTeam.members.append(mem)
+        TeamItem.saveTeamInfo(array)
+        self.tableView.reloadData()
+    }
+    
+    func editMember(mem: Students, _ ix: (Int, Int)) {
+        array[ix.0].members.removeAtIndex(ix.1)
+        array[ix.0].members.insert(mem,atIndex: ix.1)
+        TeamItem.saveTeamInfo(array)
+        self.tableView.reloadData()
+    }
     
     
     
@@ -120,6 +132,12 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             destVC.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
             destVC.navigationItem.leftItemsSupplementBackButton = true
             destVC.delegate = self
+        }else if segue.identifier == "AddMemberSegue" {
+            let ix = sender?.tag
+            let destVC = segue.destinationViewController as! AddMemberViewController
+            self.currTeam = array[ix!]
+            destVC.memDelegate = self
+            destVC.toEdit = false
         }
     }
 
@@ -225,6 +243,9 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     // MARK: Load initial Data
     // Edit here
     func loadInitialData() {
+        /*************
+        // Uncomment when we want to persist data.
+        **************/
         //let tempTeams = TeamItem.loadTeamInfo()
         let tempTeams:[TeamItem]? = [TeamItem]()
         if tempTeams?.count > 0{
