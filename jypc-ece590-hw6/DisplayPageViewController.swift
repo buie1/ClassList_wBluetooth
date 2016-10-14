@@ -79,7 +79,8 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
         if vc?.restorationIdentifier == "DisplayDetailController"{
             //(vc as! DisplayTextViewController).descriptionString = member.describeMe()
             if self.member != nil {
-                (vc as! DetailViewController).detailItem = self.member.describeMe() as String!
+                //(vc as! DetailViewController).detailItem = self.member.describeMe() as String!
+                (vc as! DetailViewController).studentsItem = self.member as Students!
             }else{
                 vc as! DetailViewController
             }
