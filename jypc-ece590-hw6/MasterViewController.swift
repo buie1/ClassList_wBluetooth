@@ -181,10 +181,20 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         team_cell.projectName.text = team.project
         team_cell.btn_AddMember.tag = section
         
+        /* COOL RANDOM BACKGROUND SELECTOR
         let n = 1.0/CGFloat(array.count)
         let hue = CGFloat(section)*n
         let color = UIColor(hue: hue, saturation: 1, brightness: 1, alpha: 0.65)
         team_cell.backgroundColor = color
+        return team_cell
+        */
+        
+        //Lavender Color = #76323F
+        let color = UIColor(red: 0x76/255, green: 0x32/255, blue: 0x3F/255, alpha: 1.0)
+        team_cell.backgroundColor = color
+        team_cell.teamName.textColor = UIColor.whiteColor()
+        team_cell.projectName.textColor = UIColor.whiteColor()
+        team_cell.btn_AddMember.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         return team_cell
     }
 
@@ -205,6 +215,12 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         member_cell.textLabel?.text = theMember.getName()
         member_cell.detailTextLabel?.text = theMember.getProgram()
         member_cell.imageView?.image = theMember.getImage()?.circle
+        
+        //background color #565656
+        let color = UIColor(red: 0x56/255, green: 0x56/255, blue: 0x56/255, alpha: 1.0)
+        member_cell.backgroundColor = color
+        member_cell.textLabel?.textColor = UIColor.whiteColor()
+        member_cell.detailTextLabel?.textColor = UIColor.whiteColor()
         return member_cell
         
     }
