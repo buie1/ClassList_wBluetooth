@@ -276,7 +276,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             let yhk = Students("Young-Hoon","Kim",nil,"Raleigh, NC", mycourses: courseList0,
                                "Computer Engineering","Masters student", true)
             yhk.setImage(UIImage(named:"young")!)
-            yhk.setAnimate(false)
+            yhk.setAnimate(true)
             yhk.addHobbies("Working Out","Talking to Cuties", "General Winning")
             yhk.setLanguages(["C","C++","Java","Swift","VHDL","Sarcasm"])
             t0.members.append(me)
