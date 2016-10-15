@@ -87,6 +87,7 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
         }else if vc?.restorationIdentifier == "AnimationView"{
             //(vc as! AnimateViewController).animateImage = member.getAnimate()
             (vc as! AnimateViewController).animateImage = self.member.getAnimate()
+            (vc as! AnimateViewController).member = self.member
             
         }
         return vc
