@@ -277,10 +277,10 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             me.setAnimate(true)
             me.setImage(UIImage(named:"buie")!)
             me.setLanguages(["C","C++","Java","Swift","MATLAB"])
-            let pete = Students("Peter","Murphy, IV", nil,"Redding,CA", mycourses: courseList0,
+            let pete = Students("Peter","Murphy", nil,"Redding,CA", mycourses: courseList0,
                                 "Electrical Engineering","Masters student", true)
             pete.setImage(UIImage(named:"peter")!)
-            pete.setAnimate(false)
+            pete.setAnimate(true)
             pete.addHobbies("Snowboarding", "Bae-cations","Overwatch")
             pete.setLanguages(["C","C++","Java","Swift","VHDL","Verilog"])
             let colby = Students("Colby","Stanley",nil,"Bridgeport,WV", mycourses: courseList0,
