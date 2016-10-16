@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate {
+class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate, DisplayPageViewControllerDelegate {
 
     
     // MARK:  Variables
@@ -50,7 +50,13 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         self.tableView.reloadData()
     }
     
-    
+    func editMemberArray(mem: Students, _ ix: (Int, Int)) {
+        array[ix.0].members.removeAtIndex(ix.1)
+        array[ix.0].members.insert(mem,atIndex: ix.1)
+        TeamItem.saveTeamInfo(array)
+        self.tableView.reloadData()
+    }
+
     
     // MARK: - View Lifecycle functions
     
@@ -122,6 +128,8 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
                 
                 let object = array[teamix!].members[memIdx!]
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DisplayPageViewController
+                controller.memIndex = (teamix!,memIdx!)
+                controller.editArrayDelegate = self
                 controller.member = object
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
@@ -133,9 +141,12 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             destVC.navigationItem.leftItemsSupplementBackButton = true
             destVC.delegate = self
         }else if segue.identifier == "AddMemberSegue" {
+            //let memIdx = tableView.indexPathForSelectedRow?.row
+           // let teamix = tableView.indexPathForSelectedRow?.section
             let ix = sender?.tag
             let destVC = segue.destinationViewController as! AddMemberViewController
             self.currTeam = array[ix!]
+            //destVC.memberIX = (teamix!,memIdx!)
             destVC.memDelegate = self
             destVC.toEdit = false
         }

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol DisplayPageViewControllerDelegate{
+    func editMemberArray(mem:Students, _ ix:(Int,Int))
+}
+
 class DisplayPageViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, AddMemberViewControllerDelegate{
     
     
@@ -17,10 +21,11 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     var member: Students!
     let pages = ["DisplayDetailController","AnimationView"]
     
+    var memIndex: (Int,Int)!
     var currentIndex: Int!
     private var pendingIndex: Int!
     
-    
+    var editArrayDelegate: DisplayPageViewControllerDelegate!
     
     // MARK: Delegate Functions
     func addMember(mem: Students){
@@ -28,7 +33,9 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     }
     
     func editMember(mem:Students, _ ix:(Int,Int)){
-        
+        self.member = mem
+        self.memIndex = ix
+        editArrayDelegate.editMemberArray(mem, ix)
     }
     
     //MARK: IBOutlets
@@ -112,9 +119,8 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "EditMemberSegue"{
-            //let ix = sender?.tag
             let destVC = segue.destinationViewController as! AddMemberViewController
-            //self.currTeam = array[ix!]
+            destVC.memberIX = memIndex
             destVC.memDelegate = self
             destVC.currMember = self.member
             destVC.toEdit = true
@@ -124,10 +130,29 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     
     // MARK: View Lifecycle Funcitons
     
+    override func viewWillAppear(animated: Bool) {
+        if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
+            self.addChildViewController(vc)
+            self.view.addSubview(vc.view)
+            
+            self.navigationItem.setHidesBackButton(false, animated: false)
+            
+            
+            pageViewController = vc as! UIPageViewController
+            pageViewController.dataSource = self
+            pageViewController.delegate = self
+            
+            pageViewController.setViewControllers([viewControllerAtIndex(0)!], direction: .Forward, animated: true, completion: nil)
+            pageViewController.didMoveToParentViewController(self)
+            
+        }
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
+        /*if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
             
@@ -141,7 +166,7 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
             pageViewController.setViewControllers([viewControllerAtIndex(0)!], direction: .Forward, animated: true, completion: nil)
             pageViewController.didMoveToParentViewController(self)
             
-        }
+        }*/
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
         
