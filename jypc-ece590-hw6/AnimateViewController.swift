@@ -58,6 +58,11 @@ class AnimateViewController: UIViewController {
                     im.layer.addAnimation(anim, forKey: "animate postion along path")
                 }
                 break
+            case "Colby Stanley":
+                animateGuitarandNote()
+                drawRectangle()
+                MusicPlayer.sharedHelper.playBackgroundMusic()
+                break
             case "Young-Hoon Kim":
                 drawSun()
                 drawCloud()
@@ -73,6 +78,7 @@ class AnimateViewController: UIViewController {
 
         }
     }
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch: UITouch! = touches.first
@@ -238,5 +244,71 @@ class AnimateViewController: UIViewController {
         square.layer.addAnimation(anim, forKey: "animate position along path")
 
     }
-
+    //Mark: Code for CS's animations
+    func animateGuitarandNote(){
+        
+        //Add a guitar image and a rotation animation
+        //A full rotation in rads
+        let fullRotation = CGFloat(M_PI * 2)
+        let guitar = UIImageView()
+        //Set the size of the guitar
+        guitar.frame = CGRect(x: 40, y:157, width: 240, height: 232)
+        guitar.image = UIImage(named: "guitar")
+        
+        //Add the guitar image view as a sub view of the animate view controller's view
+        self.view.addSubview(guitar)
+        
+        //Create the guitar animation
+        let animation = CAKeyframeAnimation()
+        animation.keyPath = "transform.rotation.z"
+        animation.duration = 2.44897959184
+        animation.removedOnCompletion = false
+        animation.fillMode = kCAFillModeForwards
+        animation.repeatCount = Float.infinity
+        animation.values = [0, fullRotation/4, fullRotation/2, fullRotation*3/4, fullRotation,]
+        
+        //Add the animation to the guitar image view layer
+        guitar.layer.addAnimation(animation, forKey: "rotate")
+        
+        
+        //Add a note image and a translation animation
+        let note = UIImageView()
+        note.frame = CGRect(x: 6, y: 412, width: 77, height: 55)
+        note.image = UIImage(named: "musicnote")
+        
+        //Add the music note image view as a sub view of the animate view controller's view
+        self.view.addSubview(note)
+        let noteAnimation = CAKeyframeAnimation()
+        noteAnimation.keyPath = "position.x"
+        noteAnimation.values = [0, 25, 75, 150, 300, 150, 75, 25, 0]
+        noteAnimation.keyTimes = [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1]
+        noteAnimation.duration = 2.44897959184
+        noteAnimation.repeatCount = Float.infinity
+        noteAnimation.additive = true
+        
+        //Add the animation to the music note image view layer
+        note.layer.addAnimation(noteAnimation, forKey: "shake")
+    }
+    
+    func drawRectangle(){
+        //Draw a red rectangle
+        //Create an image view that will contain the rectange
+        let image = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y:0), size: CGSize(width: 325, height: 100)))
+        let opaque = false
+        let scale: CGFloat = 0
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: 325, height: 150), opaque, scale)
+        let context = UIGraphicsGetCurrentContext()
+        CGContextSetLineWidth(context, 150)
+        CGContextSetStrokeColorWithColor(context, UIColor.redColor().CGColor)
+        CGContextMoveToPoint(context, 0, 100)
+        CGContextAddLineToPoint(context, 325, 100)
+        CGContextStrokePath(context)
+        let rectangle = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        //set the image view image to the drawn rectangle
+        image.image = rectangle
+        self.view.addSubview(image)
+    }
+    
 }

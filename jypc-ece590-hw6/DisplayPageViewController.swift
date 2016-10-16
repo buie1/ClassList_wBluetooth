@@ -152,6 +152,10 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+    
+    //Stop the Music Player if it is playing when the page view controller is dismissed
+    override func viewWillDisappear(animated: Bool) {
+        MusicPlayer.sharedHelper.stop()
+    }
 }
