@@ -68,7 +68,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DisplayPageViewController
         }
-        
+                
         // Set up Search Bar & Load initial Data
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
@@ -286,7 +286,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             let colby = Students("Colby","Stanley",nil,"Bridgeport,WV", mycourses: courseList0,
                                  "Computer Engineering","Masters student", true)
             colby.setImage(UIImage(named:"colby")!)
-            colby.setAnimate(false)
+            colby.setAnimate(true)
             colby.addHobbies("Biking","Playing Music","Halo")
             colby.setLanguages(["C","C++","Java","Swift","VHDL"])
             let yhk = Students("Young-Hoon","Kim",nil,"Raleigh, NC", mycourses: courseList0,
@@ -303,7 +303,6 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             array.append(t0);
         }
     }
-
 
 }
 
