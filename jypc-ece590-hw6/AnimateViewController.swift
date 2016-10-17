@@ -23,10 +23,10 @@ class AnimateViewController: UIViewController {
     // ref: http://mathewsanders.com/animations-in-swift-part-two/
     override func viewWillAppear(animated: Bool) {
         if animateImage == nil || !animateImage {
-            animateText.hidden = false
-            UIView.animateWithDuration(1.0, delay: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-                self.animateText.center.x += self.view.bounds.width
-                self.view.layoutIfNeeded()
+        animateText.hidden = false
+        UIView.animateWithDuration(1.0, delay: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.animateText.center.x += self.view.bounds.width
+            self.view.layoutIfNeeded()
             }, completion: nil)
         } else {
             animateText.hidden = true
@@ -395,9 +395,9 @@ class AnimateViewController: UIViewController {
     }
     
 
-}
 
     //Mark: Code for CS's animations
 
     
 
+}
