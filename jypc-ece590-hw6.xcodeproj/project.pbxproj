@@ -22,6 +22,7 @@
 		2C97CDF81DAD99F7005F4ADE /* AddMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97CDF71DAD99F7005F4ADE /* AddMemberViewController.swift */; };
 		EE1139A91DB2BA0C00274C59 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1139A81DB2BA0C00274C59 /* MusicPlayer.swift */; };
 		EE1139AB1DB2BABA00274C59 /* song.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EE1139AA1DB2BABA00274C59 /* song.mp3 */; };
+		EE1139B31DB415CC00274C59 /* CustomAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE1139B21DB415CC00274C59 /* CustomAnimationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		2C97CDF71DAD99F7005F4ADE /* AddMemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMemberViewController.swift; sourceTree = "<group>"; };
 		EE1139A81DB2BA0C00274C59 /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		EE1139AA1DB2BABA00274C59 /* song.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song.mp3; sourceTree = "<group>"; };
+		EE1139B21DB415CC00274C59 /* CustomAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnimationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			children = (
 				EE1139A81DB2BA0C00274C59 /* MusicPlayer.swift */,
 				2C3B8F941DAB609500F6421E /* TeamItem.swift */,
+				EE1139B21DB415CC00274C59 /* CustomAnimationController.swift */,
 				2C3B8F951DAB609500F6421E /* Students.swift */,
 			);
 			name = "Custom Classes";
@@ -196,6 +199,7 @@
 				2C3B8F841DAB602C00F6421E /* DetailViewController.swift in Sources */,
 				2C3B8F9A1DAB63B300F6421E /* TeamTableCell.swift in Sources */,
 				2C3B8F9D1DAB6B2000F6421E /* AddTeamViewController.swift in Sources */,
+				EE1139B31DB415CC00274C59 /* CustomAnimationController.swift in Sources */,
 				2C97CDF81DAD99F7005F4ADE /* AddMemberViewController.swift in Sources */,
 				2C3B8F821DAB602C00F6421E /* MasterViewController.swift in Sources */,
 				2C3B8F9F1DAC99E200F6421E /* DisplayPageViewController.swift in Sources */,

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate {
+class MasterViewController: UITableViewController, UISearchResultsUpdating, UIViewControllerTransitioningDelegate, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate {
 
     
     // MARK:  Variables
@@ -21,6 +21,8 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     var deleteMemberIndexPath: NSIndexPath? = nil
     let searchController = UISearchController(searchResultsController: nil)
     
+    //Custom animation for transition from MasterViewController to AddTeam/AddMember VC's
+    let customPresentAnimationController = CustomAnimationController()
     
     
     // MARK:  Delegate Methods
@@ -129,12 +131,14 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         }else if segue.identifier == "AddTeamSegue" {
             //let destVC = (segue.destinationViewController as! UINavigationController).topViewController as! AddTeamViewController
             let destVC = segue.destinationViewController as! AddTeamViewController
+            destVC.transitioningDelegate = self
             destVC.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
             destVC.navigationItem.leftItemsSupplementBackButton = true
             destVC.delegate = self
         }else if segue.identifier == "AddMemberSegue" {
             let ix = sender?.tag
             let destVC = segue.destinationViewController as! AddMemberViewController
+            destVC.transitioningDelegate = self
             self.currTeam = array[ix!]
             destVC.memDelegate = self
             destVC.toEdit = false
@@ -303,6 +307,10 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             array.append(t0);
         }
     }
+    
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return customPresentAnimationController
+    }
 
 }
 
@@ -325,5 +333,8 @@ extension UIImage{
         UIGraphicsEndImageContext()
         return result
     }
+    
 }
+
+
 
