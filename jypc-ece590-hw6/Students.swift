@@ -24,6 +24,7 @@ class Students: Human {
     //private var transcript: [Double:Grade] //This is a dictionary of a students classes & Grades
     lazy var gpa : Double? = 4.0 // Here we are using a lazy variable unlike the other variable this is able to refer to the instance
     
+    
     private var major: String!
     private var program: String!
     private var animate: Bool!

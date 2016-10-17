@@ -35,10 +35,12 @@ class DetailViewController: UIViewController {
         
         
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        MusicPlayer.sharedHelper.stop()
         self.configureView()
     }
 
@@ -46,7 +48,6 @@ class DetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
 }
 

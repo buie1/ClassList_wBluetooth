@@ -15,7 +15,7 @@ protocol AddMemberViewControllerDelegate{
     func editMember(mem:Students, _ ix:(Int,Int))
 }
 
-class AddMemberViewController: UIViewController {
+class AddMemberViewController: UIViewController, UITextFieldDelegate {
     
     var toEdit:Bool!
     var currMember:Students!
@@ -24,6 +24,7 @@ class AddMemberViewController: UIViewController {
     var memDelegate: AddMemberViewControllerDelegate!
     
     var imagePicker: UIImagePickerController!
+    var activeTextField: UITextField!
     
     // MARK: IBOutlets
     @IBOutlet weak var titleNavBar: UINavigationItem!
@@ -41,6 +42,9 @@ class AddMemberViewController: UIViewController {
     @IBOutlet weak var displayTextView: UITextView!
     //@IBOutlet weak var saveEditButton: UIBarButtonItem!
     
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     // MARK: IBActions
     
@@ -206,6 +210,13 @@ class AddMemberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        // MARK: Scroll View if Keyboard Use
+        /*
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddMemberViewController.keyboardUP(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddMemberViewController.keyboardDown(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        */
+        
         // MARK: Make UIImage clickable like a button
         let imView = userImageView!
         let tapGestureRecognizer = UITapGestureRecognizer(target: self,
@@ -264,9 +275,68 @@ class AddMemberViewController: UIViewController {
             //saveEditButton.title = "Save"
         }
         
-        
     }
     
+    // Mark: Functions to Scroll View Up when keyboard is shown
+    
+    /*
+        NOTIFICATION METHODS CAN BE USED TO OBTAIN KEYBOARD FRAME SIZE 
+        HAVE NOT FIGURED OUT HOW TO PASS THIS FIELD ONTO OTHER METHODS 
+        OR HOW TO DETERMINE WHICH TEXTFIELD IS ACTIVE (OUTSIDE OF USING DELEGATE FUNCTIONS)
+    */
+    /*
+    func keyboardUP(notification: NSNotification){
+        if ((notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue()) != nil {
+            let info = notification.userInfo!
+            let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            
+            if(activeTextField == languageText || activeTextField == hobbyText){
+            UIView.animateWithDuration(0.1, animations: { () -> Void in
+                self.topConstraint.constant -= keyboardFrame.size.height
+                self.bottomConstraint.constant = keyboardFrame.size.height
+            })
+            }
+        }
+    }
+
+    func keyboardDown(notification: NSNotification){
+        if ((notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue()) != nil {
+            let info = notification.userInfo!
+            let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            
+            if(activeTextField == languageText || activeTextField == hobbyText){
+                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                self.topConstraint.constant += keyboardFrame.size.height
+                self.bottomConstraint.constant -= keyboardFrame.size.height
+            })
+            }
+        }
+    }
+    */
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        if(textField == hobbyText || textField == languageText){
+            self.topConstraint.constant -= 65
+            self.bottomConstraint.constant -= 65
+            fNameText.hidden = true
+        }
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        if(textField == hobbyText || textField == languageText){
+            self.topConstraint.constant += 65
+            self.bottomConstraint.constant += 65
+        }
+        fNameText.hidden = false
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    
+ 
     func imageTapped(img: AnyObject){
         //Do Stuff
         imagePicker = UIImagePickerController()
@@ -338,4 +408,5 @@ extension UIImage{
         return im1.isEqualToData(im2)
     }
 }
+
 

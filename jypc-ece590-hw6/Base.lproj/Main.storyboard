@@ -449,16 +449,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Hobbies (ie. ece590, all nighters, etc.)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tjJ-fr-k0E">
-                                <rect key="frame" x="20" y="300" width="560" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Programming Languages (C, Swift, etc.)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L3L-Dc-GQx">
-                                <rect key="frame" x="20" y="338" width="560" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uMD-cL-RG9">
                                 <rect key="frame" x="20" y="412" width="560" height="161"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -489,9 +479,26 @@
                                     <constraint firstAttribute="width" constant="110" id="vq9-Wk-Dh3"/>
                                 </constraints>
                             </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Hobbies (ie. ece590, all nighters, etc.)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tjJ-fr-k0E">
+                                <rect key="frame" x="20" y="300" width="560" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="DPp-ar-VRP" id="Em3-S9-eJt"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Programming Languages (C, Swift, etc.)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L3L-Dc-GQx">
+                                <rect key="frame" x="20" y="338" width="560" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="DPp-ar-VRP" id="jeE-kG-i8q"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="tjJ-fr-k0E" firstAttribute="top" secondItem="kex-Bc-JZD" secondAttribute="bottom" constant="10" id="0Vv-z8-uje"/>
                             <constraint firstAttribute="trailingMargin" secondItem="feM-UX-RZx" secondAttribute="trailing" constant="21" id="4E7-M2-O1b"/>
                             <constraint firstItem="wXi-85-QBE" firstAttribute="trailing" secondItem="mbX-jm-OCk" secondAttribute="trailing" id="5PJ-Ct-9vF"/>
                             <constraint firstItem="kex-Bc-JZD" firstAttribute="leading" secondItem="mbX-jm-OCk" secondAttribute="trailing" constant="76" id="A28-GJ-Gi8"/>
@@ -532,6 +539,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bottomConstraint" destination="Oir-vL-Jer" id="eYi-Te-dTG"/>
                         <outlet property="displayTextView" destination="uMD-cL-RG9" id="h1F-ll-XXK"/>
                         <outlet property="fNameText" destination="kP5-j7-qV3" id="lnr-Ld-Isp"/>
                         <outlet property="genderSeg" destination="kex-Bc-JZD" id="aru-Yc-f8S"/>
@@ -543,6 +551,7 @@
                         <outlet property="majorText" destination="mbX-jm-OCk" id="Ow1-aZ-js2"/>
                         <outlet property="programSeg" destination="EoY-0D-t2e" id="KC7-7k-Q3q"/>
                         <outlet property="titleNavBar" destination="01r-dG-rDb" id="SrO-7H-4fY"/>
+                        <outlet property="topConstraint" destination="HZC-GZ-ucv" id="kBA-Yu-GhV"/>
                         <outlet property="userImageView" destination="feM-UX-RZx" id="KYh-8H-CfM"/>
                     </connections>
                 </viewController>
@@ -564,6 +573,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="6S0-TO-JiA"/>
-        <segue reference="4wb-nl-bar"/>
+        <segue reference="eRe-e2-PQ8"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate {
+class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate, UIViewControllerTransitioningDelegate, DisplayPageViewControllerDelegate{
 
     
     // MARK:  Variables
@@ -21,6 +21,8 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     var deleteMemberIndexPath: NSIndexPath? = nil
     let searchController = UISearchController(searchResultsController: nil)
     
+    //Custom animation for transition from MasterViewController to AddTeam/AddMember VC's
+    let customPresentAnimationController = CustomAnimationController()
     
     
     // MARK:  Delegate Methods
@@ -50,7 +52,13 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         self.tableView.reloadData()
     }
     
-    
+    func editMemberArray(mem: Students, _ ix: (Int, Int)) {
+        array[ix.0].members.removeAtIndex(ix.1)
+        array[ix.0].members.insert(mem,atIndex: ix.1)
+        TeamItem.saveTeamInfo(array)
+        self.tableView.reloadData()
+    }
+
     
     // MARK: - View Lifecycle functions
     
@@ -68,7 +76,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DisplayPageViewController
         }
-        
+                
         // Set up Search Bar & Load initial Data
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
@@ -122,6 +130,8 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
                 
                 let object = array[teamix!].members[memIdx!]
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DisplayPageViewController
+                controller.memIndex = (teamix!,memIdx!)
+                controller.editArrayDelegate = self
                 controller.member = object
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
@@ -129,13 +139,18 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         }else if segue.identifier == "AddTeamSegue" {
             //let destVC = (segue.destinationViewController as! UINavigationController).topViewController as! AddTeamViewController
             let destVC = segue.destinationViewController as! AddTeamViewController
+            destVC.transitioningDelegate = self
             destVC.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
             destVC.navigationItem.leftItemsSupplementBackButton = true
             destVC.delegate = self
         }else if segue.identifier == "AddMemberSegue" {
+            //let memIdx = tableView.indexPathForSelectedRow?.row
+           // let teamix = tableView.indexPathForSelectedRow?.section
             let ix = sender?.tag
             let destVC = segue.destinationViewController as! AddMemberViewController
+            destVC.transitioningDelegate = self
             self.currTeam = array[ix!]
+            //destVC.memberIX = (teamix!,memIdx!)
             destVC.memDelegate = self
             destVC.toEdit = false
         }
@@ -277,16 +292,16 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             me.setAnimate(true)
             me.setImage(UIImage(named:"buie")!)
             me.setLanguages(["C","C++","Java","Swift","MATLAB"])
-            let pete = Students("Peter","Murphy, IV", nil,"Redding,CA", mycourses: courseList0,
+            let pete = Students("Peter","Murphy", nil,"Redding,CA", mycourses: courseList0,
                                 "Electrical Engineering","Masters student", true)
             pete.setImage(UIImage(named:"peter")!)
-            pete.setAnimate(false)
+            pete.setAnimate(true)
             pete.addHobbies("Snowboarding", "Bae-cations","Overwatch")
             pete.setLanguages(["C","C++","Java","Swift","VHDL","Verilog"])
             let colby = Students("Colby","Stanley",nil,"Bridgeport,WV", mycourses: courseList0,
                                  "Computer Engineering","Masters student", true)
             colby.setImage(UIImage(named:"colby")!)
-            colby.setAnimate(false)
+            colby.setAnimate(true)
             colby.addHobbies("Biking","Playing Music","Halo")
             colby.setLanguages(["C","C++","Java","Swift","VHDL"])
             let yhk = Students("Young-Hoon","Kim",nil,"Raleigh, NC", mycourses: courseList0,
@@ -303,7 +318,12 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             array.append(t0);
         }
     }
-
+    
+    
+    //Perform animated transition to add member/team VC's
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return customPresentAnimationController
+    }
 
 }
 
@@ -326,5 +346,8 @@ extension UIImage{
         UIGraphicsEndImageContext()
         return result
     }
+    
 }
+
+
 
