@@ -23,16 +23,20 @@ class AnimateViewController: UIViewController {
     // ref: http://mathewsanders.com/animations-in-swift-part-two/
     override func viewWillAppear(animated: Bool) {
         if animateImage == nil || !animateImage {
-        animateText.hidden = false
-        UIView.animateWithDuration(1.0, delay: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-            self.animateText.center.x += self.view.bounds.width
-            self.view.layoutIfNeeded()
+            animateText.hidden = false
+            UIView.animateWithDuration(1.0, delay: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                self.animateText.center.x += self.view.bounds.width
+                self.view.layoutIfNeeded()
             }, completion: nil)
-        }else{
+        } else {
             animateText.hidden = true
             
-            
+            let fullName: String = member.getName()
+            print("Name to search is \(fullName)")
             switch member.getName() {
+            case "Peter Murphy":
+                drawSnowboarder()
+                break;
             case "Jonathan Buie":
                 for ix in 0...(pics.count-1) {
                     //let ix = arc4random_uniform(UInt32(pics.count))
@@ -68,6 +72,7 @@ class AnimateViewController: UIViewController {
                 drawCloud()
                 drawCoaster()
                 break
+            
             default:
                 animateText.hidden = false
                 UIView.animateWithDuration(1.0, delay: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: {
@@ -227,7 +232,6 @@ class AnimateViewController: UIViewController {
         path.addQuadCurveToPoint(CGPoint(x: 330, y: 320), controlPoint: CGPoint(x: 260, y: 190))
         
         
-        
         // create a new CAKeyframeAnimation that animates the objects position
         let anim = CAKeyframeAnimation(keyPath: "position")
         
@@ -244,7 +248,86 @@ class AnimateViewController: UIViewController {
         square.layer.addAnimation(anim, forKey: "animate position along path")
 
     }
-    //Mark: Code for CS's animations
+   
+    //Mark: Draw Peter's stuff
+    func drawSnowboarder() {
+        
+            self.parentViewController?.view.backgroundColor = UIColor.blueColor()
+            let snowBall = UIView()
+            let snowBall1 = UIView()
+            let snowBall2 = UIView()
+            let snowBall3 = UIView()
+            let snowBall4 = UIView()
+            let snowBall5 = UIView()
+            //aboutLabel.hidden = true
+            //descriptionPageText.hidden = true
+            //profilePic.hidden = true
+            // set background color to blue
+            let delay = 0.0 // delay will be 0.0 seconds (e.g. nothing)
+            let delaySnowball = 4.0
+            let options = UIViewAnimationOptions.CurveEaseInOut // change the timing curve to `ease-in ease-out`
+            snowBall.backgroundColor = UIColor.lightGrayColor()
+            snowBall1.backgroundColor = UIColor.lightGrayColor()
+            snowBall2.backgroundColor = UIColor.lightGrayColor()
+            snowBall3.backgroundColor = UIColor.lightGrayColor()
+            snowBall4.backgroundColor = UIColor.lightGrayColor()
+            snowBall5.backgroundColor = UIColor.lightGrayColor()
+            let duration = 5.0
+            let size:CGFloat = 100
+            //the animations can be found at the following tutorial:
+            //http://mathewsanders.com/prototyping-iOS-iPhone-iPad-animations-in-swift/
+            // set frame (position and size) of the square
+            // iOS coordinate system starts at the top left of the screen
+            // so this square will be at top left of screen, 50x50pt
+            // CG in CGRect stands for Core Graphics
+            snowBall.frame = CGRect(x: 270, y: 300, width: 75, height: 75)
+            snowBall.layer.cornerRadius = 25;
+            snowBall1.frame = CGRect(x: 250, y: 300, width: 50, height: 50)
+            snowBall1.layer.cornerRadius = 25;
+            snowBall2.frame = CGRect(x: 260, y: 300, width: 60, height: 60)
+            snowBall2.layer.cornerRadius = 25;
+            snowBall3.frame = CGRect(x: 275, y: 300, width: 50, height: 50)
+            snowBall3.layer.cornerRadius = 25;
+            snowBall4.frame = CGRect(x: 255, y: 300, width: 55, height: 55)
+            snowBall4.layer.cornerRadius = 25;
+            snowBall5.frame = CGRect(x: 270, y: 300, width: 45, height: 45)
+            snowBall5.layer.cornerRadius = 25;
+            // finally, add the square to the screen
+            
+            let snowboarder = UIImageView()
+            snowboarder.image = UIImage(named: "snowboardingSprite.png")
+            snowboarder.frame = CGRectMake(50, 120, size-70, size-70)
+            self.view.addSubview(snowboarder)
+            UIView.animateWithDuration(duration, delay: delay, options: options, animations: {
+                snowboarder.frame = CGRectMake(320-50, 300, size, size)
+                }, completion: { animationFinished in
+                    // remove the fish
+                    snowboarder.removeFromSuperview()
+            })
+            self.view.addSubview(snowBall)
+            self.view.addSubview(snowBall1)
+            self.view.addSubview(snowBall2)
+            self.view.addSubview(snowBall3)
+            self.view.addSubview(snowBall4)
+            self.view.addSubview(snowBall5)
+            UIView.animateWithDuration(duration-3, delay: delaySnowball, options: options, animations: {
+                snowBall.frame = CGRectMake(50, 120, 30, 30)
+                snowBall1.frame = CGRectMake(50, 140, 20, 20)
+                snowBall2.frame = CGRectMake(50, 170, 40, 40)
+                snowBall3.frame = CGRectMake(200, 200, 20, 20)
+                snowBall4.frame = CGRectMake(100, 220, 40, 40)
+                snowBall5.frame = CGRectMake(50, 120, 25, 25)
+                }, completion: { animationFinished in
+                    snowBall.removeFromSuperview()
+                    snowBall1.removeFromSuperview()
+                    snowBall2.removeFromSuperview()
+                    snowBall3.removeFromSuperview()
+                    snowBall4.removeFromSuperview()
+                    snowBall5.removeFromSuperview()
+            })
+            
+        }
+    
     func animateGuitarandNote(){
         
         //Add a guitar image and a rotation animation
@@ -311,4 +394,10 @@ class AnimateViewController: UIViewController {
         self.view.addSubview(image)
     }
     
+
 }
+
+    //Mark: Code for CS's animations
+
+    
+

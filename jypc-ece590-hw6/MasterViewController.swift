@@ -52,7 +52,13 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, UIVi
         self.tableView.reloadData()
     }
     
-    
+    func editMemberArray(mem: Students, _ ix: (Int, Int)) {
+        array[ix.0].members.removeAtIndex(ix.1)
+        array[ix.0].members.insert(mem,atIndex: ix.1)
+        TeamItem.saveTeamInfo(array)
+        self.tableView.reloadData()
+    }
+
     
     // MARK: - View Lifecycle functions
     
@@ -124,6 +130,8 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, UIVi
                 
                 let object = array[teamix!].members[memIdx!]
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DisplayPageViewController
+                controller.memIndex = (teamix!,memIdx!)
+                controller.editArrayDelegate = self
                 controller.member = object
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
@@ -136,10 +144,13 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, UIVi
             destVC.navigationItem.leftItemsSupplementBackButton = true
             destVC.delegate = self
         }else if segue.identifier == "AddMemberSegue" {
+            //let memIdx = tableView.indexPathForSelectedRow?.row
+           // let teamix = tableView.indexPathForSelectedRow?.section
             let ix = sender?.tag
             let destVC = segue.destinationViewController as! AddMemberViewController
             destVC.transitioningDelegate = self
             self.currTeam = array[ix!]
+            //destVC.memberIX = (teamix!,memIdx!)
             destVC.memDelegate = self
             destVC.toEdit = false
         }
@@ -281,10 +292,10 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, UIVi
             me.setAnimate(true)
             me.setImage(UIImage(named:"buie")!)
             me.setLanguages(["C","C++","Java","Swift","MATLAB"])
-            let pete = Students("Peter","Murphy, IV", nil,"Redding,CA", mycourses: courseList0,
+            let pete = Students("Peter","Murphy", nil,"Redding,CA", mycourses: courseList0,
                                 "Electrical Engineering","Masters student", true)
             pete.setImage(UIImage(named:"peter")!)
-            pete.setAnimate(false)
+            pete.setAnimate(true)
             pete.addHobbies("Snowboarding", "Bae-cations","Overwatch")
             pete.setLanguages(["C","C++","Java","Swift","VHDL","Verilog"])
             let colby = Students("Colby","Stanley",nil,"Bridgeport,WV", mycourses: courseList0,
