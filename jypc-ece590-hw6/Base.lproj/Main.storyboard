@@ -41,7 +41,7 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Click a name for a user." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="02L-jO-Lxy">
-                                <rect key="frame" x="115" y="251" width="370" height="341"/>
+                                <rect key="frame" x="30" y="251" width="540" height="341"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -50,8 +50,8 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="02L-jO-Lxy" firstAttribute="top" secondItem="meO-Io-fxZ" secondAttribute="bottom" constant="12" id="5yZ-N5-fZc"/>
-                            <constraint firstAttribute="trailing" secondItem="02L-jO-Lxy" secondAttribute="trailing" constant="115" id="aVw-8n-fBd"/>
-                            <constraint firstItem="02L-jO-Lxy" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" constant="115" id="sjp-8t-y2D"/>
+                            <constraint firstAttribute="trailing" secondItem="02L-jO-Lxy" secondAttribute="trailing" constant="30" id="aVw-8n-fBd"/>
+                            <constraint firstItem="02L-jO-Lxy" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" constant="30" id="sjp-8t-y2D"/>
                             <constraint firstItem="meO-Io-fxZ" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="wbQ-Yb-IwA"/>
                             <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="02L-jO-Lxy" secondAttribute="bottom" constant="8" id="xjY-JX-RVx"/>
                             <constraint firstItem="meO-Io-fxZ" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="25" id="yyW-5C-yRK"/>
