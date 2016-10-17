@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController, UISearchResultsUpdating, UIViewControllerTransitioningDelegate, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate {
+class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate, UIViewControllerTransitioningDelegate, DisplayPageViewControllerDelegate{
 
     
     // MARK:  Variables
@@ -319,6 +319,8 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, UIVi
         }
     }
     
+    
+    //Perform animated transition to add member/team VC's
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return customPresentAnimationController
     }

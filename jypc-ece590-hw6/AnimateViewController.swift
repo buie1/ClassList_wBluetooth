@@ -328,6 +328,9 @@ class AnimateViewController: UIViewController {
             
         }
     
+    
+    
+    //Mark: Code for CS's animations
     func animateGuitarandNote(){
         
         //Add a guitar image and a rotation animation
@@ -395,8 +398,6 @@ class AnimateViewController: UIViewController {
     }
     
 
-
-    //Mark: Code for CS's animations
 
     
 
