@@ -34,27 +34,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Click a name for a user." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="02L-jO-Lxy">
-                                <rect key="frame" x="30" y="251" width="540" height="341"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="540" id="Cgg-P3-x7k"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="baby" translatesAutoresizingMaskIntoConstraints="NO" id="meO-Io-fxZ">
                                 <rect key="frame" x="170" y="45" width="259" height="194"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="ZNg-fc-tWd"/>
                                 </constraints>
                             </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Click a name for a user." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="02L-jO-Lxy">
+                                <rect key="frame" x="30" y="251" width="540" height="341"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="02L-jO-Lxy" firstAttribute="top" secondItem="meO-Io-fxZ" secondAttribute="bottom" constant="12" id="5yZ-N5-fZc"/>
                             <constraint firstItem="meO-Io-fxZ" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="TU2-Tf-W5Y"/>
+                            <constraint firstItem="02L-jO-Lxy" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leadingMargin" constant="10" id="Yez-u7-IQ6"/>
                             <constraint firstItem="02L-jO-Lxy" firstAttribute="centerX" secondItem="svH-Pt-448" secondAttribute="centerX" id="k5X-SD-hS5"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="02L-jO-Lxy" secondAttribute="trailing" constant="10" id="qw7-E8-d9X"/>
                             <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="02L-jO-Lxy" secondAttribute="bottom" constant="8" id="xjY-JX-RVx"/>
                             <constraint firstItem="meO-Io-fxZ" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="25" id="yyW-5C-yRK"/>
                         </constraints>
