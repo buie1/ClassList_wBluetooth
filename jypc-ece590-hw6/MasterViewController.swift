@@ -299,8 +299,8 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         /*************
         // Uncomment when we want to persist data.
         **************/
-        //let tempTeams = TeamItem.loadTeamInfo()
-        let tempTeams:[TeamItem]? = [TeamItem]()
+        let tempTeams = TeamItem.loadTeamInfo()
+        //let tempTeams:[TeamItem]? = [TeamItem]()
         if tempTeams?.count > 0{
             array = tempTeams!
         }else{
