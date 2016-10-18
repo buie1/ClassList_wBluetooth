@@ -131,7 +131,7 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     // MARK: View Lifecycle Funcitons
     
     override func viewWillAppear(animated: Bool) {
-        if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
+        /*if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
             
@@ -146,13 +146,16 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
             pageViewController.didMoveToParentViewController(self)
             
         }
+        pageControl.numberOfPages = pages.count
+        pageControl.currentPage = 0*/
+
 
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /*if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
+        if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
             
@@ -166,7 +169,7 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
             pageViewController.setViewControllers([viewControllerAtIndex(0)!], direction: .Forward, animated: true, completion: nil)
             pageViewController.didMoveToParentViewController(self)
             
-        }*/
+        }
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
         
