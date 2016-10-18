@@ -568,4 +568,5 @@
         <segue reference="Tll-UG-LXB"/>
         <segue reference="eRe-e2-PQ8"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.46274509803921571" green="0.19607843137254902" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
 </document>
