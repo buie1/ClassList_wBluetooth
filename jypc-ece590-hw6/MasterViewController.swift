@@ -185,11 +185,31 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     // MARK: - Table View
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return array.count
+        if searchController.active && searchController.searchBar.text != "" {
+            return 1
+        }else{
+            return array.count
+        }
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         //let team_cell = tableView.dequeueReusableCellWithIdentifier("team_cell")! as! TeamTableCell
+        
+        let color = UIColor(red: 0x76/255, green: 0x32/255, blue: 0x3F/255, alpha: 1.0)
+        
+        if searchController.active && searchController.searchBar.text != "" {
+            let search_cell = tableView.dequeueReusableCellWithIdentifier("team_cell") as!TeamTableCell
+            search_cell.backgroundColor = color
+            search_cell.teamName.textColor = UIColor.whiteColor()
+            search_cell.projectName.textColor = UIColor.whiteColor()
+            search_cell.btn_AddMember.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            search_cell.teamName.text = "Search Results"
+            search_cell.projectName.text = "Found \(filteredMembers.count) Match(es)"
+            search_cell.btn_AddMember.hidden = true
+            return search_cell;
+        }
+
+        
         let team_cell = tableView.dequeueReusableCellWithIdentifier("team_cell") as!TeamTableCell
         let team = array[section]
         team_cell.teamName.text = team.name
@@ -205,7 +225,6 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         */
         
         //Lavender Color = #76323F
-        let color = UIColor(red: 0x76/255, green: 0x32/255, blue: 0x3F/255, alpha: 1.0)
         team_cell.backgroundColor = color
         team_cell.teamName.textColor = UIColor.whiteColor()
         team_cell.projectName.textColor = UIColor.whiteColor()
@@ -214,9 +233,12 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array[section].members.count
+        if searchController.active && searchController.searchBar.text != "" {
+            return filteredMembers.count
+        }else{
+            return array[section].members.count
+        }
     }
-
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let theTeam = array[indexPath.section]
