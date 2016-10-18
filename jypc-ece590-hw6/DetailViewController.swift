@@ -35,18 +35,41 @@ class DetailViewController: UIViewController {
         
         
     }
+    override func viewWillAppear(animated: Bool) {
+        //self.configureView()
+    }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        MusicPlayer.sharedHelper.stop()
+        isPortrait()
         self.configureView()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func isPortrait() {
+        if(UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation))
+        {
+            print("landscape")
+            var newFrame = self.view.frame
+            newFrame.size.width = self.view.frame.width * 0.5
+            newFrame.size.height = self.view.frame.height
+            self.view.frame = newFrame
+            //self.view
+            //return false
+        }
+        
+        if(UIDeviceOrientationIsPortrait(UIDevice.currentDevice().orientation))
+        {
+            print("Portrait")
+            
+        }
+        //return true
+        
     }
 
 }
