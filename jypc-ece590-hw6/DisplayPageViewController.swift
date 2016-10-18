@@ -35,6 +35,28 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     func editMember(mem:Students, _ ix:(Int,Int)){
         self.member = mem
         self.memIndex = ix
+        
+        self.loadView()
+        if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
+            self.addChildViewController(vc)
+            self.view.addSubview(vc.view)
+            
+            self.navigationItem.setHidesBackButton(false, animated: false)
+            
+            
+            pageViewController = vc as! UIPageViewController
+            pageViewController.dataSource = self
+            pageViewController.delegate = self
+            
+            pageViewController.setViewControllers([viewControllerAtIndex(0)!], direction: .Forward, animated: true, completion: nil)
+            pageViewController.didMoveToParentViewController(self)
+            
+        }
+        pageControl.numberOfPages = pages.count
+        pageControl.currentPage = 0
+
+        
+        
         editArrayDelegate.editMemberArray(mem, ix)
     }
     
@@ -131,6 +153,8 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     // MARK: View Lifecycle Funcitons
     
     override func viewWillAppear(animated: Bool) {
+        
+        
         /*if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
@@ -148,7 +172,7 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
         }
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0*/
-
+        
 
     }
     
