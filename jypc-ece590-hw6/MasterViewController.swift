@@ -324,32 +324,26 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         if tempTeams?.count > 0{
             array = tempTeams!
         }else{
-            let t0 = TeamItem(name:"JYP-C++", project:"Curfew Monitor")
-            let courseList0: [Double:String] = [
-                590.05:"Mobile Application Development", 590.04:"Team Design Challenge",571:"Machine Learning"
-            ]
-            let me = Students("Jonathan","Buie",nil, "O'Fallon, IL", mycourses:courseList0,
-                              "Electrical Engineering","Masters student", true)
+            let teamName = "JYP-C++"
+            let t0 = TeamItem(name: teamName, project:"Curfew Monitor")
+            let me = Students("Jonathan Buie", teamName, "O'Fallon, IL", true,
+                              "Masters student",nil)
             me.addHobbies("Sports","Listening to Kanye", "Salsa Dancing")
-            me.setAnimate(true)
             me.setImage(UIImage(named:"buie")!)
             me.setLanguages(["C","C++","Java","Swift","MATLAB"])
-            let pete = Students("Peter","Murphy", nil,"Redding,CA", mycourses: courseList0,
-                                "Electrical Engineering","Masters student", true)
+            let pete = Students("Peter Murphy",teamName, "Redding,CA", true,
+                                "Masters student",nil)
             pete.setImage(UIImage(named:"peter")!)
-            pete.setAnimate(true)
             pete.addHobbies("Snowboarding", "Bae-cations","Overwatch")
             pete.setLanguages(["C","C++","Java","Swift","VHDL","Verilog"])
-            let colby = Students("Colby","Stanley",nil,"Bridgeport,WV", mycourses: courseList0,
-                                 "Computer Engineering","Masters student", true)
+            let colby = Students("Colby Stanley", teamName, "Bridgeport,WV",true,
+                                 "Masters student", nil)
             colby.setImage(UIImage(named:"colby")!)
-            colby.setAnimate(true)
             colby.addHobbies("Biking","Playing Music","Halo")
             colby.setLanguages(["C","C++","Java","Swift","VHDL"])
-            let yhk = Students("Young-Hoon","Kim",nil,"Raleigh, NC", mycourses: courseList0,
-                               "Computer Engineering","Masters student", true)
+            let yhk = Students("Young-Hoon Kim",teamName, "Raleigh, NC",true,
+                               "Masters student", nil)
             yhk.setImage(UIImage(named:"young")!)
-            yhk.setAnimate(true)
             yhk.addHobbies("Working Out","Talking to Cuties", "General Winning")
             yhk.setLanguages(["C","C++","Java","Swift","VHDL","Sarcasm"])
             t0.members.append(me)
