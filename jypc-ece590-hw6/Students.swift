@@ -41,10 +41,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 class Students: Human {
     
     struct Keys {
-        static let Courses = "courses"
-        //static let Major = "major"
-        static let Program = "program"
-        //static let Animate = "animate"
+        static let Degree = "degree"
         static let Languages = "languages"
     }
     
@@ -54,48 +51,22 @@ class Students: Human {
     
     
     //fileprivate var major: String!
-    fileprivate var program: String!
+    fileprivate var degree: String!
     fileprivate var languages = [String]()
     
     override init(){
         super.init()
     }
-    
-    /*******
-    // Clean up initializers :'(
-     jab165 10/25/16
-    init(_ fName: String, _ lName: String, _ mName: String?, _ hTown: String, mycourses courses:[Double:String],_ major:String, _ program: String, _ sex:Bool = false, _ live: Bool=true) {
-        self.courses = courses
-        self.major = major
-        self.program = program
-        super.init(fName, lName, mName, hTown, live, sex)
-    }
-    init(_ fName: String, _ lName: String, _ mName: String?, _ hTown: String, mycourses courses:[Double:String],_ major:String, _ program: String, _ hob: [String],
-           _ sex:Bool = false, _ live: Bool=true) {
-        self.courses = courses
-        self.major = major
-        self.program = program
-        super.init(fName, lName, mName, hTown, hob, live, sex)
-    }
-    init(_ fName: String, _ lName: String, _ mName: String?, _ hTown: String, _ courses:[Double:String],_ major:String, _ program: String, _ hob: [String],
-           _ sex:Bool = false, _ lang: [String], _ im:UIImage?, _ animate:Bool = false, _ live: Bool=true) {
-        self.courses = courses
-        self.major = major
-        self.program = program
-        self.languages = lang
-        self.animate = animate
-        super.init(fName, lName, mName, hTown, hob, sex, live, im!)
-    }
-    */
-    init(_ fName:String, _ teamN:String, _ homeT:String, _ gend:Bool = true, _ prog:String,
+
+    init(_ fName:String, _ teamN:String, _ homeT:String, _ gend:Bool = true, _ deg:String,
          _ im:UIImage?, _ lang:[String] = [String](),  _ hob:[String] = [String]()){
-        program = prog
+        degree = deg
         languages = lang
         super.init(fName, teamN, homeT, hob, gend, im!)
         
     }
     override func encodeWithCoder(_ aCoder: NSCoder) {
-        aCoder.encode(program, forKey: Keys.Program)
+        aCoder.encode(degree, forKey: Keys.Degree)
         aCoder.encode(languages, forKey: Keys.Languages)
         super.encodeWithCoder(aCoder)
     }
@@ -103,14 +74,13 @@ class Students: Human {
     required convenience init(coder aDecoder: NSCoder) {
         let name = aDecoder.decodeObject(forKey: Keys.Name) as! String
         let team = aDecoder.decodeObject(forKey: Keys.Team) as! String
-        let home = aDecoder.decodeObject(forKey: Keys.Home) as! String
-        let gender = aDecoder.decodeObject(forKey: Keys.Gender) as! Bool
+        let home = aDecoder.decodeObject(forKey: Keys.From) as! String
+        let sex = aDecoder.decodeObject(forKey: Keys.Sex) as! Bool
         let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
         let profilePic = aDecoder.decodeObject(forKey: Keys.Image) as? UIImage
-        let program = aDecoder.decodeObject(forKey: Keys.Program) as! String
+        let degree = aDecoder.decodeObject(forKey: Keys.Degree) as! String
         let languages = aDecoder.decodeObject(forKey: Keys.Languages) as! [String]
-        //self.init(firstName,lastName,middleName,homeTown, courses, major, program, hobbies, sex, languages, profilePic, animate, living)
-        self.init(name,team,home,gender, program,profilePic,languages,hobbies)
+        self.init(name,team,home,sex,degree,profilePic,languages,hobbies)
     }
 
     override func describeMe() -> String {
@@ -224,84 +194,38 @@ class Human: NSObject {
     
     struct Keys {
         static let Name = "name"
-        static let Home = "home"
+        static let From = "from"
         static let Team = "team"
-        static let Gender = "gender"
+        static let Sex = "sex"
         static let Hobbies = "hobbies"
-        static let Image = "profilePic"
+        static let Image = "pic"
     }
 
     fileprivate var name: String!
     fileprivate var team: String!
-    fileprivate var home: String!
-    fileprivate var gender : Bool!
+    fileprivate var from: String!
+    fileprivate var sex : Bool!
     fileprivate var hobbies = [String]()
-    fileprivate var profilePic: UIImage?
+    fileprivate var pic: UIImage?
     
     override init(){
         super.init()
     }
-    /*********
-     old initializers will probably delete soon
-     Jab165 10/25/16
-     
-     
-    init(_ fName: String, _ lName:String, _ mName:String?, _ hTown:String, _ live:Bool = true, _ gender:Bool = false ){
-        firstName = fName
-        lastName = lName
-        middleName = mName
-        homeTown = hTown
-        living = live
-        fullName = fName + " " + lName
-        gender = gender
-        
-        super.init()
-    }
-    init(_ fName: String, _ lName:String, _ mName:String?, _ hTown:String, _ hob:[String],
-           _ live:Bool = true, _ gender:Bool = false ){
-        firstName = fName
-        lastName = lName
-        middleName = mName
-        homeTown = hTown
-        hobbies = hob
-        living = live
-        gender = gender
-        
-        super.init()
-
-    }
-    init(_ fName: String, _ lName:String, _ mName:String?, _ hTown:String, _ hob:[String],
-           _ live:Bool = true, _ gender:Bool = false, _ im:UIImage ){
-        firstName = fName
-        lastName = lName
-        middleName = mName
-        homeTown = hTown
-        hobbies = hob
-        living = live
-        gender = gender
-        profilePic = im
-        
-        super.init()
-
-    }*/
     
     
     init(_ name:String, _ t:String, _ home:String, _ hob:[String], _ gender:Bool = true, _ im:UIImage){
         self.name = name
         self.team = t
-        self.home = home
+        self.from = home
         self.hobbies = hob
-        self.gender = gender
-        self.profilePic = im
+        self.sex = gender
+        self.pic = im
         
         super.init()
     }
     
     func describeMe() -> String {
         return "I am a human named \(name)"
-    }
-    func getName() -> String{
-        return name;
     }
     
     func addHobbies(_ hobby:String ...) -> (){  //Use of variadic parameters
@@ -312,7 +236,7 @@ class Human: NSObject {
         }
     }
     func printBasedOnGender() -> String{
-        switch gender {
+        switch sex {
         case true:
             return "He is"
         case false:
@@ -328,20 +252,20 @@ class Human: NSObject {
     func getTeam()->String{
         return team
     }
-    func getHome()->String{
-        return home
+    func getFrom()->String{
+        return from
     }
-    func getGender() -> Bool {
-        return gender
+    func getSex() -> Bool {
+        return sex
     }
     func getHobbies() -> [String] {
         return hobbies
     }
     func setImage(_ im: UIImage) {
-        profilePic = im
+        pic = im
     }
     func getImage()-> UIImage? {
-        return profilePic
+        return pic
     }
     // MARK: Persist Data
     func encodeWithCoder(_ aCoder: NSCoder) {
@@ -349,22 +273,22 @@ class Human: NSObject {
         //aCoder.encode(middleName, forKey: Keys.MName)
         //aCoder.encode(lastName, forKey: Keys.LName)
         aCoder.encode(name,forKey: Keys.Name)
-        aCoder.encode(home, forKey: Keys.Home)
+        aCoder.encode(from, forKey: Keys.From)
         aCoder.encode(team, forKey: Keys.Team)
-        aCoder.encode(gender, forKey: Keys.Gender)
+        aCoder.encode(sex, forKey: Keys.Sex)
         aCoder.encode(hobbies, forKey: Keys.Hobbies)
-        aCoder.encode(profilePic, forKey: Keys.Image)
+        aCoder.encode(pic, forKey: Keys.Image)
     }
     
     
     required convenience init(coder aDecoder: NSCoder){
-        let name = aDecoder.decodeObject(forKey: Keys.Name) as String
-        let team = aDecoder.decodeObject(forKey: Keys.Team) as String
-        let home = aDecoder.decodeObject(forKey: Keys.Home) as! String
-        let gender = aDecoder.decodeObject(forKey: Keys.Gender) as! Bool
+        let name = aDecoder.decodeObject(forKey: Keys.Name) as! String
+        let team = aDecoder.decodeObject(forKey: Keys.Team) as! String
+        let home = aDecoder.decodeObject(forKey: Keys.From) as! String
+        let sex = aDecoder.decodeObject(forKey: Keys.Sex) as! Bool
         let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
-        let profilePic = aDecoder.decodeObject(forKey: Keys.Image) as? UIImage
-        self.init(name, team, home, hobbies, gender, profilePic!)
+        let pic = aDecoder.decodeObject(forKey: Keys.Image) as? UIImage
+        self.init(name, team, home, hobbies, sex, pic!)
         
     }
     
