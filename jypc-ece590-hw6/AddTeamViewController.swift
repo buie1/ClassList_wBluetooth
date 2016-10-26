@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddTeamViewControllerDelegate{
-    func addNew(team: TeamItem)
+    func addNew(_ team: TeamItem)
 }
 
 class AddTeamViewController: UIViewController {
@@ -24,12 +24,12 @@ class AddTeamViewController: UIViewController {
     
     //MARK: IBActions
     
-    @IBAction func cancelButtonTapped(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelButtonTapped(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
     
     
-    @IBAction func saveButtonTapped(sender: AnyObject) {
+    @IBAction func saveButtonTapped(_ sender: AnyObject) {
         if nameText.text! == ""{
             nameText.placeholder = "Insert a team name!"
         }else{
@@ -37,7 +37,7 @@ class AddTeamViewController: UIViewController {
             delegate.addNew(team)
             // create segue programatically
             //navigationController?.popViewControllerAnimated(true)
-            dismissViewControllerAnimated(true, completion: nil)
+            dismiss(animated: true, completion: nil)
         }
     }
     

@@ -15,9 +15,9 @@ class MusicPlayer {
     var audioPlayer: AVAudioPlayer?
     
     func playBackgroundMusic() {
-        let aSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("song", ofType: "mp3")!)
+        let aSound = URL(fileURLWithPath: Bundle.main.path(forResource: "song", ofType: "mp3")!)
         do {
-            audioPlayer = try AVAudioPlayer(contentsOfURL:aSound)
+            audioPlayer = try AVAudioPlayer(contentsOf:aSound)
             audioPlayer!.numberOfLoops = -1
             audioPlayer!.prepareToPlay()
             audioPlayer!.play()
@@ -27,7 +27,7 @@ class MusicPlayer {
     }
     func stop(){
         if(audioPlayer != nil){
-            if(audioPlayer!.playing){
+            if(audioPlayer!.isPlaying){
                 audioPlayer!.stop()
             }
         }

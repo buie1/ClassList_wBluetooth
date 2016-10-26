@@ -21,8 +21,8 @@ class TeamItem: NSObject {
     var details: String!
     var members = [Students]()
     
-    static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("TeamInfo1")
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("TeamInfo1")
     
     override init(){
         super.init()
@@ -38,23 +38,23 @@ class TeamItem: NSObject {
         super.init()
     }
     
-    func encodeWithCoder(aCoder: NSCoder){
-        aCoder.encodeObject(name, forKey: InfoKey.nameK)
-        aCoder.encodeObject(project, forKey: InfoKey.projectK)
-        aCoder.encodeObject(details, forKey: InfoKey.detailsK)
-        aCoder.encodeObject(members, forKey: InfoKey.membersK)
+    func encodeWithCoder(_ aCoder: NSCoder){
+        aCoder.encode(name, forKey: InfoKey.nameK)
+        aCoder.encode(project, forKey: InfoKey.projectK)
+        aCoder.encode(details, forKey: InfoKey.detailsK)
+        aCoder.encode(members, forKey: InfoKey.membersK)
     }
     
     required convenience init?(coder aDecoder: NSCoder){
-        let name = aDecoder.decodeObjectForKey(InfoKey.nameK) as! String
-        let project = aDecoder.decodeObjectForKey(InfoKey.projectK) as! String
-        let details = aDecoder.decodeObjectForKey(InfoKey.detailsK) as! String
-        let mems = aDecoder.decodeObjectForKey(InfoKey.membersK) as! [Students]
+        let name = aDecoder.decodeObject(forKey: InfoKey.nameK) as! String
+        let project = aDecoder.decodeObject(forKey: InfoKey.projectK) as! String
+        let details = aDecoder.decodeObject(forKey: InfoKey.detailsK) as! String
+        let mems = aDecoder.decodeObject(forKey: InfoKey.membersK) as! [Students]
         self.init(name: name,project: project, details: details, members: mems)
     }
     
-    static func saveTeamInfo(teamList: [TeamItem]) -> Bool {
-        let isSuccess = NSKeyedArchiver.archiveRootObject(teamList, toFile: TeamItem.ArchiveURL.path!)
+    static func saveTeamInfo(_ teamList: [TeamItem]) -> Bool {
+        let isSuccess = NSKeyedArchiver.archiveRootObject(teamList, toFile: TeamItem.ArchiveURL.path)
         if !isSuccess {
             print("Failed to save info")
             return false
@@ -64,7 +64,7 @@ class TeamItem: NSObject {
     }
     
     static func loadTeamInfo() -> [TeamItem]? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(TeamItem.ArchiveURL.path!) as? [TeamItem]
+        return NSKeyedUnarchiver.unarchiveObject(withFile: TeamItem.ArchiveURL.path) as? [TeamItem]
     }
     
 }

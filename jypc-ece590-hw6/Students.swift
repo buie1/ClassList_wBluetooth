@@ -8,32 +8,62 @@
 
 import Foundation
 import UIKit
+/*fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}*/
+
 
 class Students: Human {
     
     struct Keys {
         static let Courses = "courses"
-        static let GPA = "gpa"
-        static let Major = "major"
+        //static let Major = "major"
         static let Program = "program"
-        static let Animate = "animate"
+        //static let Animate = "animate"
         static let Languages = "languages"
     }
     
-    private var courses: [Double:String]! // This is dictionary of a students current classes
+    //fileprivate var courses: [Double:String]! // This is dictionary of a students current classes
     //private var transcript: [Double:Grade] //This is a dictionary of a students classes & Grades
-    lazy var gpa : Double? = 4.0 // Here we are using a lazy variable unlike the other variable this is able to refer to the instance
+    //lazy var gpa : Double? = 4.0 // Here we are using a lazy variable unlike the other variable this is able to refer to the instance
     
     
-    private var major: String!
-    private var program: String!
-    private var animate: Bool!
-    private var languages = [String]()
+    //fileprivate var major: String!
+    fileprivate var program: String!
+    fileprivate var languages = [String]()
     
     override init(){
         super.init()
     }
+    
+    /*******
     // Clean up initializers :'(
+     jab165 10/25/16
     init(_ fName: String, _ lName: String, _ mName: String?, _ hTown: String, mycourses courses:[Double:String],_ major:String, _ program: String, _ sex:Bool = false, _ live: Bool=true) {
         self.courses = courses
         self.major = major
@@ -56,43 +86,34 @@ class Students: Human {
         self.animate = animate
         super.init(fName, lName, mName, hTown, hob, sex, live, im!)
     }
-    
-    override func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(courses, forKey: Keys.Courses)
-        aCoder.encodeObject(gpa, forKey: Keys.GPA)
-        aCoder.encodeObject(major, forKey: Keys.Major)
-        aCoder.encodeObject(program, forKey: Keys.Program)
-        aCoder.encodeObject(animate, forKey: Keys.Animate)
-        aCoder.encodeObject(languages, forKey: Keys.Languages)
+    */
+    init(_ fName:String, _ teamN:String, _ homeT:String, _ hob:[String], _ gend:Bool = true, _ prog:[String], _ lang:[String],
+         _ im:UIImage?){
+        program = program
+        languages = lang
+        super.init(fName, teamN, homeT, hob, gen, im)
+        
+    }
+    override func encodeWithCoder(_ aCoder: NSCoder) {
+        aCoder.encode(major, forKey: Keys.Major) // Do we still need major?
+        aCoder.encode(program, forKey: Keys.Program)
+        aCoder.encode(languages, forKey: Keys.Languages)
         super.encodeWithCoder(aCoder)
     }
     
     required convenience init(coder aDecoder: NSCoder) {
-        let firstName = aDecoder.decodeObjectForKey(Keys.FName) as! String
-        let lastName = aDecoder.decodeObjectForKey(Keys.LName) as! String
-        let middleName = aDecoder.decodeObjectForKey(Keys.MName) as! String?
-        _ = aDecoder.decodeObjectForKey(Keys.Name) as! String
-        let homeTown = aDecoder.decodeObjectForKey(Keys.HTown) as! String
-        let sex = aDecoder.decodeObjectForKey(Keys.Sex) as! Bool
-        let hobbies = aDecoder.decodeObjectForKey(Keys.Hobbies) as! [String]
-        let living = aDecoder.decodeObjectForKey(Keys.Live) as! Bool
-        let profilePic = aDecoder.decodeObjectForKey(Keys.Image) as? UIImage
-        let courses = aDecoder.decodeObjectForKey(Keys.Courses) as! [Double:String]
-        _ = aDecoder.decodeObjectForKey(Keys.GPA) as? Double
-        let major = aDecoder.decodeObjectForKey(Keys.Major) as! String
-        let program = aDecoder.decodeObjectForKey(Keys.Program) as! String
-        let animate = aDecoder.decodeObjectForKey(Keys.Animate) as! Bool
-        let languages = aDecoder.decodeObjectForKey(Keys.Languages) as! [String]
-        self.init(firstName,lastName,middleName,homeTown, courses, major, program, hobbies, sex, languages, profilePic, animate, living)
+        let name = aDecoder.decodeObject(forKey: Keys.Name) as! String
+        let team = aDecoder.decodeObject(forKey: Keys.Team) as! String
+        let home = aDecoder.decodeObject(forKey: Keys.Home) as! String
+        let gender = aDecoder.decodeObject(forKey: Keys.Gender) as! Bool
+        let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
+        let profilePic = aDecoder.decodeObject(forKey: Keys.Image) as? UIImage
+        let program = aDecoder.decodeObject(forKey: Keys.Program) as! String
+        let languages = aDecoder.decodeObject(forKey: Keys.Languages) as! [String]
+        //self.init(firstName,lastName,middleName,homeTown, courses, major, program, hobbies, sex, languages, profilePic, animate, living)
+        self.init(name,team,home,hobbies,gender, program,languages,profilePic)
     }
-    
-    /*func calculateGPA() -> Double?{
-        var sum: Double = 0
-        for (_, grade) in transcript{
-            sum += grade.gradeValue()
-        }
-        return (sum/Double(transcript.count))
-    }*/
+
     override func describeMe() -> String {
         var myDescription: String = ""
         //1. Start with the name
@@ -124,18 +145,7 @@ class Students: Human {
         }else{
             myDescription += " \(printBasedOnGender()) a robot and has NO Hobbies.\n "
         }
-        
-         /*
-        //5. Current Courses
-        if(courses.count != 0){
-            myDescription += "Their course list includes:\n"
-            for (n,c) in courses{
-                myDescription += "\(n): \(c)\n"
-            }
-        }else{
-            myDescription += "\(printBasedOnGender()) not currently enrolled in any classes."
-        }
-         */
+
          //5. Current Languages
          if(languages.count != 0){
             myDescription += "In addition \(firstName)'s proficient Language(s) include:\n"
@@ -147,21 +157,7 @@ class Students: Human {
          }
         return myDescription
     }
-    
-    func printBasedOnGPA() -> String{
-        if gpa > 3.0{
-            return "an exceptional"
-        }
-        else if gpa < 3.0 &&  gpa >= 2.0{
-            return "an average"
-        }
-        else if gpa < 2.0 && gpa > 1.0{
-            return "a struggling"
-        }
-        else{
-            return "a failing"
-        }
-    }
+
     func getProgram() -> Program {
         if program == "Undergraduate student"{
             return .UG
@@ -181,24 +177,15 @@ class Students: Human {
     func getProgram() -> String {
         return program
     }
-    func getMajor()-> String {
-        return major
-    }
-    
+
     func getCourses() -> [Double:String]{
         return courses
     }
     
-    func setAnimate(bool: Bool){
-        self.animate = bool
-    }
-    func getAnimate()->Bool!{
-        return self.animate
-    }
     func getLanguages()->[String]{
         return languages
     }
-    func setLanguages(str:[String]){
+    func setLanguages(_ str:[String]){
         self.languages = str
     }
 }
@@ -241,32 +228,29 @@ enum Program :String {
 class Human: NSObject {
     
     struct Keys {
-        static let FName = "firstName"
-        static let LName = "lastName"
-        static let MName = "middleName"
-        static let Name = "fullName"
-        static let HTown = "homeTown"
-        static let Sex = "sex"
+        static let Name = "name"
+        static let Home = "home"
+        static let Team = "team"
+        static let Gender = "gender"
         static let Hobbies = "hobbies"
-        static let Live = "living"
         static let Image = "profilePic"
     }
-    
-    private var firstName: String!
-    private var lastName: String!
-    private var middleName: String?
-    private var fullName: String!
-    private var homeTown: String!
-    private var sex : Bool!
-    private var hobbies = [String]()
-    private var living: Bool!
-    
-    private var profilePic: UIImage?
+
+    fileprivate var name: String!
+    fileprivate var team: String!
+    fileprivate var home: String!
+    fileprivate var gender : Bool!
+    fileprivate var hobbies = [String]()
+    fileprivate var profilePic: UIImage?
     
     override init(){
         super.init()
     }
-    
+    /*********
+     old initializers will probably delete soon
+     Jab165 10/25/16
+     
+     
     init(_ fName: String, _ lName:String, _ mName:String?, _ hTown:String, _ live:Bool = true, _ gender:Bool = false ){
         firstName = fName
         lastName = lName
@@ -274,7 +258,7 @@ class Human: NSObject {
         homeTown = hTown
         living = live
         fullName = fName + " " + lName
-        sex = gender
+        gender = gender
         
         super.init()
     }
@@ -286,8 +270,7 @@ class Human: NSObject {
         homeTown = hTown
         hobbies = hob
         living = live
-        fullName = fName + " " + lName
-        sex = gender
+        gender = gender
         
         super.init()
 
@@ -300,21 +283,33 @@ class Human: NSObject {
         homeTown = hTown
         hobbies = hob
         living = live
-        fullName = fName + " " + lName
-        sex = gender
+        gender = gender
         profilePic = im
         
         super.init()
 
-    }
-    func describeMe() -> String {
-        return "I am a human named \(fullName)"
-    }
-    func getName() -> String{
-        return fullName;
+    }*/
+    
+    
+    init(_ name:String, _ t:String, _ home:String, _ hob:[String], _ gender:Bool = true, _ im:UIImage){
+        self.name = name
+        self.team = t
+        self.home = home
+        self.hobbies = hob
+        self.gender = gender
+        self.im = im
+        
+        super.init()
     }
     
-    func addHobbies(hobby:String ...) -> (){  //Use of variadic parameters
+    func describeMe() -> String {
+        return "I am a human named \(name)"
+    }
+    func getName() -> String{
+        return name;
+    }
+    
+    func addHobbies(_ hobby:String ...) -> (){  //Use of variadic parameters
         for h in hobby {
             if !self.hobbies.contains(h){  // Use of a Logical (NOT) operator as well as includes an if control statement
                 self.hobbies.append(h)
@@ -322,66 +317,59 @@ class Human: NSObject {
         }
     }
     func printBasedOnGender() -> String{
-        switch sex {
+        switch gender {
         case true:
             return "He is"
         case false:
             return "She is"
         default:
-            return "She is"
+            return "He is"
         }
     }
     
-    func getFirstName()->String {
-        return firstName
+    func getName()->String{
+        return name
     }
-    func getMiddleName()->String? {
-        return middleName
+    func getTeam()->String{
+        return team
     }
-    func getLastName()->String{
-        return lastName
+    func getHome()->String{
+        return home
     }
-    func getHometown()->String{
-        return homeTown
-    }
-    func getSex() -> Bool {
-        return sex
+    func getGender() -> Bool {
+        return gender
     }
     func getHobbies() -> [String] {
         return hobbies
     }
-    
-    func setImage(im: UIImage) {
+    func setImage(_ im: UIImage) {
         profilePic = im
     }
     func getImage()-> UIImage? {
         return profilePic
     }
     // MARK: Persist Data
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(firstName, forKey: Keys.FName)
-        aCoder.encodeObject(middleName, forKey: Keys.MName)
-        aCoder.encodeObject(lastName, forKey: Keys.LName)
-        aCoder.encodeObject(fullName,forKey: Keys.Name)
-        aCoder.encodeObject(homeTown, forKey: Keys.HTown)
-        aCoder.encodeObject(sex, forKey: Keys.Sex)
-        aCoder.encodeObject(hobbies, forKey: Keys.Hobbies)
-        aCoder.encodeObject(living, forKey: Keys.Live)
-        aCoder.encodeObject(profilePic, forKey: Keys.Image)
+    func encodeWithCoder(_ aCoder: NSCoder) {
+        //aCoder.encode(firstName, forKey: Keys.FName)
+        //aCoder.encode(middleName, forKey: Keys.MName)
+        //aCoder.encode(lastName, forKey: Keys.LName)
+        aCoder.encode(name,forKey: Keys.Name)
+        aCoder.encode(home, forKey: Keys.Home)
+        aCoder.encode(team, forKey: Keys.Team)
+        aCoder.encode(gender, forKey: Keys.Gender)
+        aCoder.encode(hobbies, forKey: Keys.Hobbies)
+        aCoder.encode(profilePic, forKey: Keys.Image)
     }
     
     
     required convenience init(coder aDecoder: NSCoder){
-        let firstName = aDecoder.decodeObjectForKey(Keys.FName) as! String
-        let lastName = aDecoder.decodeObjectForKey(Keys.LName) as! String
-        let middleName = aDecoder.decodeObjectForKey(Keys.MName) as! String?
-        _ = aDecoder.decodeObjectForKey(Keys.Name) as! String
-        let homeTown = aDecoder.decodeObjectForKey(Keys.HTown) as! String
-        let sex = aDecoder.decodeObjectForKey(Keys.Sex) as! Bool
-        let hobbies = aDecoder.decodeObjectForKey(Keys.Hobbies) as! [String]
-        let living = aDecoder.decodeObjectForKey(Keys.Live) as! Bool
-        let profilePic = aDecoder.decodeObjectForKey(Keys.Image) as? UIImage
-        self.init(firstName, lastName, middleName, homeTown, hobbies, living, sex, profilePic!)
+        let name = aDecoder.decodeObject(forKey: Keys.Name) as String
+        let team = aDecoder.decodeObject(forKey: Keys.Team) as String
+        let home = aDecoder.decodeObject(forKey: Keys.Home) as! String
+        let gender = aDecoder.decodeObject(forKey: Keys.Gender) as! Bool
+        let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
+        let profilePic = aDecoder.decodeObject(forKey: Keys.Image) as? UIImage
+        self.init(name, team, home, hobbies, gender, profilePic!)
         
     }
     

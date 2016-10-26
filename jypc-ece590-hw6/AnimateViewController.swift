@@ -21,15 +21,15 @@ class AnimateViewController: UIViewController {
     
     // MARK: Code for animations
     // ref: http://mathewsanders.com/animations-in-swift-part-two/
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if animateImage == nil || !animateImage {
-        animateText.hidden = false
-        UIView.animateWithDuration(1.0, delay: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+        animateText.isHidden = false
+        UIView.animate(withDuration: 1.0, delay: 0.5, options: UIViewAnimationOptions.curveEaseOut, animations: {
             self.animateText.center.x += self.view.bounds.width
             self.view.layoutIfNeeded()
             }, completion: nil)
         } else {
-            animateText.hidden = true
+            animateText.isHidden = true
             
             let fullName: String = member.getName()
             print("Name to search is \(fullName)")
@@ -45,21 +45,21 @@ class AnimateViewController: UIViewController {
                     let randomYOffset = CGFloat (arc4random_uniform(200))
                     
                     let path = UIBezierPath()
-                    path.moveToPoint(CGPoint(x:16, y:239 + randomYOffset))
-                    path.addCurveToPoint(CGPoint(x: 301, y: 239 + randomYOffset),
+                    path.move(to: CGPoint(x:16, y:239 + randomYOffset))
+                    path.addCurve(to: CGPoint(x: 301, y: 239 + randomYOffset),
                                          controlPoint1: CGPoint(x:136, y:373 + randomYOffset),
                                          controlPoint2: CGPoint(x:178, y:110 + randomYOffset))
                     
                     //create the animation
                     let anim = CAKeyframeAnimation(keyPath: "position")
-                    anim.path = path.CGPath
+                    anim.path = path.cgPath
                     anim.rotationMode = kCAAnimationRotateAuto
                     anim.repeatCount = Float.infinity
                     anim.duration = Double(arc4random_uniform(40)+30) / 10
                     anim.timeOffset = Double(arc4random_uniform(290))
                     
                     
-                    im.layer.addAnimation(anim, forKey: "animate postion along path")
+                    im.layer.add(anim, forKey: "animate postion along path")
                 }
                 break
             case "Colby Stanley":
@@ -74,8 +74,8 @@ class AnimateViewController: UIViewController {
                 break
             
             default:
-                animateText.hidden = false
-                UIView.animateWithDuration(1.0, delay: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                animateText.isHidden = false
+                UIView.animate(withDuration: 1.0, delay: 0.5, options: UIViewAnimationOptions.curveEaseOut, animations: {
                     self.animateText.center.x += self.view.bounds.width
                     self.view.layoutIfNeeded()
                     }, completion: nil)
@@ -85,17 +85,17 @@ class AnimateViewController: UIViewController {
     }
     
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch! = touches.first
         
-        location  = touch.locationInView(self.view)
+        location  = touch.location(in: self.view)
         object.center = location
     }
     
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch! = touches.first
-        location  = touch.locationInView(self.view)
+        location  = touch.location(in: self.view)
         object.center = location
     }
     
@@ -104,7 +104,7 @@ class AnimateViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         let imageSize = CGSize(width: 40, height: 40)
         object = UIImageView(frame: CGRect(origin: CGPoint(x: 50, y:50), size: imageSize))
-        object.center = CGPointMake(160, 330)
+        object.center = CGPoint(x: 160, y: 330)
         self.view.addSubview(object)
         let image = drawCustomImage(imageSize)
         object.image = image
@@ -117,7 +117,7 @@ class AnimateViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func drawCustomImage(size: CGSize) -> UIImage {
+    func drawCustomImage(_ size: CGSize) -> UIImage {
         // Setup our context
         let bounds = CGRect(origin: CGPoint.zero, size: size)
         let opaque = false
@@ -126,22 +126,22 @@ class AnimateViewController: UIViewController {
         let context = UIGraphicsGetCurrentContext()
         
         // Setup complete, do drawing here
-        CGContextSetStrokeColorWithColor(context, UIColor.blueColor().CGColor)
-        CGContextSetLineWidth(context, 2.0)
+        context?.setStrokeColor(UIColor.blue.cgColor)
+        context?.setLineWidth(2.0)
         
-        CGContextStrokeRect(context, bounds)
+        context?.stroke(bounds)
         
-        CGContextBeginPath(context)
-        CGContextMoveToPoint(context, CGRectGetMinX(bounds), CGRectGetMinY(bounds))
-        CGContextAddLineToPoint(context, CGRectGetMaxX(bounds), CGRectGetMaxY(bounds))
-        CGContextMoveToPoint(context, CGRectGetMaxX(bounds), CGRectGetMinY(bounds))
-        CGContextAddLineToPoint(context, CGRectGetMinX(bounds), CGRectGetMaxY(bounds))
-        CGContextStrokePath(context)
+        context?.beginPath()
+        context?.move(to: CGPoint(x: bounds.minX, y: bounds.minY))
+        context?.addLine(to: CGPoint(x: bounds.maxX, y: bounds.maxY))
+        context?.move(to: CGPoint(x: bounds.maxX, y: bounds.minY))
+        context?.addLine(to: CGPoint(x: bounds.minX, y: bounds.maxY))
+        context?.strokePath()
         
         // Drawing complete, retrieve the finished image and cleanup
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
+        return image!
     }
     
     
@@ -151,12 +151,12 @@ class AnimateViewController: UIViewController {
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: 50,y: 100), radius: CGFloat(10), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
         
         let shapeLayer = CAShapeLayer()
-        shapeLayer.path = circlePath.CGPath
+        shapeLayer.path = circlePath.cgPath
         
         //change the fill color
-        shapeLayer.fillColor = UIColor.yellowColor().CGColor
+        shapeLayer.fillColor = UIColor.yellow.cgColor
         //you can change the stroke color
-        shapeLayer.strokeColor = UIColor.blackColor().CGColor
+        shapeLayer.strokeColor = UIColor.black.cgColor
         //you can change the line width
         shapeLayer.lineWidth = 3.0
         
@@ -178,8 +178,8 @@ class AnimateViewController: UIViewController {
             let randomYOffset = CGFloat( arc4random_uniform(100))
             
             let path = UIBezierPath()
-            path.moveToPoint(CGPoint(x: 0 ,y: 100 + randomYOffset))
-            path.addLineToPoint(CGPoint(x: 350, y: 100 + randomYOffset))
+            path.move(to: CGPoint(x: 0 ,y: 100 + randomYOffset))
+            path.addLine(to: CGPoint(x: 350, y: 100 + randomYOffset))
             
             
             
@@ -187,7 +187,7 @@ class AnimateViewController: UIViewController {
             let anim = CAKeyframeAnimation(keyPath: "position")
             
             // set the animations path to our bezier curve
-            anim.path = path.CGPath
+            anim.path = path.cgPath
             
             // set some more parameters for the animation
             // this rotation mode means that our object will rotate so that it's parallel to whatever point it is currently on the curve
@@ -199,7 +199,7 @@ class AnimateViewController: UIViewController {
             anim.timeOffset = Double(arc4random_uniform(300))
             
             // we add the animation to the squares 'layer' property
-            cloud.layer.addAnimation(anim, forKey: "animate position along path")
+            cloud.layer.add(anim, forKey: "animate position along path")
         }
     }
     
@@ -220,23 +220,23 @@ class AnimateViewController: UIViewController {
         
         
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: 30,y: 320))
-        path.addQuadCurveToPoint(CGPoint(x: 110, y:320), controlPoint: CGPoint(x: 68, y: 185))
-        path.moveToPoint(CGPoint(x: 111, y: 320))
-        path.addQuadCurveToPoint(CGPoint(x: 180, y: 320), controlPoint: CGPoint(x: 145, y: 300))
-        path.moveToPoint(CGPoint(x: 180, y: 320))
-        path.addQuadCurveToPoint(CGPoint(x: 210, y: 280), controlPoint: CGPoint(x: 220, y: 310))
-        path.moveToPoint(CGPoint(x: 210, y: 280))
-        path.addQuadCurveToPoint(CGPoint(x: 245, y: 320), controlPoint: CGPoint(x: 210, y: 330))
-        path.moveToPoint(CGPoint(x: 245, y: 320))
-        path.addQuadCurveToPoint(CGPoint(x: 330, y: 320), controlPoint: CGPoint(x: 260, y: 190))
+        path.move(to: CGPoint(x: 30,y: 320))
+        path.addQuadCurve(to: CGPoint(x: 110, y:320), controlPoint: CGPoint(x: 68, y: 185))
+        path.move(to: CGPoint(x: 111, y: 320))
+        path.addQuadCurve(to: CGPoint(x: 180, y: 320), controlPoint: CGPoint(x: 145, y: 300))
+        path.move(to: CGPoint(x: 180, y: 320))
+        path.addQuadCurve(to: CGPoint(x: 210, y: 280), controlPoint: CGPoint(x: 220, y: 310))
+        path.move(to: CGPoint(x: 210, y: 280))
+        path.addQuadCurve(to: CGPoint(x: 245, y: 320), controlPoint: CGPoint(x: 210, y: 330))
+        path.move(to: CGPoint(x: 245, y: 320))
+        path.addQuadCurve(to: CGPoint(x: 330, y: 320), controlPoint: CGPoint(x: 260, y: 190))
         
         
         // create a new CAKeyframeAnimation that animates the objects position
         let anim = CAKeyframeAnimation(keyPath: "position")
         
         // set the animations path to our bezier curve
-        anim.path = path.CGPath
+        anim.path = path.cgPath
         
         // set some more parameters for the animation
         // this rotation mode means that our object will rotate so that it's parallel to whatever point it is currently on the curve
@@ -245,14 +245,14 @@ class AnimateViewController: UIViewController {
         anim.duration = 5.0
         
         // we add the animation to the squares 'layer' property
-        square.layer.addAnimation(anim, forKey: "animate position along path")
+        square.layer.add(anim, forKey: "animate position along path")
 
     }
    
     //Mark: Draw Peter's stuff
     func drawSnowboarder() {
         
-            self.parentViewController?.view.backgroundColor = UIColor.blueColor()
+            self.parent?.view.backgroundColor = UIColor.blue
             let snowBall = UIView()
             let snowBall1 = UIView()
             let snowBall2 = UIView()
@@ -265,13 +265,13 @@ class AnimateViewController: UIViewController {
             // set background color to blue
             let delay = 0.0 // delay will be 0.0 seconds (e.g. nothing)
             let delaySnowball = 4.0
-            let options = UIViewAnimationOptions.CurveEaseInOut // change the timing curve to `ease-in ease-out`
-            snowBall.backgroundColor = UIColor.lightGrayColor()
-            snowBall1.backgroundColor = UIColor.lightGrayColor()
-            snowBall2.backgroundColor = UIColor.lightGrayColor()
-            snowBall3.backgroundColor = UIColor.lightGrayColor()
-            snowBall4.backgroundColor = UIColor.lightGrayColor()
-            snowBall5.backgroundColor = UIColor.lightGrayColor()
+            let options = UIViewAnimationOptions() // change the timing curve to `ease-in ease-out`
+            snowBall.backgroundColor = UIColor.lightGray
+            snowBall1.backgroundColor = UIColor.lightGray
+            snowBall2.backgroundColor = UIColor.lightGray
+            snowBall3.backgroundColor = UIColor.lightGray
+            snowBall4.backgroundColor = UIColor.lightGray
+            snowBall5.backgroundColor = UIColor.lightGray
             let duration = 5.0
             let size:CGFloat = 100
             //the animations can be found at the following tutorial:
@@ -296,10 +296,10 @@ class AnimateViewController: UIViewController {
             
             let snowboarder = UIImageView()
             snowboarder.image = UIImage(named: "snowboardingSprite.png")
-            snowboarder.frame = CGRectMake(50, 120, size-70, size-70)
+            snowboarder.frame = CGRect(x: 50, y: 120, width: size-70, height: size-70)
             self.view.addSubview(snowboarder)
-            UIView.animateWithDuration(duration, delay: delay, options: options, animations: {
-                snowboarder.frame = CGRectMake(320-50, 300, size, size)
+            UIView.animate(withDuration: duration, delay: delay, options: options, animations: {
+                snowboarder.frame = CGRect(x: 320-50, y: 300, width: size, height: size)
                 }, completion: { animationFinished in
                     // remove the fish
                     snowboarder.removeFromSuperview()
@@ -310,13 +310,13 @@ class AnimateViewController: UIViewController {
             self.view.addSubview(snowBall3)
             self.view.addSubview(snowBall4)
             self.view.addSubview(snowBall5)
-            UIView.animateWithDuration(duration-3, delay: delaySnowball, options: options, animations: {
-                snowBall.frame = CGRectMake(50, 120, 30, 30)
-                snowBall1.frame = CGRectMake(50, 140, 20, 20)
-                snowBall2.frame = CGRectMake(50, 170, 40, 40)
-                snowBall3.frame = CGRectMake(200, 200, 20, 20)
-                snowBall4.frame = CGRectMake(100, 220, 40, 40)
-                snowBall5.frame = CGRectMake(50, 120, 25, 25)
+            UIView.animate(withDuration: duration-3, delay: delaySnowball, options: options, animations: {
+                snowBall.frame = CGRect(x: 50, y: 120, width: 30, height: 30)
+                snowBall1.frame = CGRect(x: 50, y: 140, width: 20, height: 20)
+                snowBall2.frame = CGRect(x: 50, y: 170, width: 40, height: 40)
+                snowBall3.frame = CGRect(x: 200, y: 200, width: 20, height: 20)
+                snowBall4.frame = CGRect(x: 100, y: 220, width: 40, height: 40)
+                snowBall5.frame = CGRect(x: 50, y: 120, width: 25, height: 25)
                 }, completion: { animationFinished in
                     snowBall.removeFromSuperview()
                     snowBall1.removeFromSuperview()
@@ -348,13 +348,13 @@ class AnimateViewController: UIViewController {
         let animation = CAKeyframeAnimation()
         animation.keyPath = "transform.rotation.z"
         animation.duration = 2.44897959184
-        animation.removedOnCompletion = false
+        animation.isRemovedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         animation.repeatCount = Float.infinity
         animation.values = [0, fullRotation/4, fullRotation/2, fullRotation*3/4, fullRotation,]
         
         //Add the animation to the guitar image view layer
-        guitar.layer.addAnimation(animation, forKey: "rotate")
+        guitar.layer.add(animation, forKey: "rotate")
         
         
         //Add a note image and a translation animation
@@ -370,10 +370,10 @@ class AnimateViewController: UIViewController {
         noteAnimation.keyTimes = [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1]
         noteAnimation.duration = 2.44897959184
         noteAnimation.repeatCount = Float.infinity
-        noteAnimation.additive = true
+        noteAnimation.isAdditive = true
         
         //Add the animation to the music note image view layer
-        note.layer.addAnimation(noteAnimation, forKey: "shake")
+        note.layer.add(noteAnimation, forKey: "shake")
     }
     
     func drawRectangle(){
@@ -384,11 +384,11 @@ class AnimateViewController: UIViewController {
         let scale: CGFloat = 0
         UIGraphicsBeginImageContextWithOptions(CGSize(width: 325, height: 150), opaque, scale)
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetLineWidth(context, 150)
-        CGContextSetStrokeColorWithColor(context, UIColor.redColor().CGColor)
-        CGContextMoveToPoint(context, 0, 100)
-        CGContextAddLineToPoint(context, 325, 100)
-        CGContextStrokePath(context)
+        context?.setLineWidth(150)
+        context?.setStrokeColor(UIColor.red.cgColor)
+        context?.move(to: CGPoint(x: 0, y: 100))
+        context?.addLine(to: CGPoint(x: 325, y: 100))
+        context?.strokePath()
         let rectangle = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

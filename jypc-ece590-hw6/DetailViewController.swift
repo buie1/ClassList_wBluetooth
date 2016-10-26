@@ -35,7 +35,7 @@ class DetailViewController: UIViewController {
         
         
     }
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         //self.configureView()
     }
     
@@ -52,7 +52,7 @@ class DetailViewController: UIViewController {
     }
     
     func isPortrait() {
-        if(UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation))
+        if(UIDeviceOrientationIsLandscape(UIDevice.current.orientation))
         {
             print("landscape")
             var newFrame = self.view.frame
@@ -63,7 +63,7 @@ class DetailViewController: UIViewController {
             //return false
         }
         
-        if(UIDeviceOrientationIsPortrait(UIDevice.currentDevice().orientation))
+        if(UIDeviceOrientationIsPortrait(UIDevice.current.orientation))
         {
             print("Portrait")
             

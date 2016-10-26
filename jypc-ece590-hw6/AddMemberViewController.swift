@@ -8,11 +8,31 @@
 
 import UIKit
 import MobileCoreServices
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 
 protocol AddMemberViewControllerDelegate{
-    func addMember(mem: Students)
-    func editMember(mem:Students, _ ix:(Int,Int))
+    func addMember(_ mem: Students)
+    func editMember(_ mem:Students, _ ix:(Int,Int))
 }
 
 class AddMemberViewController: UIViewController, UITextFieldDelegate {
@@ -48,20 +68,20 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: IBActions
     
-    @IBAction func cancelButtonPressed(sender: AnyObject) {
+    @IBAction func cancelButtonPressed(_ sender: AnyObject) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
-    @IBAction func refreshButtonPressed(sender: AnyObject) {
+    @IBAction func refreshButtonPressed(_ sender: AnyObject) {
         let mem = getCurrentFieldData()
         if mem != nil && (currMember != nil) && (currMember.describeMe() != mem?.describeMe()){
-            displayTextView?.textColor = UIColor.blackColor()
+            displayTextView?.textColor = UIColor.black
             displayTextView?.text = "Preview: " + mem!.describeMe()
         }else if currMember == nil && mem != nil {
             // We're adding a new member want to preview the data
-            displayTextView?.textColor = UIColor.blackColor()
+            displayTextView?.textColor = UIColor.black
             displayTextView?.text = "Preview: " + mem!.describeMe()
         }
         
@@ -73,11 +93,11 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
 
     
     
-    @IBAction func saveButtonTapped(sender: UIBarButtonItem) {
+    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         if(fNameText?.text == "" || lNameText?.text == "" || hTownText?.text == ""
             || majorText?.text == ""){
             displayTextView?.text = "Please fill in all fields"
-            displayTextView?.textColor = UIColor.redColor()
+            displayTextView?.textColor = UIColor.red
         }else{
             let fname = fNameText?.text
             let mname = mNameText?.text
@@ -89,11 +109,11 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             let courseList0: [Double:String] = [
                 590.05:"Mobile Application Development", 590.04:"Team Design Challenge",571:"Machine Learning"
             ]
-            var hob = hobbyText?.text?.componentsSeparatedByString(", ")
+            var hob = hobbyText?.text?.components(separatedBy: ", ")
             if hob![0] == ""{
                 hob = [String]()
             }
-            var lang = languageText?.text?.componentsSeparatedByString(",")
+            var lang = languageText?.text?.components(separatedBy: ",")
             if lang![0] == ""{
                 lang = [String]()
             }
@@ -143,7 +163,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
                 memDelegate.addMember(mem)
             }
             //navigationController?.popViewControllerAnimated(true)
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
 
         }
     }
@@ -152,7 +172,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         if(fNameText?.text == "" || lNameText?.text == "" || hTownText?.text == ""
             || majorText?.text == ""){
             displayTextView?.text = "Please fill in all fields"
-            displayTextView?.textColor = UIColor.redColor()
+            displayTextView?.textColor = UIColor.red
             return nil
         }else{
             let fname = fNameText?.text
@@ -164,11 +184,11 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             let courseList0: [Double:String] = [
                 590.05:"Mobile Application Development", 590.04:"Team Design Challenge",571:"Machine Learning"
             ]
-            var hob = hobbyText?.text?.componentsSeparatedByString(", ")
+            var hob = hobbyText?.text?.components(separatedBy: ", ")
             if hob![0] == ""{
                 hob = [String]()
             }
-            var lang = languageText?.text?.componentsSeparatedByString(",")
+            var lang = languageText?.text?.components(separatedBy: ",")
             if lang![0] == ""{
                 lang = [String]()
             }
@@ -221,7 +241,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         let imView = userImageView!
         let tapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                           action:#selector(AddMemberViewController.imageTapped(_:)))
-        imView.userInteractionEnabled = true
+        imView.isUserInteractionEnabled = true
         imView.addGestureRecognizer(tapGestureRecognizer)
         
         if toEdit!{
@@ -256,10 +276,10 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             }
             
             if currMember?.getHobbies().count > 0 {
-                hobbyText?.text = currMember?.getHobbies().joinWithSeparator(", ")
+                hobbyText?.text = currMember?.getHobbies().joined(separator: ", ")
             }
             if currMember?.getLanguages().count > 0 {
-                languageText?.text = currMember?.getLanguages().joinWithSeparator(", ")
+                languageText?.text = currMember?.getLanguages().joined(separator: ", ")
             }
             
             //Select the correct segments and Image
@@ -314,48 +334,48 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     }
     */
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         if(textField == hobbyText || textField == languageText){
             self.topConstraint.constant -= 65
             self.bottomConstraint.constant -= 65
-            fNameText.hidden = true
+            fNameText.isHidden = true
         }
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if(textField == hobbyText || textField == languageText){
             self.topConstraint.constant += 65
             self.bottomConstraint.constant += 65
         }
-        fNameText.hidden = false
+        fNameText.isHidden = false
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
 
     
  
-    func imageTapped(img: AnyObject){
+    func imageTapped(_ img: AnyObject){
         //Do Stuff
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        if UIImagePickerController.isSourceTypeAvailable(.Camera){
-            imagePicker.sourceType = .Camera
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            imagePicker.sourceType = .camera
         }else{
             // If camera not available use photo Library
-            imagePicker.sourceType = .PhotoLibrary
+            imagePicker.sourceType = .photoLibrary
         }
         imagePicker.allowsEditing = true
-        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypesForSourceType(imagePicker.sourceType)!
+        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: imagePicker.sourceType)!
         
-        self.presentViewController(imagePicker, animated:true, completion: nil)
+        self.present(imagePicker, animated:true, completion: nil)
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?){
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: event)
     }
     
     
@@ -363,16 +383,16 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         currMember?.setImage((userImageView?.image)!)
     }
     
     
     // MARK: Segue functions
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "DisplaySegue" {
-            let destVC  = segue.destinationViewController as! DisplayPageViewController
+            let destVC  = segue.destination as! DisplayPageViewController
             destVC.member = currMember
             
         }
@@ -381,13 +401,13 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
 }
 extension AddMemberViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController){
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
+        self.dismiss(animated: true, completion: nil)
         print("User canceled the camera/ photo library")
     }
     
-    func imagePickerController(picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [String : Any]) {
         let mediaType = info[UIImagePickerControllerMediaType] as! String
         
         if mediaType == (kUTTypeImage as String){
@@ -397,15 +417,15 @@ extension AddMemberViewController: UIImagePickerControllerDelegate, UINavigation
         }else{
             // a video was taken :/
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
 extension UIImage{
-    func isSameImage(image: UIImage)-> Bool {
-        let im1: NSData = UIImagePNGRepresentation(self)!
-        let im2: NSData = UIImagePNGRepresentation(image)!
-        return im1.isEqualToData(im2)
+    func isSameImage(_ image: UIImage)-> Bool {
+        let im1: Data = UIImagePNGRepresentation(self)!
+        let im2: Data = UIImagePNGRepresentation(image)!
+        return (im1 == im2)
     }
 }
 

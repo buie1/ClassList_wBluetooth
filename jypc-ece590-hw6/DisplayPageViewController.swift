@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DisplayPageViewControllerDelegate{
-    func editMemberArray(mem:Students, _ ix:(Int,Int))
+    func editMemberArray(_ mem:Students, _ ix:(Int,Int))
 }
 
 class DisplayPageViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, AddMemberViewControllerDelegate{
@@ -23,21 +23,21 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     
     var memIndex: (Int,Int)!
     var currentIndex: Int!
-    private var pendingIndex: Int!
+    fileprivate var pendingIndex: Int!
     
     var editArrayDelegate: DisplayPageViewControllerDelegate!
     
     // MARK: Delegate Functions
-    func addMember(mem: Students){
+    func addMember(_ mem: Students){
         // Do nothing we aren't adding members in this view controller 
     }
     
-    func editMember(mem:Students, _ ix:(Int,Int)){
+    func editMember(_ mem:Students, _ ix:(Int,Int)){
         self.member = mem
         self.memIndex = ix
         
         self.loadView()
-        if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "DetailsPageViewController"){
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
             
@@ -48,8 +48,8 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
             pageViewController.dataSource = self
             pageViewController.delegate = self
             
-            pageViewController.setViewControllers([viewControllerAtIndex(0)!], direction: .Forward, animated: true, completion: nil)
-            pageViewController.didMoveToParentViewController(self)
+            pageViewController.setViewControllers([viewControllerAtIndex(0)!], direction: .forward, animated: true, completion: nil)
+            pageViewController.didMove(toParentViewController: self)
             
         }
         pageControl.numberOfPages = pages.count
@@ -64,7 +64,7 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     @IBOutlet weak var pageControl: UIPageControl!
     
     //MARK: IBActions
-    @IBAction func editButtonPressed(sender: AnyObject) {
+    @IBAction func editButtonPressed(_ sender: AnyObject) {
     }
     
     
@@ -74,12 +74,12 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     // MARK: Page View Controller Datasource
     //http://samwize.com/2016/03/08/using-uipageviewcontroller-with-custom-uipagecontrol/
     
-    func pageViewController(pageViewController: UIPageViewController,
-                            viewControllerBeforeViewController
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerBefore
         viewController: UIViewController) -> UIViewController? {
         
         
-        currentIndex = pages.indexOf(viewController.restorationIdentifier!)
+        currentIndex = pages.index(of: viewController.restorationIdentifier!)
         if currentIndex == 0{
             return nil
         }
@@ -89,10 +89,10 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
         
     }
     
-    func pageViewController(pageViewController: UIPageViewController,
-                            viewControllerAfterViewController
+    func pageViewController(_ pageViewController: UIPageViewController,
+                            viewControllerAfter
         viewController: UIViewController) -> UIViewController? {
-        currentIndex = pages.indexOf(viewController.restorationIdentifier!)
+        currentIndex = pages.index(of: viewController.restorationIdentifier!)
         if currentIndex == pages.count - 1 {
             return nil
         }
@@ -102,8 +102,8 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
         
     }
     
-    func viewControllerAtIndex(index: Int)-> UIViewController? {
-        let vc = storyboard?.instantiateViewControllerWithIdentifier(pages[index])
+    func viewControllerAtIndex(_ index: Int)-> UIViewController? {
+        let vc = storyboard?.instantiateViewController(withIdentifier: pages[index])
         
         if vc?.restorationIdentifier == "DisplayDetailController"{
             //(vc as! DisplayTextViewController).descriptionString = member.describeMe()
@@ -127,11 +127,11 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
         
     }
     
-    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]) {
-        pendingIndex = pages.indexOf((pendingViewControllers.last?.restorationIdentifier)!)
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        pendingIndex = pages.index(of: (pendingViewControllers.last?.restorationIdentifier)!)
     }
     
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
             currentIndex = pendingIndex
             if let index = currentIndex {
@@ -143,9 +143,9 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     
     //MARK: Segue functions
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditMemberSegue"{
-            let destVC = segue.destinationViewController as! AddMemberViewController
+            let destVC = segue.destination as! AddMemberViewController
             destVC.memberIX = memIndex
             destVC.memDelegate = self
             destVC.currMember = self.member
@@ -156,7 +156,7 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     
     // MARK: View Lifecycle Funcitons
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         
         /*if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
@@ -183,7 +183,7 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let vc = storyboard?.instantiateViewControllerWithIdentifier("DetailsPageViewController"){
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "DetailsPageViewController"){
             self.addChildViewController(vc)
             self.view.addSubview(vc.view)
             
@@ -194,8 +194,8 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
             pageViewController.dataSource = self
             pageViewController.delegate = self
             
-            pageViewController.setViewControllers([viewControllerAtIndex(0)!], direction: .Forward, animated: true, completion: nil)
-            pageViewController.didMoveToParentViewController(self)
+            pageViewController.setViewControllers([viewControllerAtIndex(0)!], direction: .forward, animated: true, completion: nil)
+            pageViewController.didMove(toParentViewController: self)
             
         }
         pageControl.numberOfPages = pages.count
@@ -211,7 +211,7 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
     
     
     //Stop the Music Player if it is playing when the page view controller is dismissed
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         MusicPlayer.sharedHelper.stop()
     }
 }
