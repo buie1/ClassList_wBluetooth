@@ -41,7 +41,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 class Students: Human {
     
     struct Keys {
-        static let Courses = "courses"
+        //static let Courses = "courses"
         //static let Major = "major"
         static let Program = "program"
         //static let Animate = "animate"
@@ -87,15 +87,15 @@ class Students: Human {
         super.init(fName, lName, mName, hTown, hob, sex, live, im!)
     }
     */
-    init(_ fName:String, _ teamN:String, _ homeT:String, _ hob:[String], _ gend:Bool = true, _ prog:[String], _ lang:[String],
+    init(_ fName:String, _ teamN:String, _ homeT:String, _ hob:[String], _ gend:Bool = true, _ prog:String, _ lang:String,
          _ im:UIImage?){
-        program = program
-        languages = lang
-        super.init(fName, teamN, homeT, hob, gen, im)
+        program = prog
+        languages = [lang]
+        super.init(fName, teamN, homeT, hob, gend, im!)
         
     }
     override func encodeWithCoder(_ aCoder: NSCoder) {
-        aCoder.encode(major, forKey: Keys.Major) // Do we still need major?
+        //aCoder.encode(major, forKey: Keys.Major) // Do we still need major?
         aCoder.encode(program, forKey: Keys.Program)
         aCoder.encode(languages, forKey: Keys.Languages)
         super.encodeWithCoder(aCoder)
@@ -109,7 +109,7 @@ class Students: Human {
         let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
         let profilePic = aDecoder.decodeObject(forKey: Keys.Image) as? UIImage
         let program = aDecoder.decodeObject(forKey: Keys.Program) as! String
-        let languages = aDecoder.decodeObject(forKey: Keys.Languages) as! [String]
+        let languages = aDecoder.decodeObject(forKey: Keys.Languages) as! String
         //self.init(firstName,lastName,middleName,homeTown, courses, major, program, hobbies, sex, languages, profilePic, animate, living)
         self.init(name,team,home,hobbies,gender, program,languages,profilePic)
     }
@@ -117,23 +117,24 @@ class Students: Human {
     override func describeMe() -> String {
         var myDescription: String = ""
         //1. Start with the name
-        myDescription += firstName
-        if(middleName != nil){
+        let studentName: String = name;  //Change studentName to be first name?
+        myDescription += name
+        /*if(middleName != nil){
             myDescription += " \(middleName!)" // Here we have to use the forced unwrapper for the optional(String)
         }
-        myDescription += " \(lastName)"
+        myDescription += " \(lastName)"*/
         //2. Where are you from?
-        myDescription += " is \(printBasedOnGPA()) student from \(homeTown)."
+        //myDescription += " is \(printBasedOnGPA()) student from \(homeTown)."
         //3. Major & Program
         myDescription += "\n"
-        myDescription += " \(printBasedOnGender()) a \(program) in \(major) at Duke University. "
+        myDescription += " \(printBasedOnGender()) a \(program) at Duke University. "
         
         //4. Hobbies
         if hobbies.count == 1{
-            myDescription += "\(firstName)'s only hobby is \(hobbies[0])"
+            myDescription += "\(studentName)'s only hobby is \(hobbies[0])"
         }else if hobbies.count > 1 {
             var counter = 0
-            myDescription += "\(firstName)'s hobbies include:"
+            myDescription += "\(studentName)'s hobbies include:"
             while counter < hobbies.count{
                 if (counter ==  (hobbies.count - 1)){
                     myDescription += " and \(hobbies[counter]).\n "
@@ -148,12 +149,12 @@ class Students: Human {
 
          //5. Current Languages
          if(languages.count != 0){
-            myDescription += "In addition \(firstName)'s proficient Language(s) include:\n"
+            myDescription += "In addition \(studentName)'s proficient Language(s) include:\n"
             for l in languages{
                 myDescription += "\(l)\n"
             }
          }else{
-            myDescription += "Unfortunately \(firstName) is not proficient in any languages."
+            myDescription += "Unfortunately \(studentName) is not proficient in any languages."
          }
         return myDescription
     }
@@ -178,9 +179,9 @@ class Students: Human {
         return program
     }
 
-    func getCourses() -> [Double:String]{
+    /*func getCourses() -> [Double:String]{
         return courses
-    }
+    }*/
     
     func getLanguages()->[String]{
         return languages
@@ -297,7 +298,7 @@ class Human: NSObject {
         self.home = home
         self.hobbies = hob
         self.gender = gender
-        self.im = im
+        self.profilePic = im
         
         super.init()
     }
@@ -327,9 +328,7 @@ class Human: NSObject {
         }
     }
     
-    func getName()->String{
-        return name
-    }
+    
     func getTeam()->String{
         return team
     }
@@ -363,8 +362,8 @@ class Human: NSObject {
     
     
     required convenience init(coder aDecoder: NSCoder){
-        let name = aDecoder.decodeObject(forKey: Keys.Name) as String
-        let team = aDecoder.decodeObject(forKey: Keys.Team) as String
+        let name = aDecoder.decodeObject(forKey: Keys.Name) as! String
+        let team = aDecoder.decodeObject(forKey: Keys.Team) as! String
         let home = aDecoder.decodeObject(forKey: Keys.Home) as! String
         let gender = aDecoder.decodeObject(forKey: Keys.Gender) as! Bool
         let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
