@@ -9,7 +9,7 @@
 import UIKit
 
 class CustomAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning!) -> TimeInterval {
         return 2.5
     }
     
@@ -25,17 +25,17 @@ class CustomAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.sendSubview(toBack: toViewController.view)
         
         let snapshotView = fromViewController.view.snapshotView(afterScreenUpdates: false)
-        snapshotView?.frame = fromViewController.view.frame
+        snapshotView!.frame = fromViewController.view.frame
         containerView.addSubview(snapshotView!)
         
         fromViewController.view.removeFromSuperview()
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
-            snapshotView?.frame = fromViewController.view.frame.insetBy(dx: fromViewController.view.frame.size.width / 2, dy: fromViewController.view.frame.size.height / 2)
+            snapshotView!.frame = fromViewController.view.frame.insetBy(dx: fromViewController.view.frame.size.width / 2, dy: fromViewController.view.frame.size.height / 2)
             toViewController.view.alpha = 1.0
             }, completion: {
                 finished in
-                snapshotView?.removeFromSuperview()
+                snapshotView!.removeFromSuperview()
                 transitionContext.completeTransition(true)
         })  
     }
