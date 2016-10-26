@@ -77,7 +77,7 @@ class Students: Human {
         let home = aDecoder.decodeObject(forKey: Keys.From) as! String
         let sex = aDecoder.decodeObject(forKey: Keys.Sex) as! Bool
         let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
-        let profilePic = aDecoder.decodeObject(forKey: Keys.Image) as? UIImage
+        let profilePic = aDecoder.decodeObject(forKey: Keys.Pic) as? UIImage
         let degree = aDecoder.decodeObject(forKey: Keys.Degree) as! String
         let languages = aDecoder.decodeObject(forKey: Keys.Languages) as! [String]
         self.init(name,team,home,sex,degree,profilePic,languages,hobbies)
@@ -198,7 +198,7 @@ class Human: NSObject {
         static let Team = "team"
         static let Sex = "sex"
         static let Hobbies = "hobbies"
-        static let Image = "pic"
+        static let Pic = "pic"
     }
 
     fileprivate var name: String!
@@ -277,7 +277,7 @@ class Human: NSObject {
         aCoder.encode(team, forKey: Keys.Team)
         aCoder.encode(sex, forKey: Keys.Sex)
         aCoder.encode(hobbies, forKey: Keys.Hobbies)
-        aCoder.encode(pic, forKey: Keys.Image)
+        aCoder.encode(pic, forKey: Keys.Pic)
     }
     
     
@@ -287,7 +287,7 @@ class Human: NSObject {
         let home = aDecoder.decodeObject(forKey: Keys.From) as! String
         let sex = aDecoder.decodeObject(forKey: Keys.Sex) as! Bool
         let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
-        let pic = aDecoder.decodeObject(forKey: Keys.Image) as? UIImage
+        let pic = aDecoder.decodeObject(forKey: Keys.Pic) as? UIImage
         self.init(name, team, home, hobbies, sex, pic!)
         
     }
