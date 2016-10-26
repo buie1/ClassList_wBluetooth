@@ -53,13 +53,12 @@ class TeamItem: NSObject {
         self.init(name: name,project: project, details: details, members: mems)
     }
     
-    static func saveTeamInfo(_ teamList: [TeamItem]) -> Bool {
+    static func saveTeamInfo(_ teamList: [TeamItem]) ->() {
         let isSuccess = NSKeyedArchiver.archiveRootObject(teamList, toFile: TeamItem.ArchiveURL.path)
         if !isSuccess {
             print("Failed to save info")
-            return false
         }else{
-            return true
+            print("Save info successful!")
         }
     }
     

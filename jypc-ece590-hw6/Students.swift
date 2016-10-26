@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-/*fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -35,7 +35,7 @@ fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   default:
     return !(lhs < rhs)
   }
-}*/
+}
 
 
 class Students: Human {
@@ -87,15 +87,14 @@ class Students: Human {
         super.init(fName, lName, mName, hTown, hob, sex, live, im!)
     }
     */
-    init(_ fName:String, _ teamN:String, _ homeT:String, _ hob:[String], _ gend:Bool = true, _ prog:[String], _ lang:[String],
-         _ im:UIImage?){
-        program = program
+    init(_ fName:String, _ teamN:String, _ homeT:String, _ gend:Bool = true, _ prog:String,
+         _ im:UIImage?, _ lang:[String] = [String](),  _ hob:[String] = [String]()){
+        program = prog
         languages = lang
-        super.init(fName, teamN, homeT, hob, gen, im)
+        super.init(fName, teamN, homeT, hob, gend, im!)
         
     }
     override func encodeWithCoder(_ aCoder: NSCoder) {
-        aCoder.encode(major, forKey: Keys.Major) // Do we still need major?
         aCoder.encode(program, forKey: Keys.Program)
         aCoder.encode(languages, forKey: Keys.Languages)
         super.encodeWithCoder(aCoder)
@@ -111,7 +110,7 @@ class Students: Human {
         let program = aDecoder.decodeObject(forKey: Keys.Program) as! String
         let languages = aDecoder.decodeObject(forKey: Keys.Languages) as! [String]
         //self.init(firstName,lastName,middleName,homeTown, courses, major, program, hobbies, sex, languages, profilePic, animate, living)
-        self.init(name,team,home,hobbies,gender, program,languages,profilePic)
+        self.init(name,team,home,gender, program,profilePic,languages,hobbies)
     }
 
     override func describeMe() -> String {
@@ -176,10 +175,6 @@ class Students: Human {
     
     func getProgram() -> String {
         return program
-    }
-
-    func getCourses() -> [Double:String]{
-        return courses
     }
     
     func getLanguages()->[String]{
@@ -297,7 +292,7 @@ class Human: NSObject {
         self.home = home
         self.hobbies = hob
         self.gender = gender
-        self.im = im
+        self.profilePic = im
         
         super.init()
     }
