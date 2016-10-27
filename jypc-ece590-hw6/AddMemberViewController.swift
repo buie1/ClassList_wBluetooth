@@ -50,11 +50,9 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     // MARK: IBOutlets
     @IBOutlet weak var titleNavBar: UINavigationItem!
     
-    @IBOutlet weak var fNameText: UITextField!
-    @IBOutlet weak var mNameText: UITextField!
-    @IBOutlet weak var lNameText: UITextField!
+    @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var hTownText: UITextField!
-    @IBOutlet weak var majorText: UITextField!
+    @IBOutlet weak var teamText: UITextField!
     @IBOutlet weak var hobbyText: UITextField!
     @IBOutlet weak var languageText: UITextField!
     @IBOutlet weak var userImageView: UIImageView!
@@ -95,21 +93,14 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-        if(fNameText?.text == "" || lNameText?.text == "" || hTownText?.text == ""
-            || majorText?.text == ""){
+        if(nameText?.text == "" || hTownText?.text == "" || teamText?.text == ""){
             displayTextView?.text = "Please fill in all fields"
             displayTextView?.textColor = UIColor.red
         }else{
-            let fname = fNameText?.text
-            let mname = mNameText?.text
-            let lname = lNameText?.text
+            let fname = nameText?.text
             let htown = hTownText?.text
-            let maj = majorText?.text
+            let teamN = teamText?.text
             let im = userImageView?.image
-        
-            let courseList0: [Double:String] = [
-                590.05:"Mobile Application Development", 590.04:"Team Design Challenge",571:"Machine Learning"
-            ]
             var hob = hobbyText?.text?.components(separatedBy: ", ")
             if hob![0] == ""{
                 hob = [String]()
@@ -129,40 +120,36 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
                 gen = false
             }
         
-            var prog:String?
+            var deg:String?
             switch programSeg.selectedSegmentIndex {
             case 0:
-                prog = "Undergraduate student"
+                deg = "Undergraduate student"
             case 1:
-                prog = "Masters student"
+                deg = "Masters student"
             case 2:
-                prog = "PhD student"
+                deg = "PhD student"
             case 3:
-                prog = "Alumni"
+                deg = "Alumni"
             case 4:
-                prog = "Honorary graduate"
+                deg = "Honorary graduate"
             default:
-                prog = "Masters student"
+                deg = "Masters student"
             }
             
             
             // MARK: Edit to use the new initilizer
             // jab165 10/26/2016
             
-            let mem = Students(fname!, lname!,mname, htown!,
-                           mycourses: courseList0, maj!,prog!,hob!,gen)
+            
+            
+            let mem = Students(fname!, teamN!, htown!, gen ,deg!, nil,lang!,hob!)
             
             if im!.isSameImage(UIImage(named:"add_picture")!){
                 mem.setImage(UIImage(named:"baby")!)
             }else{
                 mem.setImage(im!)
             }
-            mem.setLanguages(lang!)
-            if (currMember != nil){
-                mem.setAnimate(currMember.getAnimate())
-            }else {
-                mem.setAnimate(false)
-            }
+            //mem.setLanguages(lang!)
             if toEdit!{
                 memDelegate.editMember(mem, memberIX)
             }else{
@@ -175,21 +162,14 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     }
     
     func getCurrentFieldData() -> Students? {
-        if(fNameText?.text == "" || lNameText?.text == "" || hTownText?.text == ""
-            || majorText?.text == ""){
+        if(nameText?.text == "" || hTownText?.text == "" || teamText?.text == ""){
             displayTextView?.text = "Please fill in all fields"
             displayTextView?.textColor = UIColor.red
             return nil
         }else{
-            let fname = fNameText?.text
-            let mname = mNameText?.text
-            let lname = lNameText?.text
+            let fname = nameText?.text
             let htown = hTownText?.text
-            let maj = majorText?.text
-            
-            let courseList0: [Double:String] = [
-                590.05:"Mobile Application Development", 590.04:"Team Design Challenge",571:"Machine Learning"
-            ]
+            let teamN = teamText?.text
             var hob = hobbyText?.text?.components(separatedBy: ", ")
             if hob![0] == ""{
                 hob = [String]()
@@ -209,29 +189,27 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
                 gen = false
             }
             
-            var prog:String?
+            var deg:String?
             switch programSeg.selectedSegmentIndex {
             case 0:
-                prog = "Undergraduate student"
+                deg = "Undergraduate student"
             case 1:
-                prog = "Masters student"
+                deg = "Masters student"
             case 2:
-                prog = "PhD student"
+                deg = "PhD student"
             case 3:
-                prog = "Alumni"
+                deg = "Alumni"
             case 4:
-                prog = "Honorary graduate"
+                deg = "Honorary graduate"
             default:
-                prog = "Masters student"
+                deg = "Masters student"
             }
             
             // MARK: change to use the new initializer 
             // jab165 10/26/2016
             
-            let temp = Students(fname!, lname!,mname, htown!,
-                            mycourses: courseList0, maj!,prog!,hob!,gen)
+            let temp = Students(fname!, teamN!, htown!, gen ,deg!, nil,lang!,hob!)
             temp.setLanguages(lang!)
-            temp.setAnimate(currMember.getAnimate())
             return temp
         }
     }
@@ -268,7 +246,6 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             }
             lNameText?.text = currMember?.getLastName()
             hTownText?.text = currMember?.getHometown()
-            majorText?.text = currMember?.getMajor()
             if currMember?.getSex() == true{
                 genderSeg.selectedSegmentIndex = 0
             }else if currMember?.getSex() == false{
@@ -296,6 +273,16 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
                 programSeg.selectedSegmentIndex = 4
             }
             */
+            nameText?.text = currMember.getName()
+            teamText?.text = currMember.getTeam()
+            hTownText?.text = currMember?.getFrom()
+            if currMember?.getSex() == true{
+                genderSeg.selectedSegmentIndex = 0
+            }else if currMember?.getSex() == false{
+                genderSeg.selectedSegmentIndex = 1
+            }else{
+                genderSeg.selectedSegmentIndex = 1
+            }
             if currMember?.getHobbies().count > 0 {
                 hobbyText?.text = currMember?.getHobbies().joined(separator: ", ")
             }
@@ -359,7 +346,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         if(textField == hobbyText || textField == languageText){
             self.topConstraint.constant -= 65
             self.bottomConstraint.constant -= 65
-            fNameText.isHidden = true
+            nameText.isHidden = true
         }
     }
     
@@ -368,7 +355,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             self.topConstraint.constant += 65
             self.bottomConstraint.constant += 65
         }
-        fNameText.isHidden = false
+        nameText.isHidden = false
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

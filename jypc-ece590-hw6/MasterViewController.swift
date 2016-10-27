@@ -166,10 +166,10 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         }else if segue.identifier == "AddMemberSegue" {
             //let memIdx = tableView.indexPathForSelectedRow?.row
            // let teamix = tableView.indexPathForSelectedRow?.section
-            let ix = (sender as AnyObject).tag
+            let ix = (sender as! UIButton).tag
             let destVC = segue.destination as! AddMemberViewController
             destVC.transitioningDelegate = self
-            self.currTeam = array[ix!]
+            self.currTeam = array[ix]
             //destVC.memberIX = (teamix!,memIdx!)
             destVC.memDelegate = self
             destVC.toEdit = false

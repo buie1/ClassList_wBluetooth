@@ -58,11 +58,12 @@ class Students: Human {
         super.init()
     }
 
-    init(_ fName:String, _ teamN:String, _ homeT:String, _ gend:Bool = true, _ deg:String,
-         _ im:UIImage?, _ lang:[String] = [String](),  _ hob:[String] = [String]()){
+    init(_ fName:String, _ teamN:String, _ homeT:String, _ gend:Bool = true,
+         _ deg:String, _ im:UIImage?, _ lang:[String] = [String](),
+         _ hob:[String] = [String]()){
         degree = deg
         languages = lang
-        super.init(fName, teamN, homeT, hob, gend, im!)
+        super.init(fName, teamN, homeT, hob, gend, im)
         
     }
     override func encodeWithCoder(_ aCoder: NSCoder) {
@@ -212,7 +213,7 @@ class Human: NSObject {
     }
     
     
-    init(_ name:String, _ t:String, _ home:String, _ hob:[String], _ gender:Bool = true, _ im:UIImage){
+    init(_ name:String, _ t:String, _ home:String, _ hob:[String] = [String](), _ gender:Bool = true, _ im:UIImage?){
         self.name = name
         self.team = t
         self.from = home
