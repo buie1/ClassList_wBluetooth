@@ -13,7 +13,9 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var descriptionText: UITextView!
 
     @IBOutlet weak var uIImage: UIImageView!
-
+    
+    @IBOutlet weak var sendInfoButton: UIBarButtonItem!
+    
 //    var detailItem: AnyObject? {
     var studentsItem: Students? {
         didSet {
@@ -69,6 +71,10 @@ class DetailViewController: UIViewController {
             
         }
         //return true
+        
+    }
+    @IBAction func sendInfoButtonPressed(_ sender: Any) {
+        print("sending bluetooth info")
         
     }
 
