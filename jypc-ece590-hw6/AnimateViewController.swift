@@ -11,7 +11,6 @@ import UIKit
 class AnimateViewController: UIViewController {
 
     var member: Students!
-    var animateImage: Bool!
     var object: UIImageView!
     var location = CGPoint(x: 0, y: 0)
     
@@ -22,65 +21,55 @@ class AnimateViewController: UIViewController {
     // MARK: Code for animations
     // ref: http://mathewsanders.com/animations-in-swift-part-two/
     override func viewWillAppear(_ animated: Bool) {
-        if animateImage == nil || !animateImage {
-        animateText.isHidden = false
-        UIView.animate(withDuration: 1.0, delay: 0.5, options: UIViewAnimationOptions.curveEaseOut, animations: {
-            self.animateText.center.x += self.view.bounds.width
-            self.view.layoutIfNeeded()
-            }, completion: nil)
-        } else {
-            animateText.isHidden = true
-            
-            let fullName: String = member.getName()
-            print("Name to search is \(fullName)")
-            switch member.getName() {
-            case "Peter Murphy":
-                drawSnowboarder()
-                break;
-            case "Jonathan Buie":
-                for ix in 0...(pics.count-1) {
-                    //let ix = arc4random_uniform(UInt32(pics.count))
-                    let im = UIImageView(image: UIImage(named: pics[ix]))
-                    self.view.addSubview(im)
-                    let randomYOffset = CGFloat (arc4random_uniform(200))
+        animateText.isHidden = true
+        let fullName: String = member.getName()
+        print("Name to search is \(fullName)")
+        switch member.getName() {
+        case "Peter Murphy":
+            drawSnowboarder()
+            break;
+        case "Jonathan Buie":
+            for ix in 0...(pics.count-1) {
+                //let ix = arc4random_uniform(UInt32(pics.count))
+                let im = UIImageView(image: UIImage(named: pics[ix]))
+                self.view.addSubview(im)
+                let randomYOffset = CGFloat (arc4random_uniform(200))
                     
-                    let path = UIBezierPath()
-                    path.move(to: CGPoint(x:16, y:239 + randomYOffset))
-                    path.addCurve(to: CGPoint(x: 301, y: 239 + randomYOffset),
-                                         controlPoint1: CGPoint(x:136, y:373 + randomYOffset),
-                                         controlPoint2: CGPoint(x:178, y:110 + randomYOffset))
+                let path = UIBezierPath()
+                path.move(to: CGPoint(x:16, y:239 + randomYOffset))
+                path.addCurve(to: CGPoint(x: 301, y: 239 + randomYOffset),
+                               controlPoint1: CGPoint(x:136, y:373 + randomYOffset),
+                               controlPoint2: CGPoint(x:178, y:110 + randomYOffset))
                     
-                    //create the animation
-                    let anim = CAKeyframeAnimation(keyPath: "position")
-                    anim.path = path.cgPath
-                    anim.rotationMode = kCAAnimationRotateAuto
-                    anim.repeatCount = Float.infinity
-                    anim.duration = Double(arc4random_uniform(40)+30) / 10
-                    anim.timeOffset = Double(arc4random_uniform(290))
+                //create the animation
+                let anim = CAKeyframeAnimation(keyPath: "position")
+                anim.path = path.cgPath
+                anim.rotationMode = kCAAnimationRotateAuto
+                anim.repeatCount = Float.infinity
+                anim.duration = Double(arc4random_uniform(40)+30) / 10
+                anim.timeOffset = Double(arc4random_uniform(290))
                     
                     
-                    im.layer.add(anim, forKey: "animate postion along path")
-                }
-                break
-            case "Colby Stanley":
-                animateGuitarandNote()
-                drawRectangle()
-                MusicPlayer.sharedHelper.playBackgroundMusic()
-                break
-            case "Young-Hoon Kim":
-                drawSun()
-                drawCloud()
-                drawCoaster()
-                break
-            
-            default:
-                animateText.isHidden = false
-                UIView.animate(withDuration: 1.0, delay: 0.5, options: UIViewAnimationOptions.curveEaseOut, animations: {
-                    self.animateText.center.x += self.view.bounds.width
-                    self.view.layoutIfNeeded()
-                    }, completion: nil)
+                im.layer.add(anim, forKey: "animate postion along path")
             }
-
+            break
+        case "Colby Stanley":
+            animateGuitarandNote()
+            drawRectangle()
+            MusicPlayer.sharedHelper.playBackgroundMusic()
+            break
+        case "Young-Hoon Kim":
+            drawSun()
+            drawCloud()
+            drawCoaster()
+            break
+        
+        default:
+            animateText.isHidden = false
+            UIView.animate(withDuration: 1.0, delay: 0.5, options: UIViewAnimationOptions.curveEaseOut, animations: {
+                self.animateText.center.x += self.view.bounds.width
+                self.view.layoutIfNeeded()
+                }, completion: nil)
         }
     }
     

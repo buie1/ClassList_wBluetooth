@@ -74,35 +74,36 @@ class Students: Human {
     required convenience init(coder aDecoder: NSCoder) {
         let name = aDecoder.decodeObject(forKey: Keys.Name) as! String
         let team = aDecoder.decodeObject(forKey: Keys.Team) as! String
-        let home = aDecoder.decodeObject(forKey: Keys.From) as! String
+        let from = aDecoder.decodeObject(forKey: Keys.From) as! String
         let sex = aDecoder.decodeObject(forKey: Keys.Sex) as! Bool
-        let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
-        let profilePic = aDecoder.decodeObject(forKey: Keys.Pic) as? UIImage
         let degree = aDecoder.decodeObject(forKey: Keys.Degree) as! String
+        let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
         let languages = aDecoder.decodeObject(forKey: Keys.Languages) as! [String]
+        let pic = aDecoder.decodeObject(forKey: Keys.Pic) as? UIImage
         self.init(name,team,home,sex,degree,profilePic,languages,hobbies)
     }
 
     override func describeMe() -> String {
         var myDescription: String = ""
         //1. Start with the name
-        myDescription += firstName
-        if(middleName != nil){
+        let studentName: String = name;  //Change studentName to be first name?
+        myDescription += name
+        /*if(middleName != nil){
             myDescription += " \(middleName!)" // Here we have to use the forced unwrapper for the optional(String)
         }
-        myDescription += " \(lastName)"
+        myDescription += " \(lastName)"*/
         //2. Where are you from?
-        myDescription += " is \(printBasedOnGPA()) student from \(homeTown)."
+        //myDescription += " is \(printBasedOnGPA()) student from \(homeTown)."
         //3. Major & Program
         myDescription += "\n"
-        myDescription += " \(printBasedOnGender()) a \(program) in \(major) at Duke University. "
+        myDescription += " \(printBasedOnGender()) a \(program) at Duke University. "
         
         //4. Hobbies
         if hobbies.count == 1{
-            myDescription += "\(firstName)'s only hobby is \(hobbies[0])"
+            myDescription += "\(studentName)'s only hobby is \(hobbies[0])"
         }else if hobbies.count > 1 {
             var counter = 0
-            myDescription += "\(firstName)'s hobbies include:"
+            myDescription += "\(studentName)'s hobbies include:"
             while counter < hobbies.count{
                 if (counter ==  (hobbies.count - 1)){
                     myDescription += " and \(hobbies[counter]).\n "
@@ -117,12 +118,12 @@ class Students: Human {
 
          //5. Current Languages
          if(languages.count != 0){
-            myDescription += "In addition \(firstName)'s proficient Language(s) include:\n"
+            myDescription += "In addition \(studentName)'s proficient Language(s) include:\n"
             for l in languages{
                 myDescription += "\(l)\n"
             }
          }else{
-            myDescription += "Unfortunately \(firstName) is not proficient in any languages."
+            myDescription += "Unfortunately \(studentName) is not proficient in any languages."
          }
         return myDescription
     }
@@ -246,9 +247,7 @@ class Human: NSObject {
         }
     }
     
-    func getName()->String{
-        return name
-    }
+    
     func getTeam()->String{
         return team
     }
@@ -269,14 +268,12 @@ class Human: NSObject {
     }
     // MARK: Persist Data
     func encodeWithCoder(_ aCoder: NSCoder) {
-        //aCoder.encode(firstName, forKey: Keys.FName)
-        //aCoder.encode(middleName, forKey: Keys.MName)
-        //aCoder.encode(lastName, forKey: Keys.LName)
         aCoder.encode(name,forKey: Keys.Name)
         aCoder.encode(from, forKey: Keys.From)
         aCoder.encode(team, forKey: Keys.Team)
         aCoder.encode(sex, forKey: Keys.Sex)
         aCoder.encode(hobbies, forKey: Keys.Hobbies)
+// Add languages and degrees
         aCoder.encode(pic, forKey: Keys.Pic)
     }
     
@@ -284,9 +281,10 @@ class Human: NSObject {
     required convenience init(coder aDecoder: NSCoder){
         let name = aDecoder.decodeObject(forKey: Keys.Name) as! String
         let team = aDecoder.decodeObject(forKey: Keys.Team) as! String
-        let home = aDecoder.decodeObject(forKey: Keys.From) as! String
+        let from = aDecoder.decodeObject(forKey: Keys.From) as! String
         let sex = aDecoder.decodeObject(forKey: Keys.Sex) as! Bool
         let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
+// Add languages and degrees
         let pic = aDecoder.decodeObject(forKey: Keys.Pic) as? UIImage
         self.init(name, team, home, hobbies, sex, pic!)
         
