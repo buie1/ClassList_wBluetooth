@@ -80,7 +80,7 @@ class Students: Human {
         let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
         let languages = aDecoder.decodeObject(forKey: Keys.Languages) as! [String]
         let pic = aDecoder.decodeObject(forKey: Keys.Pic) as? UIImage
-        self.init(name,team,home,sex,degree,profilePic,languages,hobbies)
+        self.init(name,team,from,sex,degree,pic,languages,hobbies)
     }
 
     override func describeMe() -> String {
@@ -88,15 +88,13 @@ class Students: Human {
         //1. Start with the name
         let studentName: String = name;  //Change studentName to be first name?
         myDescription += name
-        /*if(middleName != nil){
-            myDescription += " \(middleName!)" // Here we have to use the forced unwrapper for the optional(String)
-        }
-        myDescription += " \(lastName)"*/
+
         //2. Where are you from?
         //myDescription += " is \(printBasedOnGPA()) student from \(homeTown)."
+        myDescription += "is a student from \(from)."
         //3. Major & Program
         myDescription += "\n"
-        myDescription += " \(printBasedOnGender()) a \(program) at Duke University. "
+        myDescription += " \(printBasedOnGender()) a \(degree) at Duke University. "
         
         //4. Hobbies
         if hobbies.count == 1{
@@ -128,24 +126,24 @@ class Students: Human {
         return myDescription
     }
 
-    func getProgram() -> Program {
-        if program == "Undergraduate student"{
+    func getDegree() -> Degree {
+        if degree == "Undergraduate student"{
             return .UG
-        }else if  program == "Masters student"{
+        }else if  degree == "Masters student"{
             return .MS
-        }else if program == "PhD student"{
+        }else if degree == "PhD student"{
             return .PHD
-        }else if program == "Alumni"{
+        }else if degree == "Alumni"{
             return .Alum
-        }else if program == "Honorary graduate"{
+        }else if degree == "Honorary graduate"{
             return .honorary
         }else{
             return .MS
         }
     }
     
-    func getProgram() -> String {
-        return program
+    func getDegree() -> String {
+        return degree
     }
     
     func getLanguages()->[String]{
@@ -180,7 +178,7 @@ enum Grade: String {
     }
 }
 
-enum Program :String {
+enum Degree :String {
     case UG = "Undergraduate student"
     case MS = "Masters student"
     case PHD = "PhD student"
@@ -286,7 +284,7 @@ class Human: NSObject {
         let hobbies = aDecoder.decodeObject(forKey: Keys.Hobbies) as! [String]
 // Add languages and degrees
         let pic = aDecoder.decodeObject(forKey: Keys.Pic) as? UIImage
-        self.init(name, team, home, hobbies, sex, pic!)
+        self.init(name, team, from, hobbies, sex, pic!)
         
     }
     
