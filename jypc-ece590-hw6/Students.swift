@@ -245,6 +245,9 @@ class Human: NSObject {
         }
     }
     
+    func getName()->String{
+        return name
+    }
     
     func getTeam()->String{
         return team

@@ -270,7 +270,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             theMember = theTeam.members[(indexPath as NSIndexPath).row]
         }
         member_cell.textLabel?.text = theMember.getName()
-        member_cell.detailTextLabel?.text = theMember.getProgram()
+        member_cell.detailTextLabel?.text = theMember.getDegree()
         member_cell.imageView?.image = theMember.getImage()?.circle
         
         //background color #565656

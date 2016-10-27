@@ -144,6 +144,11 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             default:
                 prog = "Masters student"
             }
+            
+            
+            // MARK: Edit to use the new initilizer
+            // jab165 10/26/2016
+            
             let mem = Students(fname!, lname!,mname, htown!,
                            mycourses: courseList0, maj!,prog!,hob!,gen)
             
@@ -219,6 +224,10 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             default:
                 prog = "Masters student"
             }
+            
+            // MARK: change to use the new initializer 
+            // jab165 10/26/2016
+            
             let temp = Students(fname!, lname!,mname, htown!,
                             mycourses: courseList0, maj!,prog!,hob!,gen)
             temp.setLanguages(lang!)
@@ -248,6 +257,11 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         if toEdit!{
             titleNavBar.title = "Edit Member"
             //saveEditButton.title = "Done"
+            
+            
+            //MARK: WE do names differently now!
+            
+            /*
             fNameText?.text = currMember?.getFirstName()
             if (currMember.getMiddleName() != nil){
                 mNameText?.text = currMember?.getMiddleName()
@@ -255,7 +269,6 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             lNameText?.text = currMember?.getLastName()
             hTownText?.text = currMember?.getHometown()
             majorText?.text = currMember?.getMajor()
-            
             if currMember?.getSex() == true{
                 genderSeg.selectedSegmentIndex = 0
             }else if currMember?.getSex() == false{
@@ -263,7 +276,14 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             }else{
                 genderSeg.selectedSegmentIndex = 1
             }
+            */
             
+            
+            //MARK: Rename these fields program-> degree
+            
+            
+            /*
+             
             if currMember?.getProgram() == "Undergraduate student"{
                 programSeg.selectedSegmentIndex = 0
             }else if currMember?.getProgram() == "Masters student"{
@@ -275,7 +295,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             }else{
                 programSeg.selectedSegmentIndex = 4
             }
-            
+            */
             if currMember?.getHobbies().count > 0 {
                 hobbyText?.text = currMember?.getHobbies().joined(separator: ", ")
             }

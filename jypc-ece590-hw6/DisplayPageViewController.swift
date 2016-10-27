@@ -111,6 +111,10 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
                 //(vc as! DetailViewController).detailItem = self.member.describeMe() as String!
                 (vc as! DetailViewController).studentsItem = self.member as Students!
             }else{
+                
+                
+                // ignore for now... 
+                // jab165 10/26
                 vc as! DetailViewController
             }
         }else if vc?.restorationIdentifier == "AnimationView"{
