@@ -365,7 +365,7 @@
                     <navigationItem key="navigationItem" id="v5o-Ca-H25">
                         <nil key="title"/>
                         <pageControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" id="ru5-pr-TA6">
-                            <rect key="frame" x="8" y="3.5" width="315" height="37"/>
+                            <rect key="frame" x="8" y="4" width="315" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="pageIndicatorTintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="currentPageIndicatorTintColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -520,6 +520,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bottomConstraint" destination="9rZ-Fh-O7d" id="kid-EQ-g8V"/>
                         <outlet property="displayTextView" destination="uMD-cL-RG9" id="h1F-ll-XXK"/>
                         <outlet property="genderSeg" destination="kex-Bc-JZD" id="aru-Yc-f8S"/>
                         <outlet property="hTownText" destination="wXi-85-QBE" id="exU-Dk-Z4b"/>
@@ -530,6 +531,7 @@
                         <outlet property="receiveBluetoothButton" destination="bKU-SG-DMw" id="Gg5-fV-NFB"/>
                         <outlet property="teamText" destination="mbX-jm-OCk" id="Kus-o0-hZN"/>
                         <outlet property="titleNavBar" destination="01r-dG-rDb" id="SrO-7H-4fY"/>
+                        <outlet property="topConstraint" destination="sHH-Cn-JS9" id="0WN-A2-Azt"/>
                         <outlet property="userImageView" destination="feM-UX-RZx" id="KYh-8H-CfM"/>
                     </connections>
                 </viewController>
