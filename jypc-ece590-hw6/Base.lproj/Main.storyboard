@@ -413,7 +413,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nIu-JG-Aud">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <items>
-                                    <navigationItem title="Add New Member" id="01r-dG-rDb">
+                                    <navigationItem title="Add Member" id="01r-dG-rDb">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="fcf-BI-ZWJ">
                                             <connections>
                                                 <action selector="cancelButtonPressed:" destination="DPp-ar-VRP" id="Ccv-p7-NPm"/>
@@ -430,6 +430,11 @@
                                                     <action selector="saveButtonTapped:" destination="DPp-ar-VRP" id="EGy-KX-Ka4"/>
                                                 </connections>
                                             </barButtonItem>
+                                            <barButtonItem systemItem="action" id="bKU-SG-DMw">
+                                                <connections>
+                                                    <action selector="receiveBluetoothButtonPressed:" destination="DPp-ar-VRP" id="sT3-2R-8Ec"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
@@ -440,7 +445,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uMD-cL-RG9">
-                                <rect key="frame" x="24" y="367" width="272" height="181"/>
+                                <rect key="frame" x="24" y="367" width="272" height="142"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -495,17 +500,24 @@
                                     <segment title="Honorary"/>
                                 </segments>
                             </segmentedControl>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fnu-Qf-Ryj">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <items>
+                                    <barButtonItem title="Add Via Bluetooth" id="0aM-by-Yno"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="7JT-yt-Udg" firstAttribute="top" secondItem="uMD-cL-RG9" secondAttribute="bottom" constant="20" id="01Y-sw-tOl"/>
                             <constraint firstAttribute="trailing" secondItem="L3L-Dc-GQx" secondAttribute="trailing" constant="8" id="2vA-jE-Kwb"/>
                             <constraint firstItem="feM-UX-RZx" firstAttribute="leading" secondItem="mbX-jm-OCk" secondAttribute="trailing" constant="20" id="410-mM-EbJ"/>
                             <constraint firstItem="mbX-jm-OCk" firstAttribute="top" secondItem="kP5-j7-qV3" secondAttribute="bottom" constant="8" id="4Nz-36-RqW"/>
                             <constraint firstItem="L3L-Dc-GQx" firstAttribute="top" secondItem="tjJ-fr-k0E" secondAttribute="bottom" constant="8" id="5lN-YZ-q74"/>
                             <constraint firstItem="tjJ-fr-k0E" firstAttribute="top" secondItem="kex-Bc-JZD" secondAttribute="bottom" constant="8" id="61M-7p-t2K"/>
+                            <constraint firstItem="fnu-Qf-Ryj" firstAttribute="top" secondItem="uMD-cL-RG9" secondAttribute="bottom" constant="15" id="9rZ-Fh-O7d"/>
                             <constraint firstAttribute="trailing" secondItem="EoY-0D-t2e" secondAttribute="trailing" constant="8" id="Dxt-qk-AN6"/>
                             <constraint firstItem="feM-UX-RZx" firstAttribute="leading" secondItem="kP5-j7-qV3" secondAttribute="trailing" constant="20" id="Eii-Gf-06F"/>
+                            <constraint firstItem="fnu-Qf-Ryj" firstAttribute="leading" secondItem="nIu-JG-Aud" secondAttribute="leading" id="F6m-0s-VFn"/>
                             <constraint firstItem="kex-Bc-JZD" firstAttribute="top" secondItem="wXi-85-QBE" secondAttribute="bottom" constant="8" id="GxR-p0-cBm"/>
                             <constraint firstItem="tjJ-fr-k0E" firstAttribute="leading" secondItem="yMp-Xk-T40" secondAttribute="leading" constant="9" id="LmZ-OW-pgB"/>
                             <constraint firstItem="wXi-85-QBE" firstAttribute="leading" secondItem="yMp-Xk-T40" secondAttribute="leading" constant="9" id="SCh-1i-4rG"/>
@@ -513,6 +525,7 @@
                             <constraint firstItem="mbX-jm-OCk" firstAttribute="leading" secondItem="yMp-Xk-T40" secondAttribute="leading" constant="9" id="Uhe-sR-Knl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="feM-UX-RZx" secondAttribute="trailing" constant="8" id="WBW-97-KuN"/>
                             <constraint firstAttribute="trailing" secondItem="tjJ-fr-k0E" secondAttribute="trailing" constant="8" id="Wly-sO-m2k"/>
+                            <constraint firstItem="fnu-Qf-Ryj" firstAttribute="trailing" secondItem="nIu-JG-Aud" secondAttribute="trailing" id="c8P-PS-iDs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="uMD-cL-RG9" secondAttribute="trailing" constant="8" id="enx-je-gDU"/>
                             <constraint firstItem="uMD-cL-RG9" firstAttribute="top" secondItem="EoY-0D-t2e" secondAttribute="bottom" constant="25" id="f0y-br-xgZ"/>
                             <constraint firstItem="kP5-j7-qV3" firstAttribute="leading" secondItem="yMp-Xk-T40" secondAttribute="leading" constant="9" id="fTO-MS-30J"/>
@@ -525,6 +538,7 @@
                             <constraint firstItem="nIu-JG-Aud" firstAttribute="top" secondItem="K4B-kM-sfp" secondAttribute="bottom" constant="8" id="sHH-Cn-JS9"/>
                             <constraint firstItem="kP5-j7-qV3" firstAttribute="top" secondItem="nIu-JG-Aud" secondAttribute="bottom" constant="15" id="tls-0X-dfK"/>
                             <constraint firstItem="feM-UX-RZx" firstAttribute="leading" secondItem="kex-Bc-JZD" secondAttribute="trailing" constant="20" id="uAQ-ce-2Gr"/>
+                            <constraint firstItem="fnu-Qf-Ryj" firstAttribute="bottom" secondItem="7JT-yt-Udg" secondAttribute="top" id="uOq-OL-pfT"/>
                             <constraint firstItem="feM-UX-RZx" firstAttribute="leading" secondItem="wXi-85-QBE" secondAttribute="trailing" constant="20" id="vlD-t0-AAm"/>
                             <constraint firstItem="EoY-0D-t2e" firstAttribute="leading" secondItem="yMp-Xk-T40" secondAttribute="leading" constant="9" id="ylv-GZ-aHs"/>
                             <constraint firstItem="nIu-JG-Aud" firstAttribute="leading" secondItem="yMp-Xk-T40" secondAttribute="leading" id="zsv-7c-Ovx"/>
@@ -538,6 +552,7 @@
                         <outlet property="languageText" destination="L3L-Dc-GQx" id="gUh-0n-0g8"/>
                         <outlet property="nameText" destination="kP5-j7-qV3" id="UdC-WG-J6g"/>
                         <outlet property="programSeg" destination="EoY-0D-t2e" id="KC7-7k-Q3q"/>
+                        <outlet property="receiveBluetoothButton" destination="bKU-SG-DMw" id="Gg5-fV-NFB"/>
                         <outlet property="teamText" destination="mbX-jm-OCk" id="Kus-o0-hZN"/>
                         <outlet property="titleNavBar" destination="01r-dG-rDb" id="SrO-7H-4fY"/>
                         <outlet property="userImageView" destination="feM-UX-RZx" id="KYh-8H-CfM"/>

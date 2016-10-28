@@ -59,6 +59,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var genderSeg: UISegmentedControl!
     @IBOutlet weak var programSeg: UISegmentedControl!
     @IBOutlet weak var displayTextView: UITextView!
+    @IBOutlet weak var receiveBluetoothButton: UIBarButtonItem!
     //@IBOutlet weak var saveEditButton: UIBarButtonItem!
     
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
@@ -66,6 +67,10 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     // MARK: IBActions
+    
+    @IBAction func receiveBluetoothButtonPressed(_ sender: Any) {
+        print("Receiving Bluetooth Info")
+    }
     
     @IBAction func cancelButtonPressed(_ sender: AnyObject) {
         
