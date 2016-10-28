@@ -50,7 +50,7 @@
                                 <frame key="frameInset" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem systemItem="compose" id="myo-cW-5NH">
+                                    <barButtonItem title="Send Via Bluetooth" id="myo-cW-5NH">
                                         <connections>
                                             <action selector="sendInfoButtonPressed:" destination="JEX-9P-axG" id="vHL-Dc-Xeg"/>
                                         </connections>
@@ -415,11 +415,6 @@
                                                     <action selector="saveButtonTapped:" destination="DPp-ar-VRP" id="EGy-KX-Ka4"/>
                                                 </connections>
                                             </barButtonItem>
-                                            <barButtonItem systemItem="action" id="bKU-SG-DMw">
-                                                <connections>
-                                                    <action selector="receiveBluetoothButtonPressed:" destination="DPp-ar-VRP" id="sT3-2R-8Ec"/>
-                                                </connections>
-                                            </barButtonItem>
                                         </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
@@ -478,7 +473,11 @@
                             </segmentedControl>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fnu-Qf-Ryj">
                                 <items>
-                                    <barButtonItem title="Add Via Bluetooth" id="0aM-by-Yno"/>
+                                    <barButtonItem title="Add Via Bluetooth" id="0aM-by-Yno">
+                                        <connections>
+                                            <action selector="receiveBluetoothButtonPressed:" destination="DPp-ar-VRP" id="Fr3-RU-ucz"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -528,7 +527,7 @@
                         <outlet property="languageText" destination="L3L-Dc-GQx" id="gUh-0n-0g8"/>
                         <outlet property="nameText" destination="kP5-j7-qV3" id="UdC-WG-J6g"/>
                         <outlet property="programSeg" destination="EoY-0D-t2e" id="KC7-7k-Q3q"/>
-                        <outlet property="receiveBluetoothButton" destination="bKU-SG-DMw" id="Gg5-fV-NFB"/>
+                        <outlet property="receiveBluetoothButton" destination="0aM-by-Yno" id="hTl-n6-fyj"/>
                         <outlet property="teamText" destination="mbX-jm-OCk" id="Kus-o0-hZN"/>
                         <outlet property="titleNavBar" destination="01r-dG-rDb" id="SrO-7H-4fY"/>
                         <outlet property="topConstraint" destination="sHH-Cn-JS9" id="0WN-A2-Azt"/>

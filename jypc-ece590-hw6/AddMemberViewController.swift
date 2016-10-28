@@ -68,7 +68,8 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: IBActions
     
-    @IBAction func receiveBluetoothButtonPressed(_ sender: Any) {
+    @IBAction func receiveBluetoothButtonPressed(_
+        sender: Any) {
         print("Receiving Bluetooth Info")
     }
     
