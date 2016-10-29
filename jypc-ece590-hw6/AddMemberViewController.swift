@@ -408,10 +408,10 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             if let from = json["from"] as? String {
                 hTownText?.text = from
             }
-            if let sex = json["sex"] as? Bool {
-                if sex == true{
+            if let sex = json["sex"] as? String {
+                if sex == "male"{
                     genderSeg.selectedSegmentIndex = 0
-                }else if sex == false{
+                }else if sex == "female"{
                     genderSeg.selectedSegmentIndex = 1
                 }else{
                     genderSeg.selectedSegmentIndex = 1

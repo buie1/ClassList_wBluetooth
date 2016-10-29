@@ -104,12 +104,27 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         
         //var json = try JSONSerialization.jsonObject(with: studentsItem!, options: []) as! [[String:AnyObject]]
         
-        let properties: [String : String] = ["name" : (studentsItem?.getName())!, "team" : (studentsItem?.getTeam())!, "from" : (studentsItem?.getFrom())!, "degree" : (studentsItem?.getDegree())!]
+        var genderString:String
+        if(studentsItem?.getSex())!{
+            genderString = "male"
+        }
+        else{
+            genderString = "female"
+        }
         
+        // MARK: CONVERTING CLASS PARAMETERS AS JSON STRING
+        //  WE CAN EITHER SAVE [STRING] AS ONE LONG STRING OR FIGURE OUT HOW TO SEND MULTIPLE INSTANCES OF JSON DATA
+        
+        let stringProperties: [String : String] = ["name" : (studentsItem?.getName())!, "team" : (studentsItem?.getTeam())!, "from" : (studentsItem?.getFrom())!, "degree" : (studentsItem?.getDegree())!, "sex" : genderString]
+        
+        let arrayProperties: [String : [String]] = ["hobbies" : (studentsItem?.getHobbies())!, "languages" : (studentsItem?.getLanguages())!]
+
         do{
-            let jsonData = try JSONSerialization.data(withJSONObject: properties, options: [])
-            dataToSend = jsonData
-            print(jsonData)
+            let jsonStringData = try JSONSerialization.data(withJSONObject: stringProperties, options: [])
+            let jsonArrayData = try JSONSerialization.data(withJSONObject: arrayProperties, options: [])
+            //dataToSend = jsonStringData
+            dataToSend = jsonArrayData
+            //print(jsonStringData)
         } catch let error {
             print("error converting to json: \(error)")
         }
@@ -144,8 +159,9 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         print("Data request connection coming in")
         // A subscriber was found, so send them the data
         //self.dataToSend = self.descriptionText.text.data(using: String.Encoding.utf8, allowLossyConversion: false)
-        self.sentDataCount = 0
-        self.sendData()
+            //self.dataToSend = data
+            self.sentDataCount = 0
+            self.sendData()
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
