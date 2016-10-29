@@ -480,6 +480,10 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ynw-aj-rsX">
+                                <rect key="frame" x="142" y="265.5" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -489,6 +493,7 @@
                             <constraint firstItem="L3L-Dc-GQx" firstAttribute="top" secondItem="tjJ-fr-k0E" secondAttribute="bottom" constant="8" id="5lN-YZ-q74"/>
                             <constraint firstItem="tjJ-fr-k0E" firstAttribute="top" secondItem="kex-Bc-JZD" secondAttribute="bottom" constant="8" id="61M-7p-t2K"/>
                             <constraint firstItem="fnu-Qf-Ryj" firstAttribute="top" secondItem="uMD-cL-RG9" secondAttribute="bottom" constant="15" id="9rZ-Fh-O7d"/>
+                            <constraint firstItem="Ynw-aj-rsX" firstAttribute="centerY" secondItem="yMp-Xk-T40" secondAttribute="centerY" id="A9w-sS-oIN"/>
                             <constraint firstAttribute="trailing" secondItem="EoY-0D-t2e" secondAttribute="trailing" constant="8" id="Dxt-qk-AN6"/>
                             <constraint firstItem="feM-UX-RZx" firstAttribute="leading" secondItem="kP5-j7-qV3" secondAttribute="trailing" constant="20" id="Eii-Gf-06F"/>
                             <constraint firstItem="fnu-Qf-Ryj" firstAttribute="leading" secondItem="nIu-JG-Aud" secondAttribute="leading" id="F6m-0s-VFn"/>
@@ -505,6 +510,7 @@
                             <constraint firstItem="kP5-j7-qV3" firstAttribute="leading" secondItem="yMp-Xk-T40" secondAttribute="leading" constant="9" id="fTO-MS-30J"/>
                             <constraint firstItem="feM-UX-RZx" firstAttribute="top" secondItem="nIu-JG-Aud" secondAttribute="bottom" constant="8" id="fqH-Hk-NoE"/>
                             <constraint firstItem="EoY-0D-t2e" firstAttribute="top" secondItem="L3L-Dc-GQx" secondAttribute="bottom" constant="8" id="j98-on-Ql9"/>
+                            <constraint firstItem="Ynw-aj-rsX" firstAttribute="centerX" secondItem="yMp-Xk-T40" secondAttribute="centerX" id="jir-cT-NXS"/>
                             <constraint firstAttribute="trailing" secondItem="nIu-JG-Aud" secondAttribute="trailing" id="jp4-sh-oWp"/>
                             <constraint firstItem="uMD-cL-RG9" firstAttribute="leading" secondItem="yMp-Xk-T40" secondAttribute="leadingMargin" constant="8" id="nGt-Sj-OLp"/>
                             <constraint firstItem="L3L-Dc-GQx" firstAttribute="leading" secondItem="yMp-Xk-T40" secondAttribute="leading" constant="9" id="obn-ps-sPR"/>

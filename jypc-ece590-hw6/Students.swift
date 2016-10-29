@@ -92,10 +92,10 @@ class Students: Human {
 
         //2. Where are you from?
         //myDescription += " is \(printBasedOnGPA()) student from \(homeTown)."
-        myDescription += "is a student from \(from)."
+        myDescription += " is a student from \(from!)."
         //3. Major & Program
         myDescription += "\n"
-        myDescription += " \(printBasedOnGender()) a \(degree) at Duke University. "
+        myDescription += " \(printBasedOnGender()) a \(degree!) at Duke University. "
         
         //4. Hobbies
         if hobbies.count == 1{
@@ -117,7 +117,7 @@ class Students: Human {
 
          //5. Current Languages
          if(languages.count != 0){
-            myDescription += "In addition \(studentName)'s proficient Language(s) include:\n"
+            myDescription += "\(studentName)'s proficient Language(s) include:\n"
             for l in languages{
                 myDescription += "\(l)\n"
             }
@@ -291,21 +291,6 @@ class Human: NSObject {
         self.init(name, team, from, hobbies, sex, pic!)
         
     }
-    
-    //Compresses a image into a 64 bit string
-    func compressImage() -> String{
-        let imageData:Data = UIImagePNGRepresentation(pic!)!
-        let imageString:String = imageData.base64EncodedString()
-        return imageString
-    }
-    
-    //Decompresses a 64 bit string into UIImage
-    func decodeImage(compressedData: String) -> UIImage{
-        let decodedData:Data = Data(base64Encoded: compressedData, options: Data.Base64DecodingOptions.ignoreUnknownCharacters)!
-        let image:UIImage = UIImage(data: decodedData)!
-        return image
-    }
-    
 }
 
 
