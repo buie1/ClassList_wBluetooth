@@ -92,10 +92,10 @@ class Students: Human {
 
         //2. Where are you from?
         //myDescription += " is \(printBasedOnGPA()) student from \(homeTown)."
-        myDescription += "is a student from \(from)."
+        myDescription += "is a student from \(from!)."
         //3. Major & Program
         myDescription += "\n"
-        myDescription += " \(printBasedOnGender()) a \(degree) at Duke University. "
+        myDescription += " \(printBasedOnGender()) a \(degree!) at Duke University. "
         
         //4. Hobbies
         if hobbies.count == 1{
