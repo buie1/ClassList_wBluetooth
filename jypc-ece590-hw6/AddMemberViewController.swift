@@ -399,7 +399,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         do{
             let json = try JSONSerialization.jsonObject(with: btData, options: []) as! [String:AnyObject]
             
-            if let name = json["names"] as? String {
+            if let name = json["name"] as? String {
                 nameText?.text = name
             }
             if let team = json["team"] as? String {
