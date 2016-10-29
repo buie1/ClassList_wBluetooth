@@ -295,6 +295,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         let delete = UITableViewRowAction(style: .normal, title: "Delete"){ (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
             self.array[(indexPath as IndexPath).section].members.remove(at: (indexPath as IndexPath).row)
             tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
+            TeamItem.saveTeamInfo(self.array)
             self.tableView.reloadData()
             }
         delete.backgroundColor = UIColor.red
