@@ -48,19 +48,21 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
      ****/
     
     
+    // MARK: Variables
     var toEdit:Bool!
     var currMember:Students!
     var memberIX: (Int,Int)!
-    
     var memDelegate: AddMemberViewControllerDelegate!
-    
     var imagePicker: UIImagePickerController!
     var activeTextField: UITextField!
+    
+    
     
     // MARK: Bluetooth Managers
     var centralManager:CBCentralManager!
     var connectingPeripheral:CBPeripheral!
     var data:String = ""
+    
     
     // MARK: IBOutlets
     @IBOutlet weak var titleNavBar: UINavigationItem!
@@ -85,7 +87,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     
     @IBAction func receiveBluetoothButtonPressed(_
         sender: Any) {
-        print("Receiving Bluetooth Info")
+        print("Initializing Bluetooth")
         centralManager = CBCentralManager(delegate: self, queue: nil)
         
         // Where is the data!?
