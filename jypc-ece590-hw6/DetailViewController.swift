@@ -104,14 +104,14 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         
         //var json = try JSONSerialization.jsonObject(with: studentsItem!, options: []) as! [[String:AnyObject]]
         
-        let properties: [String : String] = ["name" : (studentsItem?.getName())!, "team" : (studentsItem?.getTeam())!, "from" : (studentsItem?.getFrom())!, "degree" : (studentsItem?.getDegree())!, "hobbies" : studentsItem?.getHobbies(), "languages" : studentsItem?.getLanguages()]
+        let properties: [String : String] = ["name" : (studentsItem?.getName())!, "team" : (studentsItem?.getTeam())!, "from" : (studentsItem?.getFrom())!, "degree" : (studentsItem?.getDegree())!]
         
         do{
             let jsonData = try JSONSerialization.data(withJSONObject: properties, options: [])
+            print(jsonData)
         } catch let error {
             print("error converting to json: \(error)")
         }
-        
         
         //Start Sending Data
         let dataToBeAdvertised: [String:Any]? = [
