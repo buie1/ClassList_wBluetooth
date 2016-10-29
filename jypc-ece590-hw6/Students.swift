@@ -92,7 +92,7 @@ class Students: Human {
 
         //2. Where are you from?
         //myDescription += " is \(printBasedOnGPA()) student from \(homeTown)."
-        myDescription += "is a student from \(from!)."
+        myDescription += " is a student from \(from!)."
         //3. Major & Program
         myDescription += "\n"
         myDescription += " \(printBasedOnGender()) a \(degree!) at Duke University. "
@@ -117,7 +117,7 @@ class Students: Human {
 
          //5. Current Languages
          if(languages.count != 0){
-            myDescription += "In addition \(studentName)'s proficient Language(s) include:\n"
+            myDescription += "\(studentName)'s proficient Language(s) include:\n"
             for l in languages{
                 myDescription += "\(l)\n"
             }
