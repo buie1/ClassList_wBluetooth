@@ -100,9 +100,23 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
     @IBAction func sendInfoButtonPressed(_ sender: Any) {
         print("sending bluetooth info")
         // We want to serialize the data and send as JSON string
+        // JSON Convertion requires top level object to be an NSArray or NSDictionary
         
         //var json = try JSONSerialization.jsonObject(with: studentsItem!, options: []) as! [[String:AnyObject]]
         
+        let properties: [String : String] = ["name" : (studentsItem?.getName())!, "team" : (studentsItem?.getTeam())!, "from" : (studentsItem?.getFrom())!, "degree" : (studentsItem?.getDegree())!, "hobbies" : studentsItem?.getHobbies(), "languages" : studentsItem?.getLanguages()]
+        
+        do{
+            let jsonData = try JSONSerialization.data(withJSONObject: properties, options: [])
+        } catch let error {
+            print("error converting to json: \(error)")
+        }
+        
+        
+        //Start Sending Data
+        let dataToBeAdvertised: [String:Any]? = [
+            CBAdvertisementDataServiceUUIDsKey : serviceUUIDs]
+        self.peripheralManager.startAdvertising(dataToBeAdvertised)
         
     }
 
