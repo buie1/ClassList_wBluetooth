@@ -127,6 +127,7 @@ class Students: Human {
         return myDescription
     }
 
+    
     func getDegree() -> Degree {
         if degree == "Undergraduate student"{
             return .UG

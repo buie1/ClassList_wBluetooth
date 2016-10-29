@@ -278,6 +278,8 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
                 languageText?.text = currMember?.getLanguages().joined(separator: ", ")
             }
             
+            setDegreeSegment(deg: (currMember?.getDegree())!)
+            
             //Select the correct segments and Image
             if (currMember?.getImage() != nil){
                 imView.image = currMember?.getImage()
@@ -293,22 +295,21 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         
     }
     
-    func setDegreeSegment(student: Students){
-        let currDegree:Degree = student.getDegree()
-        if currDegree == .UG{
+    func setDegreeSegment(deg: String){
+        if deg == "Undergraduate student"{
             programSeg.selectedSegmentIndex = 0
-        }else if  currDegree == .MS{
+        }else if  deg == "Masters student"{
             programSeg.selectedSegmentIndex = 1
-        }else if currDegree == .PHD{
+        }else if deg == "PhD student"{
             programSeg.selectedSegmentIndex = 2
-        }else if currDegree == .Alum{
+        }else if deg == "Alumni"{
             programSeg.selectedSegmentIndex = 3
-        }else if currDegree == .honorary{
+        }else if deg == "Honorary graduate"{
             programSeg.selectedSegmentIndex = 4
         }else{
-            programSeg.selectedSegmentIndex = 0
+            programSeg.selectedSegmentIndex = 1
         }
-
+        
     }
     
         
