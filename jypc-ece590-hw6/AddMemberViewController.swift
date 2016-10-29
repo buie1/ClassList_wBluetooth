@@ -87,7 +87,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     
     @IBAction func receiveBluetoothButtonPressed(_
         sender: Any) {
-        print("Initializing Bluetooth")
+        print("Initializing central manager")
         centralManager = CBCentralManager(delegate: self, queue: nil)
         
         // Where is the data!?
