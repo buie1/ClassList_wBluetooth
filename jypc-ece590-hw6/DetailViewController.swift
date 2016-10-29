@@ -10,6 +10,18 @@ import UIKit
 import CoreBluetooth
 
 class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
+    
+    /****
+     jab165 (10.29.2016)
+     
+     The DetailViewController will act as the "PERIPHERAL" entity.  It contains the data that can be shared on the button press
+     to send data via Bluetooth. 
+     
+     1. Convert data to JSON
+     2. Send packets
+     
+     ****/
+    
 
     @IBOutlet weak var descriptionText: UITextView!
 
@@ -87,6 +99,10 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
     }
     @IBAction func sendInfoButtonPressed(_ sender: Any) {
         print("sending bluetooth info")
+        // We want to serialize the data and send as JSON string
+        
+        //var json = try JSONSerialization.jsonObject(with: studentsItem!, options: []) as! [[String:AnyObject]]
+        
         
     }
 

@@ -39,6 +39,15 @@ protocol AddMemberViewControllerDelegate{
 
 class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralManagerDelegate, CBPeripheralDelegate {
     
+    /****
+     jab165 (10.29.2016)
+     
+     The AddMemberViewController will act as the "CENTRAL" entity.  It will use the transmitted data for the task off adding new
+     members to the tableview
+     
+     ****/
+    
+    
     var toEdit:Bool!
     var currMember:Students!
     var memberIX: (Int,Int)!
@@ -78,10 +87,16 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         sender: Any) {
         print("Receiving Bluetooth Info")
         centralManager = CBCentralManager(delegate: self, queue: nil)
+        
+        // Where is the data!?
+        
+        
     }
     
     @IBAction func cancelButtonPressed(_ sender: AnyObject) {
-        self.centralManager.stopScan()
+        if self.centralManager != nil{
+            self.centralManager.stopScan()
+        }
         print("scanning stopped")
         self.dismiss(animated: true, completion: nil)
         
@@ -249,44 +264,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         if toEdit!{
             titleNavBar.title = "Edit Member"
             //saveEditButton.title = "Done"
-            
-            
-            //MARK: WE do names differently now!
-            
-            /*
-            fNameText?.text = currMember?.getFirstName()
-            if (currMember.getMiddleName() != nil){
-                mNameText?.text = currMember?.getMiddleName()
-            }
-            lNameText?.text = currMember?.getLastName()
-            hTownText?.text = currMember?.getHometown()
-            if currMember?.getSex() == true{
-                genderSeg.selectedSegmentIndex = 0
-            }else if currMember?.getSex() == false{
-                genderSeg.selectedSegmentIndex = 1
-            }else{
-                genderSeg.selectedSegmentIndex = 1
-            }
-            */
-            
-            
-            //MARK: Rename these fields program-> degree
-            
-            
-            /*
-             
-            if currMember?.getProgram() == "Undergraduate student"{
-                programSeg.selectedSegmentIndex = 0
-            }else if currMember?.getProgram() == "Masters student"{
-                programSeg.selectedSegmentIndex = 1
-            }else if currMember?.getProgram() == "PhD student"{
-                programSeg.selectedSegmentIndex = 2
-            }else if currMember?.getProgram() == "Alumni"{
-                programSeg.selectedSegmentIndex = 3
-            }else{
-                programSeg.selectedSegmentIndex = 4
-            }
-            */
+
             nameText?.text = currMember.getName()
             teamText?.text = currMember.getTeam()
             hTownText?.text = currMember?.getFrom()
