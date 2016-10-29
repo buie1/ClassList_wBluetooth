@@ -287,14 +287,25 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         return true
     }
 
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.delete {
-            array[(indexPath as NSIndexPath).section].members.remove(at: (indexPath as NSIndexPath).row)
+    
+    //MARK: share button functionality for cell
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        //Delete Button - swipe to delete
+        let delete = UITableViewRowAction(style: .normal, title: "Delete"){ (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
+            self.array[(indexPath as IndexPath).section].members.remove(at: (indexPath as IndexPath).row)
             tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
             self.tableView.reloadData()
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-        }
+            }
+        delete.backgroundColor = UIColor.red
+        
+        //Share button - swipe to share
+        let share = UITableViewRowAction(style: .normal, title: "Share"){ (action: UITableViewRowAction!, IndexPath: IndexPath!) -> Void in
+            //do share function
+            print("Sharing via bluetooth here...")
+            }
+        share.backgroundColor = UIColor.gray
+        return[share, delete]
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

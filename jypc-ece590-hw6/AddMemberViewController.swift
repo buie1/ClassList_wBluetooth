@@ -60,6 +60,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var programSeg: UISegmentedControl!
     @IBOutlet weak var displayTextView: UITextView!
     @IBOutlet weak var receiveBluetoothButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     //@IBOutlet weak var saveEditButton: UIBarButtonItem!
     
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
@@ -278,6 +279,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
                 programSeg.selectedSegmentIndex = 4
             }
             */
+            setDegreeSegment(student: currMember)
             nameText?.text = currMember.getName()
             teamText?.text = currMember.getTeam()
             hTownText?.text = currMember?.getFrom()
@@ -310,6 +312,25 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    func setDegreeSegment(student: Students){
+        let currDegree:Degree = student.getDegree()
+        if currDegree == .UG{
+            programSeg.selectedSegmentIndex = 0
+        }else if  currDegree == .MS{
+            programSeg.selectedSegmentIndex = 1
+        }else if currDegree == .PHD{
+            programSeg.selectedSegmentIndex = 2
+        }else if currDegree == .Alum{
+            programSeg.selectedSegmentIndex = 3
+        }else if currDegree == .honorary{
+            programSeg.selectedSegmentIndex = 4
+        }else{
+            programSeg.selectedSegmentIndex = 0
+        }
+
+    }
+    
+        
     // Mark: Functions to Scroll View Up when keyboard is shown
     
     /*
@@ -346,6 +367,17 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         }
     }
     */
+    
+    
+    func startIndicator( ){
+        activityIndicator.startAnimating()
+        UIApplication.shared.beginIgnoringInteractionEvents()
+    }
+    
+    func endIndicator(){
+        activityIndicator.stopAnimating()
+        UIApplication.shared.endIgnoringInteractionEvents()
+    }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(textField == hobbyText || textField == languageText){
@@ -432,6 +464,7 @@ extension AddMemberViewController: UIImagePickerControllerDelegate, UINavigation
         }
         self.dismiss(animated: true, completion: nil)
     }
+    
 }
 
 extension UIImage{
