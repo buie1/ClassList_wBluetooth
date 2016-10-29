@@ -112,7 +112,7 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
         print("Data request connection coming in")
         // A subscriber was found, so send them the data
-        self.dataToSend = self.textView.text.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        self.dataToSend = self.descriptionText.text.data(using: String.Encoding.utf8, allowLossyConversion: false)
         self.sentDataCount = 0
         self.sendData()
     }
