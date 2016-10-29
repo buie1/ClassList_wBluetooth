@@ -62,9 +62,9 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     var connectingPeripheral:CBPeripheral!
     var data:String = ""
     
+    
     // MARK: IBOutlets
     @IBOutlet weak var titleNavBar: UINavigationItem!
-    
     @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var hTownText: UITextField!
     @IBOutlet weak var teamText: UITextField!
@@ -78,14 +78,15 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     //@IBOutlet weak var saveEditButton: UIBarButtonItem!
     
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
+    
     
     // MARK: IBActions
     
     @IBAction func receiveBluetoothButtonPressed(_
         sender: Any) {
-        print("Receiving Bluetooth Info")
+        print("Initializing central manager")
         centralManager = CBCentralManager(delegate: self, queue: nil)
         
         // Where is the data!?
@@ -165,12 +166,6 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
                 deg = "Masters student"
             }
             
-            
-            // MARK: Edit to use the new initilizer
-            // jab165 10/26/2016
-            
-            
-            
             let mem = Students(fname!, teamN!, htown!, gen ,deg!, nil,lang!,hob!)
             
             if im!.isSameImage(UIImage(named:"add_picture")!){
@@ -233,16 +228,14 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             default:
                 deg = "Masters student"
             }
-            
-            // MARK: change to use the new initializer 
-            // jab165 10/26/2016
-            
             let temp = Students(fname!, teamN!, htown!, gen ,deg!, nil,lang!,hob!)
             temp.setLanguages(lang!)
             return temp
         }
     }
     
+    
+    // MARK: View LifecycleFunctions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -254,7 +247,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddMemberViewController.keyboardDown(_:)), name: UIKeyboardWillHideNotification, object: nil)
         */
         
-        // MARK: Make UIImage clickable like a button
+        //Make UIImage clickable like a button
         let imView = userImageView!
         let tapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                           action:#selector(AddMemberViewController.imageTapped(_:)))
@@ -275,6 +268,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             }else{
                 genderSeg.selectedSegmentIndex = 1
             }
+            
             if currMember?.getHobbies().count > 0 {
                 hobbyText?.text = currMember?.getHobbies().joined(separator: ", ")
             }
@@ -398,6 +392,59 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         }
     }
     
+    
+    // MARK: Populate Fields with Bluetooth Data
+    func populateWithBlueToothData() -> Bool {
+        let btData = data.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+        do{
+            let json = try JSONSerialization.jsonObject(with: btData, options: []) as! [String:AnyObject]
+            
+            if let name = json["names"] as? String {
+                nameText?.text = name
+            }
+            if let team = json["team"] as? String {
+                teamText?.text = team
+            }
+            if let from = json["from"] as? String {
+                hTownText?.text = from
+            }
+            if let sex = json["sex"] as? Bool {
+                if sex == true{
+                    genderSeg.selectedSegmentIndex = 0
+                }else if sex == false{
+                    genderSeg.selectedSegmentIndex = 1
+                }else{
+                    genderSeg.selectedSegmentIndex = 1
+                }
+            }
+            if let deg = json["degree"] as? String {
+            
+                print(deg)
+            
+            }
+            if let hob = json["hobbies"] as? [String] {
+                hobbyText?.text = hob.joined(separator: ", ")
+            }
+            if let lang = json["languages"] as? [String] {
+                languageText?.text = lang.joined(separator: ", ")
+            }
+            if let pic = json["pic"] as? String {
+                print(pic)
+            }
+            
+            
+            
+        } catch let error as NSError {
+            print("Failed to load: \(error.localizedDescription)")
+            return false
+        }
+        return true
+    }
+    
+    
+    
+    
+    
     // MARK:  Central Manager Delegate methods
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         print("checking state")
@@ -484,7 +531,16 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             
             if dataString == "EOM" {
                 print(self.data)
-                nameText.text = self.data
+                //nameText.text = self.data
+                
+                //Method to populate text fields with BT data
+                if(populateWithBlueToothData()){
+                    print("Successfully copied data fields from Bluetooth")
+                }else{
+                    print("error populating fields")
+                }
+                
+                
                 peripheral.setNotifyValue(false, for: characteristic)
                 centralManager.cancelPeripheralConnection(peripheral)
             }
