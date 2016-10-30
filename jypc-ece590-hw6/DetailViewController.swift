@@ -37,7 +37,7 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
     var dataToSend:Data!
     var sentDataCount:Int = 0
     var sentEOM:Bool = false
-    
+
     
 //    var detailItem: AnyObject? {
     var studentsItem: Students? {
@@ -146,7 +146,6 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
             let transferService = CBMutableService(type: serviceUUID, primary: true)
             transferService.characteristics = [self.transferCharacteristic]
             self.peripheralManager.add(transferService)
-            
         }
     }
     
