@@ -257,11 +257,11 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         */
         
         //Lavender Color = #76323F
-        team_cell.backgroundColor = color
+        team_cell.contentView.backgroundColor = color
         team_cell.teamName.textColor = UIColor.white
         team_cell.projectName.textColor = UIColor.white
         team_cell.btn_AddMember.setTitleColor(UIColor.white, for: UIControlState())
-        return team_cell
+        return team_cell.contentView
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -388,7 +388,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             array = tempTeams!
         }else{
             let teamName = "JYP-C++"
-            let t0 = TeamItem(name: teamName, project:"Curfew Monitor")
+            let t0 = TeamItem(name: teamName, project:"Dodge the Potholes")
             let me = Students("Jonathan Buie", teamName, "O'Fallon, IL", true,
                               "Masters student",nil)
             me.addHobbies("Sports","Listening to Kanye", "Salsa Dancing")
