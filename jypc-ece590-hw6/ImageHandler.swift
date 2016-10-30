@@ -12,7 +12,7 @@ import UIKit
 class ImageHandler{
     //Compresses a image into a 64 bit string
     func compressImage(pic: UIImage) -> String{
-        let imageData:Data = UIImagePNGRepresentation(pic)!
+        let imageData:Data = UIImageJPEGRepresentation(pic, 0.02)!
         let imageString:String = imageData.base64EncodedString()
         return imageString
     }
