@@ -465,8 +465,10 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             
         } catch let error as NSError {
             print("Failed to load: \(error.localizedDescription)")
+            endIndicator()
             return false
         }
+        endIndicator()
         return true
     }
     
@@ -491,6 +493,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     }
     
     func scan() {
+        startIndicator()
         self.centralManager.scanForPeripherals(withServices: serviceUUIDs,options: nil)
         print("scanning started\n\n\n")
     }
@@ -598,6 +601,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        endIndicator()
         print("didDisconnect error is \(error)")
     }
     
