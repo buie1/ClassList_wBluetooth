@@ -104,7 +104,10 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         
         //var json = try JSONSerialization.jsonObject(with: studentsItem!, options: []) as! [[String:AnyObject]]
         
-        let properties: [String : Any] = ["name" : (studentsItem?.getName())! as String, "team" : (studentsItem?.getTeam())! as String, "from" : (studentsItem?.getFrom())! as String, "degree" : (studentsItem?.getDegree())! as String, "hobbies" : (studentsItem?.getHobbies())! as [String], "languages" : (studentsItem?.getLanguages())! as [String]]
+        let properties: [String : Any] = ["name" : (studentsItem?.getName())! as String, "team" : (studentsItem?.getTeam())! as String,
+                                          "from" : (studentsItem?.getFrom())! as String, "degree" : (studentsItem?.getDegree())! as String,
+                                          "hobbies" : (studentsItem?.getHobbies())! as [String],
+                                          "languages" : (studentsItem?.getLanguages())! as [String]]
         
         do{
             let jsonData = try JSONSerialization.data(withJSONObject: properties, options: [])
