@@ -342,7 +342,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
                 
                 let jsonString = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String
                 print(jsonString)
-                let dataToSend:Data = jsonString.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+                self.dataToSend = jsonString.data(using: String.Encoding.utf8, allowLossyConversion: false)!
                 
             } catch let error {
                 print("error converting to json: \(error)")
