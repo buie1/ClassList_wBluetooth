@@ -168,7 +168,6 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
             
             if (didSend) {
                 sentEOM = false
-                self.peripheralManager.stopAdvertising()
                 print("Sent: EOM, Outer loop")
             }
             else {
