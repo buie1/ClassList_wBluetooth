@@ -102,19 +102,12 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         // We want to serialize the data and send as JSON string
         // JSON Convertion requires top level object to be an NSArray or NSDictionary
         
-        //var json = try JSONSerialization.jsonObject(with: studentsItem!, options: []) as! [[String:AnyObject]]
-        /*var genderString:String
-        if(studentsItem?.getSex())!{
-            genderString = "male"
-        }
-        else{
-            genderString = "female"
-        }*/
-        
+        let imHandle = ImageHandler()
         let properties: [String : Any] = ["name" : (studentsItem?.getName())! as String, "team" : (studentsItem?.getTeam())! as String,
                                           "from" : (studentsItem?.getFrom())! as String, "degree" : (studentsItem?.getDegree())! as String,
                                           "sex": (studentsItem?.getSex())! as Bool , "hobbies" : (studentsItem?.getHobbies())! as [String],
-                                          "languages" : (studentsItem?.getLanguages())! as [String]]
+                                          "languages" : (studentsItem?.getLanguages())! as [String],
+                                          "pic": imHandle.compressImage(pic: (studentsItem?.getImage())!) as String!]
         
         do{
             let jsonData = try JSONSerialization.data(withJSONObject: properties, options: [])
