@@ -103,14 +103,19 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         // JSON Convertion requires top level object to be an NSArray or NSDictionary
         
         //var json = try JSONSerialization.jsonObject(with: studentsItem!, options: []) as! [[String:AnyObject]]
+        /*var genderString:String
+        if(studentsItem?.getSex())!{
+            genderString = "male"
+        }
+        else{
+            genderString = "female"
+        }*/
         
         let properties: [String : Any] = ["name" : (studentsItem?.getName())! as String, "team" : (studentsItem?.getTeam())! as String,
                                           "from" : (studentsItem?.getFrom())! as String, "degree" : (studentsItem?.getDegree())! as String,
-                                          "hobbies" : (studentsItem?.getHobbies())! as [String],
+                                          "sex": (studentsItem?.getSex())! as Bool , "hobbies" : (studentsItem?.getHobbies())! as [String],
                                           "languages" : (studentsItem?.getLanguages())! as [String]]
         
-        let arrayProperties: [String : [String]] = ["hobbies" : (studentsItem?.getHobbies())!, "languages" : (studentsItem?.getLanguages())!]
-
         do{
             let jsonData = try JSONSerialization.data(withJSONObject: properties, options: [])
             print(jsonData)
@@ -122,6 +127,7 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
             
             let jsonString = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String
             print(jsonString)
+            dataToSend = jsonString.data(using: String.Encoding.utf8, allowLossyConversion: false)
             
         } catch let error {
             print("error converting to json: \(error)")
