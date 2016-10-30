@@ -459,9 +459,9 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             }
             if let pic = json["pic"] as? String {
                 print(pic)
+                let imHandle = ImageHandler()
+                userImageView.image = imHandle.decodeImage(compressedData: pic)
             }
-            
-            
             
         } catch let error as NSError {
             print("Failed to load: \(error.localizedDescription)")
