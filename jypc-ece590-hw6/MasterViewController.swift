@@ -316,13 +316,13 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         let share = UITableViewRowAction(style: .normal, title: "Share"){ (action: UITableViewRowAction!, IndexPath: IndexPath!) -> Void in
             //do share function
             print("Sharing via bluetooth here...")
-            let memIdx = (tableView.indexPathForSelectedRow as NSIndexPath?)?.row
-            let teamix = (tableView.indexPathForSelectedRow as NSIndexPath?)?.section
+            //let memIdx = (tableView.indexPathForSelectedRow as NSIndexPath?)?.row
+            //let teamix = (tableView.indexPathForSelectedRow as NSIndexPath?)?.section
             
             print("sending bluetooth info")
             // We want to serialize the data and send as JSON string
             // JSON Convertion requires top level object to be an NSArray or NSDictionary
-            let studentsItem: Students = self.array[teamix!].members[memIdx!]
+            let studentsItem: Students = self.array[(indexPath as IndexPath).section].members[(indexPath as IndexPath).row]
             
             let imHandle = ImageHandler()
             let properties: [String : Any] = ["name" : (studentsItem.getName()) as String, "team" : (studentsItem.getTeam()) as String,
@@ -454,6 +454,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+        //self.peripheralManager.stopAdvertising()
         print("Unsubscribed")
     }
     
@@ -463,6 +464,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             
             if (didSend) {
                 sentEOM = false
+                self.peripheralManager.stopAdvertising()
                 print("Sent: EOM, Outer loop")
             }
             else {
