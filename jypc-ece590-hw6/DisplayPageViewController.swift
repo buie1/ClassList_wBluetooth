@@ -113,9 +113,9 @@ class DisplayPageViewController: UIViewController, UIPageViewControllerDataSourc
             }else{
                 
                 
-                // ignore for now... 
+                // MARK: ignore for now... 
                 // jab165 10/26
-                vc as! DetailViewController
+                //vc as! DetailViewController
             }
         }else if vc?.restorationIdentifier == "AnimationView"{
             (vc as! AnimateViewController).member = self.member
