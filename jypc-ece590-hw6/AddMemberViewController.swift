@@ -8,6 +8,7 @@
 
 import UIKit
 import MobileCoreServices
+import CoreBluetooth
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
@@ -36,20 +37,35 @@ protocol AddMemberViewControllerDelegate{
     func editMember(_ mem:Students, _ ix:(Int,Int))
 }
 
-class AddMemberViewController: UIViewController, UITextFieldDelegate {
+class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralManagerDelegate, CBPeripheralDelegate {
     
+    /****
+     jab165 (10.29.2016)
+     
+     The AddMemberViewController will act as the "CENTRAL" entity.  It will use the transmitted data for the task off adding new
+     members to the tableview
+     
+     ****/
+    
+    
+    // MARK: Variables
     var toEdit:Bool!
     var currMember:Students!
     var memberIX: (Int,Int)!
-    
     var memDelegate: AddMemberViewControllerDelegate!
-    
     var imagePicker: UIImagePickerController!
     var activeTextField: UITextField!
     
+    
+    
+    // MARK: Bluetooth Managers
+    var centralManager:CBCentralManager!
+    var connectingPeripheral:CBPeripheral!
+    var data:String = ""
+    
+    
     // MARK: IBOutlets
     @IBOutlet weak var titleNavBar: UINavigationItem!
-    
     @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var hTownText: UITextField!
     @IBOutlet weak var teamText: UITextField!
@@ -64,17 +80,27 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
     //@IBOutlet weak var saveEditButton: UIBarButtonItem!
     
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
+    
     
     // MARK: IBActions
     
-    @IBAction func receiveBluetoothButtonPressed(_ sender: Any) {
-        print("Receiving Bluetooth Info")
+    @IBAction func receiveBluetoothButtonPressed(_
+        sender: Any) {
+        print("Initializing central manager")
+        centralManager = CBCentralManager(delegate: self, queue: nil)
+        
+        // Where is the data!?
+        
+        
     }
     
     @IBAction func cancelButtonPressed(_ sender: AnyObject) {
-        
+        if self.centralManager != nil{
+            self.centralManager.stopScan()
+        }
+        print("scanning stopped")
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -142,12 +168,6 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
                 deg = "Masters student"
             }
             
-            
-            // MARK: Edit to use the new initilizer
-            // jab165 10/26/2016
-            
-            
-            
             let mem = Students(fname!, teamN!, htown!, gen ,deg!, nil,lang!,hob!)
             
             if im!.isSameImage(UIImage(named:"add_picture")!){
@@ -210,16 +230,14 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             default:
                 deg = "Masters student"
             }
-            
-            // MARK: change to use the new initializer 
-            // jab165 10/26/2016
-            
             let temp = Students(fname!, teamN!, htown!, gen ,deg!, nil,lang!,hob!)
             temp.setLanguages(lang!)
             return temp
         }
     }
     
+    
+    // MARK: View LifecycleFunctions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -231,7 +249,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddMemberViewController.keyboardDown(_:)), name: UIKeyboardWillHideNotification, object: nil)
         */
         
-        // MARK: Make UIImage clickable like a button
+        //Make UIImage clickable like a button
         let imView = userImageView!
         let tapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                           action:#selector(AddMemberViewController.imageTapped(_:)))
@@ -241,45 +259,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         if toEdit!{
             titleNavBar.title = "Edit Member"
             //saveEditButton.title = "Done"
-            
-            
-            //MARK: WE do names differently now!
-            
-            /*
-            fNameText?.text = currMember?.getFirstName()
-            if (currMember.getMiddleName() != nil){
-                mNameText?.text = currMember?.getMiddleName()
-            }
-            lNameText?.text = currMember?.getLastName()
-            hTownText?.text = currMember?.getHometown()
-            if currMember?.getSex() == true{
-                genderSeg.selectedSegmentIndex = 0
-            }else if currMember?.getSex() == false{
-                genderSeg.selectedSegmentIndex = 1
-            }else{
-                genderSeg.selectedSegmentIndex = 1
-            }
-            */
-            
-            
-            //MARK: Rename these fields program-> degree
-            
-            
-            /*
-             
-            if currMember?.getProgram() == "Undergraduate student"{
-                programSeg.selectedSegmentIndex = 0
-            }else if currMember?.getProgram() == "Masters student"{
-                programSeg.selectedSegmentIndex = 1
-            }else if currMember?.getProgram() == "PhD student"{
-                programSeg.selectedSegmentIndex = 2
-            }else if currMember?.getProgram() == "Alumni"{
-                programSeg.selectedSegmentIndex = 3
-            }else{
-                programSeg.selectedSegmentIndex = 4
-            }
-            */
-            setDegreeSegment(student: currMember)
+
             nameText?.text = currMember.getName()
             teamText?.text = currMember.getTeam()
             hTownText?.text = currMember?.getFrom()
@@ -290,12 +270,15 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
             }else{
                 genderSeg.selectedSegmentIndex = 1
             }
+            
             if currMember?.getHobbies().count > 0 {
                 hobbyText?.text = currMember?.getHobbies().joined(separator: ", ")
             }
             if currMember?.getLanguages().count > 0 {
                 languageText?.text = currMember?.getLanguages().joined(separator: ", ")
             }
+            
+            setDegreeSegment(deg: (currMember?.getDegree())!)
             
             //Select the correct segments and Image
             if (currMember?.getImage() != nil){
@@ -312,22 +295,21 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func setDegreeSegment(student: Students){
-        let currDegree:Degree = student.getDegree()
-        if currDegree == .UG{
+    func setDegreeSegment(deg: String){
+        if deg == "Undergraduate student"{
             programSeg.selectedSegmentIndex = 0
-        }else if  currDegree == .MS{
+        }else if  deg == "Masters student"{
             programSeg.selectedSegmentIndex = 1
-        }else if currDegree == .PHD{
+        }else if deg == "PhD student"{
             programSeg.selectedSegmentIndex = 2
-        }else if currDegree == .Alum{
+        }else if deg == "Alumni"{
             programSeg.selectedSegmentIndex = 3
-        }else if currDegree == .honorary{
+        }else if deg == "Honorary graduate"{
             programSeg.selectedSegmentIndex = 4
         }else{
-            programSeg.selectedSegmentIndex = 0
+            programSeg.selectedSegmentIndex = 1
         }
-
+        
     }
     
         
@@ -443,6 +425,202 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
+    // MARK: Populate Fields with Bluetooth Data
+    func populateWithBlueToothData() -> Bool {
+        let btData = data.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+        do{
+            let json = try JSONSerialization.jsonObject(with: btData, options: []) as! [String:AnyObject]
+            
+            if let name = json["name"] as? String {
+                nameText?.text = name
+            }
+            if let team = json["team"] as? String {
+                teamText?.text = team
+            }
+            if let from = json["from"] as? String {
+                hTownText?.text = from
+            }
+            if let sex = json["sex"] as? Bool {
+                if sex {
+                    genderSeg.selectedSegmentIndex = 0
+                }else{
+                    genderSeg.selectedSegmentIndex = 1
+                }
+            }
+            if let deg = json["degree"] as? String {
+                setDegreeSegment(deg: deg)
+            }
+            if let hob = json["hobbies"] as? [String] {
+                hobbyText?.text = hob.joined(separator: ", ")
+            }
+            if let lang = json["languages"] as? [String] {
+                languageText?.text = lang.joined(separator: ", ")
+            }
+            if let pic = json["pic"] as? String {
+                print(pic)
+                let imHandle = ImageHandler()
+                userImageView.image = imHandle.decodeImage(compressedData: pic)
+            }
+            
+        } catch let error as NSError {
+            print("Failed to load: \(error.localizedDescription)")
+            endIndicator()
+            return false
+        }
+        endIndicator()
+        return true
+    }
+    
+    
+    
+    
+    
+    // MARK:  Central Manager Delegate methods
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        print("checking state")
+        switch(central.state) {
+        case .poweredOff:
+            print("CB BLE hw is powered off")
+            
+        case .poweredOn:
+            print("CB BLE hw is powered on")
+            self.scan()
+            
+        default:
+            return
+        }
+    }
+    
+    func scan() {
+        startIndicator()
+        self.centralManager.scanForPeripherals(withServices: serviceUUIDs,options: nil)
+        print("scanning started\n\n\n")
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        if RSSI.intValue > -15 {
+            return
+        }
+        print("discovered \(peripheral.name) at \(RSSI)")
+        if connectingPeripheral != peripheral {
+            connectingPeripheral = peripheral
+            connectingPeripheral.delegate = self
+            print("connecting to peripheral \(peripheral)")
+            centralManager.connect(connectingPeripheral, options: nil)
+        }
+    }
+    
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        print("failed to connect to \(peripheral) due to error \(error)")
+        self.cleanup()
+    }
+    
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        print("\n\nperipheral connected\n\n")
+        centralManager.stopScan()
+        peripheral.delegate = self as CBPeripheralDelegate
+        peripheral.discoverServices(nil)
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        if error != nil {
+            print("error discovering services \(error)")
+            self.cleanup()
+        }
+        else {
+            for service in peripheral.services! as [CBService] {
+                print("service UUID  \(service.uuid)\n")
+                if (service.uuid == serviceUUID) {
+                    peripheral.discoverCharacteristics(nil, for: service)
+                }
+            }
+        }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        if error != nil {
+            print("error - \(error)")
+            print(error)
+            self.cleanup()
+        }
+        else {
+            for characteristic in service.characteristics! as [CBCharacteristic] {
+                print("characteristic is \(characteristic)\n")
+                if (characteristic.uuid == characteristicUUID) {
+                    peripheral.setNotifyValue(true, for: characteristic)
+                }
+            }
+        }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        if error != nil {
+            print("error")
+        }
+        else {
+            let dataString = NSString(data: characteristic.value!, encoding: String.Encoding.utf8.rawValue)
+            
+            if dataString == "EOM" {
+                print(self.data)
+                //nameText.text = self.data
+                
+                //Method to populate text fields with BT data
+                if(populateWithBlueToothData()){
+                    print("Successfully copied data fields from Bluetooth")
+                }else{
+                    print("error populating fields")
+                }
+                
+                
+                peripheral.setNotifyValue(false, for: characteristic)
+                centralManager.cancelPeripheralConnection(peripheral)
+            }
+            else {
+                let strng:String = dataString as! String
+                self.data += strng
+                print("received \(dataString)")
+            }
+        }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+        if error != nil {
+            print("error changing notification state \(error)")
+        }
+        if (characteristic.uuid != serviceUUID) {
+            return
+        }
+        if (characteristic.isNotifying) {
+            print("notification began on \(characteristic)")
+        }
+        else {
+            print("notification stopped on \(characteristic). Disconnecting")
+            self.centralManager.cancelPeripheralConnection(peripheral)
+        }
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        endIndicator()
+        print("didDisconnect error is \(error)")
+    }
+    
+    func cleanup() {
+        
+        switch connectingPeripheral.state {
+        case .disconnected:
+            print("cleanup called, .Disconnected")
+            return
+        case .connected:
+            if (connectingPeripheral.services != nil) {
+                print("found")
+                //add any additional cleanup code here
+            }
+        default:
+            return
+        }
+    }
+    
 }
 extension AddMemberViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
@@ -474,5 +652,8 @@ extension UIImage{
         return (im1 == im2)
     }
 }
+
+
+
 
 

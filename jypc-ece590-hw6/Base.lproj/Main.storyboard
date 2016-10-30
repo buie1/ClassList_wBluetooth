@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H1p-Uh-vWS">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="H1p-Uh-vWS">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -55,7 +55,7 @@
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem systemItem="compose" id="myo-cW-5NH">
+                                    <barButtonItem title="Send Via Bluetooth" id="myo-cW-5NH">
                                         <connections>
                                             <action selector="sendInfoButtonPressed:" destination="JEX-9P-axG" id="vHL-Dc-Xeg"/>
                                         </connections>
@@ -149,7 +149,7 @@
                                 <rect key="frame" x="0.0" y="76" width="320" height="78"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CrM-cK-pxh" id="1MI-CO-LXS">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="78"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4mb-jS-eh7">
@@ -212,18 +212,18 @@
                                 <rect key="frame" x="0.0" y="154" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WCw-Qf-5nD" id="37f-cq-3Eg">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Arm-wq-HPj">
-                                            <rect key="frame" x="15" y="16" width="30" height="19"/>
+                                            <rect key="frame" x="15" y="17" width="30" height="19"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vh5-4A-ER0">
-                                            <rect key="frame" x="15" y="35" width="38" height="13"/>
+                                            <rect key="frame" x="15" y="36" width="37.5" height="13"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Subtitle">
@@ -430,11 +430,6 @@
                                                     <action selector="saveButtonTapped:" destination="DPp-ar-VRP" id="EGy-KX-Ka4"/>
                                                 </connections>
                                             </barButtonItem>
-                                            <barButtonItem systemItem="action" id="bKU-SG-DMw">
-                                                <connections>
-                                                    <action selector="receiveBluetoothButtonPressed:" destination="DPp-ar-VRP" id="sT3-2R-8Ec"/>
-                                                </connections>
-                                            </barButtonItem>
                                         </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
@@ -503,7 +498,11 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fnu-Qf-Ryj">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <items>
-                                    <barButtonItem title="Add Via Bluetooth" id="0aM-by-Yno"/>
+                                    <barButtonItem title="Add Via Bluetooth" id="0aM-by-Yno">
+                                        <connections>
+                                            <action selector="receiveBluetoothButtonPressed:" destination="DPp-ar-VRP" id="Fr3-RU-ucz"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ynw-aj-rsX">
@@ -559,9 +558,10 @@
                         <outlet property="languageText" destination="L3L-Dc-GQx" id="gUh-0n-0g8"/>
                         <outlet property="nameText" destination="kP5-j7-qV3" id="UdC-WG-J6g"/>
                         <outlet property="programSeg" destination="EoY-0D-t2e" id="KC7-7k-Q3q"/>
-                        <outlet property="receiveBluetoothButton" destination="bKU-SG-DMw" id="Gg5-fV-NFB"/>
+                        <outlet property="receiveBluetoothButton" destination="0aM-by-Yno" id="hTl-n6-fyj"/>
                         <outlet property="teamText" destination="mbX-jm-OCk" id="Kus-o0-hZN"/>
                         <outlet property="titleNavBar" destination="01r-dG-rDb" id="SrO-7H-4fY"/>
+                        <outlet property="topConstraint" destination="sHH-Cn-JS9" id="0WN-A2-Azt"/>
                         <outlet property="userImageView" destination="feM-UX-RZx" id="KYh-8H-CfM"/>
                     </connections>
                 </viewController>
