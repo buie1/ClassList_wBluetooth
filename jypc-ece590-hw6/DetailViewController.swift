@@ -57,8 +57,6 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
             
         }
         // Update Picture
-        
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         //self.configureView()

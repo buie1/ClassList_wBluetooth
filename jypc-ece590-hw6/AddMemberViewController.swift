@@ -493,7 +493,6 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     }
     
     func scan() {
-        startIndicator()
         self.centralManager.scanForPeripherals(withServices: serviceUUIDs,options: nil)
         print("scanning started\n\n\n")
     }
@@ -502,6 +501,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         if RSSI.intValue > -15 {
             return
         }
+        startIndicator()
         print("discovered \(peripheral.name) at \(RSSI)")
         if connectingPeripheral != peripheral {
             connectingPeripheral = peripheral
@@ -512,6 +512,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        endIndicator()
         print("failed to connect to \(peripheral) due to error \(error)")
         self.cleanup()
     }
@@ -525,6 +526,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         if error != nil {
+            endIndicator()
             print("error discovering services \(error)")
             self.cleanup()
         }
@@ -540,8 +542,9 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if error != nil {
+            endIndicator()
             print("error - \(error)")
-            print(error)
+            print(error!)
             self.cleanup()
         }
         else {
@@ -556,6 +559,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if error != nil {
+            endIndicator()
             print("error")
         }
         else {
@@ -586,6 +590,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         if error != nil {
+            endIndicator()
             print("error changing notification state \(error)")
         }
         if (characteristic.uuid != serviceUUID) {
@@ -596,6 +601,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         }
         else {
             print("notification stopped on \(characteristic). Disconnecting")
+            endIndicator()
             self.centralManager.cancelPeripheralConnection(peripheral)
         }
     }
