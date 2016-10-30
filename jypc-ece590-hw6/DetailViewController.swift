@@ -104,10 +104,20 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         
         //var json = try JSONSerialization.jsonObject(with: studentsItem!, options: []) as! [[String:AnyObject]]
         
-        let properties: [String : String] = ["name" : (studentsItem?.getName())!, "team" : (studentsItem?.getTeam())!, "from" : (studentsItem?.getFrom())!, "degree" : (studentsItem?.getDegree())!, "hobbies" : studentsItem?.getHobbies(), "languages" : studentsItem?.getLanguages()]
+        let properties: [String : Any] = ["name" : (studentsItem?.getName())! as String, "team" : (studentsItem?.getTeam())! as String, "from" : (studentsItem?.getFrom())! as String, "degree" : (studentsItem?.getDegree())! as String, "hobbies" : (studentsItem?.getHobbies())! as [String], "languages" : (studentsItem?.getLanguages())! as [String]]
         
         do{
             let jsonData = try JSONSerialization.data(withJSONObject: properties, options: [])
+            print(jsonData)
+            if JSONSerialization.isValidJSONObject(properties) {
+                print("Valid JSON")
+            }else{
+                print("invalid JSON object")
+            }
+            
+            let jsonString = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String
+            print(jsonString)
+            
         } catch let error {
             print("error converting to json: \(error)")
         }
