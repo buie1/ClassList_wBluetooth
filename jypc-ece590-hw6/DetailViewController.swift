@@ -109,6 +109,8 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
                                           "hobbies" : (studentsItem?.getHobbies())! as [String],
                                           "languages" : (studentsItem?.getLanguages())! as [String]]
         
+        let arrayProperties: [String : [String]] = ["hobbies" : (studentsItem?.getHobbies())!, "languages" : (studentsItem?.getLanguages())!]
+
         do{
             let jsonData = try JSONSerialization.data(withJSONObject: properties, options: [])
             print(jsonData)
@@ -124,7 +126,6 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         } catch let error {
             print("error converting to json: \(error)")
         }
-        
         
         //Start Sending Data
         let dataToBeAdvertised: [String:Any]? = [
@@ -155,9 +156,10 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
         print("Data request connection coming in")
         // A subscriber was found, so send them the data
-        self.dataToSend = self.descriptionText.text.data(using: String.Encoding.utf8, allowLossyConversion: false)
-        self.sentDataCount = 0
-        self.sendData()
+        //self.dataToSend = self.descriptionText.text.data(using: String.Encoding.utf8, allowLossyConversion: false)
+            //self.dataToSend = data
+            self.sentDataCount = 0
+            self.sendData()
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {

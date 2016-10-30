@@ -432,7 +432,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         do{
             let json = try JSONSerialization.jsonObject(with: btData, options: []) as! [String:AnyObject]
             
-            if let name = json["names"] as? String {
+            if let name = json["name"] as? String {
                 nameText?.text = name
             }
             if let team = json["team"] as? String {
@@ -441,10 +441,10 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             if let from = json["from"] as? String {
                 hTownText?.text = from
             }
-            if let sex = json["sex"] as? Bool {
-                if sex == true{
+            if let sex = json["sex"] as? String {
+                if sex == "male"{
                     genderSeg.selectedSegmentIndex = 0
-                }else if sex == false{
+                }else if sex == "female"{
                     genderSeg.selectedSegmentIndex = 1
                 }else{
                     genderSeg.selectedSegmentIndex = 1
