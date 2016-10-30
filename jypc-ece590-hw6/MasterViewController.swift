@@ -318,7 +318,6 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             print("Sharing via bluetooth here...")
             let memIdx = indexPath.row
             let teamix = indexPath.section
-            
             print("sending bluetooth info")
             // We want to serialize the data and send as JSON string
             // JSON Convertion requires top level object to be an NSArray or NSDictionary
@@ -454,6 +453,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+        //self.peripheralManager.stopAdvertising()
         print("Unsubscribed")
     }
     
@@ -463,6 +463,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             
             if (didSend) {
                 sentEOM = false
+                self.peripheralManager.stopAdvertising()
                 print("Sent: EOM, Outer loop")
             }
             else {
