@@ -37,7 +37,7 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
     var dataToSend:Data!
     var sentDataCount:Int = 0
     var sentEOM:Bool = false
-    
+
     
 //    var detailItem: AnyObject? {
     var studentsItem: Students? {
@@ -57,8 +57,6 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
             
         }
         // Update Picture
-        
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         //self.configureView()
@@ -148,7 +146,6 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
             let transferService = CBMutableService(type: serviceUUID, primary: true)
             transferService.characteristics = [self.transferCharacteristic]
             self.peripheralManager.add(transferService)
-            
         }
     }
     
@@ -171,6 +168,7 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
             
             if (didSend) {
                 sentEOM = false
+                self.peripheralManager.stopAdvertising()
                 print("Sent: EOM, Outer loop")
             }
             else {

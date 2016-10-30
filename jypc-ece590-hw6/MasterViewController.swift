@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreBluetooth
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -28,7 +30,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 
-class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate, UIViewControllerTransitioningDelegate, DisplayPageViewControllerDelegate{
+class MasterViewController: UITableViewController, UISearchResultsUpdating, AddTeamViewControllerDelegate, AddMemberViewControllerDelegate, UIViewControllerTransitioningDelegate, DisplayPageViewControllerDelegate, CBPeripheralManagerDelegate{
 
     
     // MARK:  Variables
@@ -40,6 +42,13 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     var filteredMembers = [Students]()
     var deleteMemberIndexPath: IndexPath? = nil
     let searchController = UISearchController(searchResultsController: nil)
+    
+    //Bluetooth Perifphal Variables
+    var peripheralManager: CBPeripheralManager!
+    var transferCharacteristic:CBMutableCharacteristic!
+    var sentDataCount: Int = 0
+    var sentEOM:Bool = false
+    var dataToSend:Data!
     
     //Custom animation for transition from MasterViewController to AddTeam/AddMember VC's
     let customPresentAnimationController = CustomAnimationController()
@@ -104,6 +113,9 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         loadInitialData()
+        
+        //set up peripheral functions
+        self.peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
     
 
@@ -297,14 +309,53 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.left)
             TeamItem.saveTeamInfo(self.array)
             self.tableView.reloadData()
-            }
+        }
         delete.backgroundColor = UIColor.red
         
         //Share button - swipe to share
         let share = UITableViewRowAction(style: .normal, title: "Share"){ (action: UITableViewRowAction!, IndexPath: IndexPath!) -> Void in
             //do share function
             print("Sharing via bluetooth here...")
+            let memIdx = indexPath.row
+            let teamix = indexPath.section
+            print("sending bluetooth info")
+            // We want to serialize the data and send as JSON string
+            // JSON Convertion requires top level object to be an NSArray or NSDictionary
+            let studentsItem: Students = self.array[teamix].members[memIdx]
+            
+            let imHandle = ImageHandler()
+            let properties: [String : Any] = ["name" : (studentsItem.getName()) as String, "team" : (studentsItem.getTeam()) as String,
+                                              "from" : (studentsItem.getFrom()) as String, "degree" : (studentsItem.getDegree()) as String,
+                                              "sex": (studentsItem.getSex()) as Bool , "hobbies" : (studentsItem.getHobbies()) as [String],
+                                              "languages" : (studentsItem.getLanguages()) as [String],
+                                              "pic": imHandle.compressImage(pic: (studentsItem.getImage())!) as String!]
+            
+            do{
+                let jsonData = try JSONSerialization.data(withJSONObject: properties, options: [])
+                print(jsonData)
+                if JSONSerialization.isValidJSONObject(properties) {
+                    print("Valid JSON")
+                }else{
+                    print("invalid JSON object")
+                }
+                
+                let jsonString = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as! String
+                print(jsonString)
+                self.dataToSend = jsonString.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+                
+            } catch let error {
+                print("error converting to json: \(error)")
             }
+            
+            //Start Sending Data
+            let dataToBeAdvertised: [String:Any]? = [
+                CBAdvertisementDataServiceUUIDsKey : serviceUUIDs]
+            //self.peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
+            self.peripheralManager.startAdvertising(dataToBeAdvertised)
+            
+            
+            
+        }
         share.backgroundColor = UIColor.gray
         return[share, delete]
     }
@@ -372,6 +423,96 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return customPresentAnimationController
     }
+    
+    // MARK: - Peripheral Methods
+    
+    func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
+        if (peripheral.state != CBManagerState.poweredOn) {
+            return
+        }
+        else {
+            print("Powered on and ready to go")
+            // This is an example of a Notify Characteristic for a Readable value
+            transferCharacteristic = CBMutableCharacteristic(type:
+                characteristicUUID, properties: CBCharacteristicProperties.notify, value: nil, permissions: CBAttributePermissions.readable)
+            // This sets up the Service we will use, loads the Characteristic and then adds the Service to the Manager so we can start advertising
+            let transferService = CBMutableService(type: serviceUUID, primary: true)
+            transferService.characteristics = [self.transferCharacteristic]
+            self.peripheralManager.add(transferService)
+            
+        }
+    }
+    
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didSubscribeTo characteristic: CBCharacteristic) {
+        print("Data request connection coming in")
+        // A subscriber was found, so send them the data
+        //self.dataToSend = self.descriptionText.text.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        //self.dataToSend = data
+        self.sentDataCount = 0
+        self.sendData()
+    }
+    
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+        //self.peripheralManager.stopAdvertising()
+        print("Unsubscribed")
+    }
+    
+    func sendData() {
+        if (sentEOM) {                // sending the end of message indicator
+            let didSend:Bool = self.peripheralManager.updateValue(endOfMessage!, for: self.transferCharacteristic, onSubscribedCentrals: nil)
+            
+            if (didSend) {
+                sentEOM = false
+                self.peripheralManager.stopAdvertising()
+                print("Sent: EOM, Outer loop")
+            }
+            else {
+                return
+            }
+        }
+        else {                          // sending the payload
+            if (self.sentDataCount >= self.dataToSend.count) {
+                return
+            }
+            else {
+                var didSend:Bool = true
+                while (didSend) {
+                    var amountToSend = self.dataToSend.count - self.sentDataCount
+                    if (amountToSend > MTU) {
+                        amountToSend = MTU
+                    }
+                    
+                    let range = Range(uncheckedBounds: (lower: self.sentDataCount, upper: self.sentDataCount+amountToSend))
+                    var buffer = [UInt8](repeating: 0, count: amountToSend)
+                    
+                    self.dataToSend.copyBytes(to: &buffer, from: range)
+                    let sendBuffer = Data(bytes: &buffer, count: amountToSend)
+                    
+                    didSend = self.peripheralManager.updateValue(sendBuffer, for: self.transferCharacteristic, onSubscribedCentrals: nil)
+                    if (!didSend) {
+                        return
+                    }
+                    if let printOutput = NSString(data: sendBuffer, encoding: String.Encoding.utf8.rawValue) {
+                        print("Sent: \(printOutput)")
+                    }
+                    self.sentDataCount += amountToSend
+                    if (self.sentDataCount >= self.dataToSend.count) {
+                        sentEOM = true
+                        let eomSent:Bool = self.peripheralManager.updateValue(endOfMessage!, for: self.transferCharacteristic, onSubscribedCentrals: nil)
+                        if (eomSent) {
+                            sentEOM = false
+                            print("Sent: EOM, Inner loop")
+                        }
+                        return
+                    }
+                }
+            }
+        }
+    }
+    func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
+        self.sendData()
+    }
+
 
 }
 
