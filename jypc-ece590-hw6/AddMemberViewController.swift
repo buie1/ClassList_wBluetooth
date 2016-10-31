@@ -431,7 +431,6 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
         let btData = data.data(using: String.Encoding.utf8, allowLossyConversion: false)!
         do{
             let json = try JSONSerialization.jsonObject(with: btData, options: []) as! [String:AnyObject]
-            
             if let name = json["name"] as? String {
                 nameText?.text = name
             }
@@ -457,10 +456,15 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             if let lang = json["languages"] as? [String] {
                 languageText?.text = lang.joined(separator: ", ")
             }
-            if let pic = json["pic"] as? String {
-                print(pic)
-                let imHandle = ImageHandler()
-                userImageView.image = imHandle.decodeImage(compressedData: pic)
+            if let pic = json["pic"] as? String! {
+                //print(pic)
+                if pic == nil{
+                    // We didnt send/receive an images. Do nothing
+                    print("pic value was nil")
+                }else{
+                    let imHandle = ImageHandler()
+                    userImageView.image = imHandle.decodeImage(compressedData: pic)
+                }
             }
             
         } catch let error as NSError {
@@ -610,6 +614,10 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         endIndicator()
+        // Can we do this?
+        
+        data = ""
+        
         print("didDisconnect error is \(error)")
     }
     
