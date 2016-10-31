@@ -454,7 +454,10 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
-        //self.peripheralManager.stopAdvertising()
+        self.peripheralManager.stopAdvertising()
+        // So data to send is not overwritten each time, need to removeALL data before we attempt to send again
+        // jab165 10/30/2016
+        dataToSend.removeAll()
         print("Unsubscribed")
     }
     
@@ -464,7 +467,8 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             
             if (didSend) {
                 sentEOM = false
-                self.peripheralManager.stopAdvertising()
+                //self.peripheralManager.stopAdvertising()
+                print("Stopped Advertising")
                 print("Sent: EOM, Outer loop")
             }
             else {
