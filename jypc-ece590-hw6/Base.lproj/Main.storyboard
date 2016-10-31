@@ -551,6 +551,7 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="Ynw-aj-rsX" id="lgo-KY-yuX"/>
+                        <outlet property="bottomConstraint" destination="9rZ-Fh-O7d" id="Gvx-eq-H9g"/>
                         <outlet property="displayTextView" destination="uMD-cL-RG9" id="h1F-ll-XXK"/>
                         <outlet property="genderSeg" destination="kex-Bc-JZD" id="aru-Yc-f8S"/>
                         <outlet property="hTownText" destination="wXi-85-QBE" id="exU-Dk-Z4b"/>
