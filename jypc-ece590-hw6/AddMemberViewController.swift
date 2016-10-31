@@ -81,6 +81,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var actInd: UIActivityIndicatorView!
     
     
     
@@ -260,6 +261,9 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             titleNavBar.title = "Edit Member"
             //saveEditButton.title = "Done"
 
+            receiveBluetoothButton.isEnabled = false
+            receiveBluetoothButton.tintColor = UIColor.clear
+            
             nameText?.text = currMember.getName()
             teamText?.text = currMember.getTeam()
             hTownText?.text = currMember?.getFrom()
