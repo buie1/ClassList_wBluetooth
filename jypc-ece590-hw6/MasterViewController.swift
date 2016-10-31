@@ -115,7 +115,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         loadInitialData()
         
         //set up peripheral functions
-        self.peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
+        peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
     
 
@@ -315,6 +315,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         //Share button - swipe to share
         let share = UITableViewRowAction(style: .normal, title: "Share"){ (action: UITableViewRowAction!, IndexPath: IndexPath!) -> Void in
             //do share function
+            self.peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
             print("Sharing via bluetooth here...")
             let memIdx = indexPath.row
             let teamix = indexPath.section

@@ -364,7 +364,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(textField == hobbyText || textField == languageText){
             self.topConstraint.constant -= 65
-            self.bottomConstraint.constant -= 65
+            //self.bottomConstraint.constant -= 65
             nameText.isHidden = true
         }
     }
@@ -372,7 +372,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     func textFieldDidEndEditing(_ textField: UITextField) {
         if(textField == hobbyText || textField == languageText){
             self.topConstraint.constant += 65
-            self.bottomConstraint.constant += 65
+            //self.bottomConstraint.constant += 65
         }
         nameText.isHidden = false
     }
