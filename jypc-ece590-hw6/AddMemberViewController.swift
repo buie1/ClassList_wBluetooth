@@ -434,7 +434,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     func populateWithBlueToothData() -> Bool {
         let btData = data.data(using: String.Encoding.utf8, allowLossyConversion: false)!
         do{
-            let json = try JSONSerialization.jsonObject(with: btData, options: []) as! [String:AnyObject]
+            let json = try JSONSerialization.jsonObject(with: btData, options: []) as! [String:Any]
             if let name = json["name"] as? String {
                 nameText?.text = name
             }

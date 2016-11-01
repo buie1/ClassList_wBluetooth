@@ -162,6 +162,7 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         self.peripheralManager.stopAdvertising()
         print("Stopped Advertising")
         dataToSend.removeAll()
+        print("Removed Data")
         print("Unsubscribed")
     }
     
