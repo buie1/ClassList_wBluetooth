@@ -161,8 +161,10 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
         self.peripheralManager.stopAdvertising()
         print("Stopped Advertising")
-        dataToSend.removeAll()
-        print("Removed Data")
+        if (dataToSend != nil){
+            dataToSend.removeAll()
+            print("Removed Data")
+        }
         print("Unsubscribed")
     }
     

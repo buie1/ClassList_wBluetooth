@@ -477,8 +477,10 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         print("Stopped Advertising")
         // So data to send is not overwritten each time, need to removeALL data before we attempt to send again
         // jab165 10/30/2016
-        dataToSend.removeAll()
-        print("Removed Data")
+        if(dataToSend != nil){
+            dataToSend.removeAll()
+            print("Removed Data")
+        }
         print("Unsubscribed")
     }
     
@@ -497,39 +499,50 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             }
         }
         else {                          // sending the payload
-            if (self.sentDataCount >= self.dataToSend.count) {
-                return
-            }
-            else {
-                var didSend:Bool = true
-                while (didSend) {
-                    var amountToSend = self.dataToSend.count - self.sentDataCount
-                    if (amountToSend > MTU) {
-                        amountToSend = MTU
-                    }
-                    
-                    let range = Range(uncheckedBounds: (lower: self.sentDataCount, upper: self.sentDataCount+amountToSend))
-                    var buffer = [UInt8](repeating: 0, count: amountToSend)
-                    
-                    self.dataToSend.copyBytes(to: &buffer, from: range)
-                    let sendBuffer = Data(bytes: &buffer, count: amountToSend)
-                    
-                    didSend = self.peripheralManager.updateValue(sendBuffer, for: self.transferCharacteristic, onSubscribedCentrals: nil)
-                    if (!didSend) {
-                        return
-                    }
-                    if let printOutput = NSString(data: sendBuffer, encoding: String.Encoding.utf8.rawValue) {
-                        print("Sent: \(printOutput)")
-                    }
-                    self.sentDataCount += amountToSend
-                    if (self.sentDataCount >= self.dataToSend.count) {
-                        sentEOM = true
-                        let eomSent:Bool = self.peripheralManager.updateValue(endOfMessage!, for: self.transferCharacteristic, onSubscribedCentrals: nil)
-                        if (eomSent) {
-                            sentEOM = false
-                            print("Sent: EOM, Inner loop")
+            
+            /***
+             Be advised: It appears that when using the peripheral Manager, it behaves as a global. Therefore the didSubscribe methods
+             are trigger regardless of the calling viewControllers. Since we have both the Master & Detail controlling these actions
+             it is critical to check for null to ensure that both are not running and attempting to unwrap a nil
+             
+             jab165 11/1/16
+            ***/
+            
+            if (self.dataToSend != nil){
+                if (self.sentDataCount >= self.dataToSend.count) {
+                    return
+                }
+                else {
+                    var didSend:Bool = true
+                    while (didSend) {
+                        var amountToSend = self.dataToSend.count - self.sentDataCount
+                        if (amountToSend > MTU) {
+                            amountToSend = MTU
                         }
-                        return
+                        
+                        let range = Range(uncheckedBounds: (lower: self.sentDataCount, upper: self.sentDataCount+amountToSend))
+                        var buffer = [UInt8](repeating: 0, count: amountToSend)
+                        
+                        self.dataToSend.copyBytes(to: &buffer, from: range)
+                        let sendBuffer = Data(bytes: &buffer, count: amountToSend)
+                        
+                        didSend = self.peripheralManager.updateValue(sendBuffer, for: self.transferCharacteristic, onSubscribedCentrals: nil)
+                        if (!didSend) {
+                            return
+                        }
+                        if let printOutput = NSString(data: sendBuffer, encoding: String.Encoding.utf8.rawValue) {
+                            print("Sent: \(printOutput)")
+                        }
+                        self.sentDataCount += amountToSend
+                        if (self.sentDataCount >= self.dataToSend.count) {
+                            sentEOM = true
+                            let eomSent:Bool = self.peripheralManager.updateValue(endOfMessage!, for: self.transferCharacteristic, onSubscribedCentrals: nil)
+                            if (eomSent) {
+                                sentEOM = false
+                                print("Sent: EOM, Inner loop")
+                            }
+                            return
+                        }
                     }
                 }
             }
