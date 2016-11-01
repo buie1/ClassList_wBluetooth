@@ -580,8 +580,13 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
                 //Method to populate text fields with BT data
                 if(populateWithBlueToothData()){
                     print("Successfully copied data fields from Bluetooth")
+                    displayTextView?.textColor = UIColor.black
+                    displayTextView?.text = ""
                 }else{
                     print("error populating fields")
+                    displayTextView?.textColor = UIColor.red
+                    displayTextView?.text = "Error populating from Bluetooth"
+                    
                 }
                 
                 

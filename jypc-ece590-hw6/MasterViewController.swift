@@ -478,6 +478,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         // So data to send is not overwritten each time, need to removeALL data before we attempt to send again
         // jab165 10/30/2016
         dataToSend.removeAll()
+        print("Removed Data")
         print("Unsubscribed")
     }
     
@@ -488,7 +489,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
             if (didSend) {
                 sentEOM = false
                 //self.peripheralManager.stopAdvertising()
-                print("Stopped Advertising")
+                //print("Stopped Advertising")
                 print("Sent: EOM, Outer loop")
             }
             else {

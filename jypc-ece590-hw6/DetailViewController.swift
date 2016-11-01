@@ -178,39 +178,41 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
             }
         }
         else {                          // sending the payload
-            if (self.sentDataCount >= self.dataToSend.count) {
-                return
-            }
-            else {
-                var didSend:Bool = true
-                while (didSend) {
-                    var amountToSend = self.dataToSend.count - self.sentDataCount
-                    if (amountToSend > MTU) {
-                        amountToSend = MTU
-                    }
-                    
-                    let range = Range(uncheckedBounds: (lower: self.sentDataCount, upper: self.sentDataCount+amountToSend))
-                    var buffer = [UInt8](repeating: 0, count: amountToSend)
-                    
-                    self.dataToSend.copyBytes(to: &buffer, from: range)
-                    let sendBuffer = Data(bytes: &buffer, count: amountToSend)
-                    
-                    didSend = self.peripheralManager.updateValue(sendBuffer, for: self.transferCharacteristic, onSubscribedCentrals: nil)
-                    if (!didSend) {
-                        return
-                    }
-                    if let printOutput = NSString(data: sendBuffer, encoding: String.Encoding.utf8.rawValue) {
-                        print("Sent: \(printOutput)")
-                    }
-                    self.sentDataCount += amountToSend
-                    if (self.sentDataCount >= self.dataToSend.count) {
-                        sentEOM = true
-                        let eomSent:Bool = self.peripheralManager.updateValue(endOfMessage!, for: self.transferCharacteristic, onSubscribedCentrals: nil)
-                        if (eomSent) {
-                            sentEOM = false
-                            print("Sent: EOM, Inner loop")
+            if (self.dataToSend != nil){
+                if (self.sentDataCount >= self.dataToSend.count) {
+                    return
+                }
+                else {
+                    var didSend:Bool = true
+                    while (didSend) {
+                        var amountToSend = self.dataToSend.count - self.sentDataCount
+                        if (amountToSend > MTU) {
+                            amountToSend = MTU
                         }
-                        return
+                        
+                        let range = Range(uncheckedBounds: (lower: self.sentDataCount, upper: self.sentDataCount+amountToSend))
+                        var buffer = [UInt8](repeating: 0, count: amountToSend)
+                        
+                        self.dataToSend.copyBytes(to: &buffer, from: range)
+                        let sendBuffer = Data(bytes: &buffer, count: amountToSend)
+                        
+                        didSend = self.peripheralManager.updateValue(sendBuffer, for: self.transferCharacteristic, onSubscribedCentrals: nil)
+                        if (!didSend) {
+                            return
+                        }
+                        if let printOutput = NSString(data: sendBuffer, encoding: String.Encoding.utf8.rawValue) {
+                            print("Sent: \(printOutput)")
+                        }
+                        self.sentDataCount += amountToSend
+                        if (self.sentDataCount >= self.dataToSend.count) {
+                            sentEOM = true
+                            let eomSent:Bool = self.peripheralManager.updateValue(endOfMessage!, for: self.transferCharacteristic, onSubscribedCentrals: nil)
+                            if (eomSent) {
+                                sentEOM = false
+                                print("Sent: EOM, Inner loop")
+                            }
+                            return
+                        }
                     }
                 }
             }
