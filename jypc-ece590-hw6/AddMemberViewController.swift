@@ -550,7 +550,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
             print("error - \(error)")
             
             //MARK: -             print(error!)?
-            print(error)
+            print(error ?? "There was an error")
             self.cleanup()
         }
         else {
