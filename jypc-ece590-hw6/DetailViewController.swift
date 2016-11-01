@@ -159,6 +159,8 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+        self.peripheralManager.stopAdvertising()
+        print("Stopped Advertising")
         dataToSend.removeAll()
         print("Unsubscribed")
     }
@@ -215,6 +217,7 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
         }
     }
     func peripheralManagerIsReady(toUpdateSubscribers peripheral: CBPeripheralManager) {
+        // This is necessary for updating the stream of data when more than one packet is being sent
         self.sendData()
     }
     
