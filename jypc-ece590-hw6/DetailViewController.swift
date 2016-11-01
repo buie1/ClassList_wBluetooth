@@ -159,6 +159,7 @@ class DetailViewController: UIViewController, CBPeripheralManagerDelegate {
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
+        dataToSend.removeAll()
         print("Unsubscribed")
     }
     
