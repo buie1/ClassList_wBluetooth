@@ -609,6 +609,7 @@ class AddMemberViewController: UIViewController, UITextFieldDelegate, CBCentralM
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         endIndicator()
         print("didDisconnect error is \(error)")
+        self.cleanup()
     }
     
     func cleanup() {
