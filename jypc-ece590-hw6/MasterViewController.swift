@@ -64,14 +64,23 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         array.append(team)
         // tell table view to refresh
         
-        //TeamItem.saveTeamInfo(array)
+        TeamItem.saveTeamInfo(array)
         self.tableView.reloadData()
     }
     
     func addMember(_ mem: Students) {
-        currTeam.members.append(mem)
-        TeamItem.saveTeamInfo(array)
-        self.tableView.reloadData()
+        if(teamNameExists(str: mem.getTeam())){
+            currTeam.members.append(mem)
+            TeamItem.saveTeamInfo(array)
+            self.tableView.reloadData()
+        }else{
+            // Add new team and member to the team
+            let newTeam = TeamItem(name: mem.getTeam(), project: "")
+            newTeam.members.append(mem)
+            array.append(newTeam)
+            TeamItem.saveTeamInfo(array)
+            self.tableView.reloadData()
+        }
     }
     
     func editMember(_ mem: Students, _ ix: (Int, Int)) {
@@ -86,6 +95,17 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating, AddT
         array[ix.0].members.insert(mem,at: ix.1)
         TeamItem.saveTeamInfo(array)
         self.tableView.reloadData()
+    }
+    
+    
+    // MARK: - Team Array Methods
+    func teamNameExists(str: String) -> Bool {
+        for i in array{
+            if i.name == str {
+                return true
+            }
+        }
+        return false
     }
 
     
