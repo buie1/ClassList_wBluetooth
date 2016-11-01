@@ -379,7 +379,7 @@
                     <navigationItem key="navigationItem" id="v5o-Ca-H25">
                         <nil key="title"/>
                         <pageControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" id="ru5-pr-TA6">
-                            <rect key="frame" x="8" y="3.5" width="268" height="37"/>
+                            <rect key="frame" x="8" y="4" width="268" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="pageIndicatorTintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="currentPageIndicatorTintColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -550,7 +550,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="actInd" destination="Ynw-aj-rsX" id="wjC-l1-qdK"/>
                         <outlet property="activityIndicator" destination="Ynw-aj-rsX" id="lgo-KY-yuX"/>
+                        <outlet property="bottomConstraint" destination="9rZ-Fh-O7d" id="Gvx-eq-H9g"/>
                         <outlet property="displayTextView" destination="uMD-cL-RG9" id="h1F-ll-XXK"/>
                         <outlet property="genderSeg" destination="kex-Bc-JZD" id="aru-Yc-f8S"/>
                         <outlet property="hTownText" destination="wXi-85-QBE" id="exU-Dk-Z4b"/>
@@ -586,5 +588,5 @@
         <segue reference="eRe-e2-PQ8"/>
         <segue reference="6S0-TO-JiA"/>
     </inferredMetricsTieBreakers>
-    <color key="tintColor" red="0.46274509803921571" green="0.19607843137254902" blue="0.24705882352941178" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" red="0.46274509800000002" green="0.1960784314" blue="0.2470588235" alpha="1" colorSpace="calibratedRGB"/>
 </document>
