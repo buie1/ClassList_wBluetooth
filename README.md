@@ -1,4 +1,4 @@
-Final Course Assignment for ECE590.05: Mobile Application Development
+Final Homework Assignment for ECE590.05: Mobile Application Development
 
 Goal: Create and Application that stores course information. This includes Students,
 student info (with generated animations) and associated teams.  In addition, information
